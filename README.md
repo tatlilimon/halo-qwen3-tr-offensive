@@ -153,6 +153,8 @@ Local dependencies are pinned to the versions inside the Halo 1.3.0rc1 image (to
 
 ## Use the adapter
 
+The 1.7B adapter is on the Hugging Face Hub as [`tatlilimon/qwen3-1.7b-tr-offensive-lora`](https://huggingface.co/tatlilimon/qwen3-1.7b-tr-offensive-lora). Its model card is `MODEL_CARD.md` in this repo.
+
 ```python
 import torch
 from peft import PeftModel
@@ -164,7 +166,9 @@ PROMPT = (
 )
 
 tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-1.7B")
-model = PeftModel.from_pretrained(AutoModelForCausalLM.from_pretrained("Qwen/Qwen3-1.7B"), "adapter")
+model = PeftModel.from_pretrained(
+    AutoModelForCausalLM.from_pretrained("Qwen/Qwen3-1.7B"), "tatlilimon/qwen3-1.7b-tr-offensive-lora"
+)
 
 
 def answer(text: str) -> str:
@@ -181,7 +185,7 @@ print(answer("Günaydın, bugün hava çok güzel."))    # hayır
 print(answer("Sen tam bir aptalsın, sus artık."))    # evet
 ```
 
-The prompt has to match the training prompt exactly, and `enable_thinking=False` is required. This example was run on a CPU machine with 20 GB of memory; in fp32 the 1.7B model alone takes about 8 GB. To score a file of tweets the way the tables were made, use `score.py --model Qwen/Qwen3-1.7B --adapter adapter`.
+The prompt has to match the training prompt exactly, and `enable_thinking=False` is required. This example was run on a CPU machine with 20 GB of memory; in fp32 the 1.7B model alone takes about 8 GB. To score a file of tweets the way the tables were made, copy the adapter to `adapter/` as shown above and use `score.py --model Qwen/Qwen3-1.7B --adapter adapter`.
 
 ## Limitations and known failures
 
