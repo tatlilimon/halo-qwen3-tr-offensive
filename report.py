@@ -1,19 +1,21 @@
 """Compute the result tables from the score files in the results directory.
 
-Score files, one JSON line per row with `label` and `score` (positive means offensive):
-  base_validation_<prompt>.jsonl  zero-shot base model on validation, one file per prompt wording
-  base_test.jsonl                 zero-shot base model on test, selected wording
-  finetuned_validation.jsonl      base model plus adapter on validation
-  finetuned_test.jsonl            base model plus adapter on test
-  tfidf_validation.jsonl          TF-IDF baseline on validation
-  tfidf_test.jsonl                TF-IDF baseline on test
+Score files, one JSON line per row with `label` and `score` (positive means offensive).
+<model> is qwen3-0.6b or qwen3-1.7b:
+  tfidf_validation.jsonl, tfidf_test.jsonl    TF-IDF baseline
+  <model>_zeroshot_validation_<prompt>.jsonl  zero-shot base model, one file per prompt wording
+  <model>_zeroshot_test_<prompt>.jsonl        zero-shot base model with its best wording
+  <model>_lora_validation.jsonl               base model plus adapter
+  <model>_lora_test.jsonl
 
 Three Markdown tables are printed and metrics.json is written next to the score files.
 
-Prompt table: the zero-shot base model on the validation split with each wording.
+Prompt table: the zero-shot base models on the validation split with each wording.
+The zero-shot rows of the result tables use, for each model, the wording with
+the highest ROC-AUC in this table, so each base model is shown at its best.
 
 Result tables, one per split. Every system is scored at decision threshold 0,
-which for the language model is greedy decoding between its two answers. On the
+which for a language model is greedy decoding between its two answers. On the
 test split each system is also scored at the threshold that maximises macro-F1
 on the validation split, which separates what a system knows from how well its
 default decision happens to be calibrated.
@@ -32,11 +34,18 @@ from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_f
 
 from prompts import PROMPTS, SELECTED
 
-SYSTEMS = {
-    "tfidf": "TF-IDF character n-grams + logistic regression",
-    "base": "Qwen3-0.6B zero-shot",
-    "finetuned": "Qwen3-0.6B + LoRA (this repo)",
-}
+# File-name tag and display name of each base model.
+MODELS = {"qwen3-0.6b": "Qwen3-0.6B", "qwen3-1.7b": "Qwen3-1.7B"}
+# The training wording (prompts.SELECTED) was chosen with this model, before the larger one was trained.
+PROMPT_CHOSEN_WITH = "qwen3-0.6b"
+
+
+def system_names(zero_shot_wording: dict) -> dict:
+    names = {"constant": 'Constant "not offensive"', "tfidf": "TF-IDF character n-grams + logistic regression"}
+    for tag, name in MODELS.items():
+        names[f"{tag}_zeroshot"] = f"{name} zero-shot (`{zero_shot_wording[tag]}` wording)"
+        names[f"{tag}_lora"] = f"{name} + LoRA"
+    return names
 
 
 def read_scores(path: Path) -> tuple[np.ndarray, np.ndarray, list[str]]:
@@ -124,35 +133,45 @@ def constant_system(path: Path) -> dict:
 
 
 def build_report(results_dir: Path) -> dict:
-    prompts = {name: scored_system(results_dir / f"base_validation_{name}.jsonl") for name in PROMPTS}
-    best = max(prompts, key=lambda name: prompts[name]["roc_auc"])
-    if best != SELECTED:
-        raise ValueError(f"prompts.SELECTED is {SELECTED!r} but {best!r} has the best zero-shot ROC-AUC on validation")
+    prompts = {
+        tag: {name: scored_system(results_dir / f"{tag}_zeroshot_validation_{name}.jsonl") for name in PROMPTS}
+        for tag in MODELS
+    }
+    wording = {tag: max(PROMPTS, key=lambda name: prompts[tag][name]["roc_auc"]) for tag in MODELS}
+    if wording[PROMPT_CHOSEN_WITH] != SELECTED:
+        raise ValueError(f"prompts.SELECTED is {SELECTED!r} but {wording[PROMPT_CHOSEN_WITH]!r} is the best wording")
 
-    validation = {name: results_dir / f"{name}_validation.jsonl" for name in SYSTEMS}
-    validation["base"] = results_dir / f"base_validation_{SELECTED}.jsonl"
-    test = {name: results_dir / f"{name}_test.jsonl" for name in SYSTEMS}
+    validation = {"tfidf": results_dir / "tfidf_validation.jsonl"}
+    test = {"tfidf": results_dir / "tfidf_test.jsonl"}
+    for tag in MODELS:
+        validation[f"{tag}_zeroshot"] = results_dir / f"{tag}_zeroshot_validation_{wording[tag]}.jsonl"
+        validation[f"{tag}_lora"] = results_dir / f"{tag}_lora_validation.jsonl"
+        test[f"{tag}_zeroshot"] = results_dir / f"{tag}_zeroshot_test_{wording[tag]}.jsonl"
+        test[f"{tag}_lora"] = results_dir / f"{tag}_lora_test.jsonl"
     for files in (validation, test):
         labels = [read_scores(path)[0] for path in files.values()]
         if not all(np.array_equal(labels[0], other) for other in labels[1:]):
             raise ValueError(f"score files do not hold the same rows: {[p.name for p in files.values()]}")
     return {
+        "zero_shot_wording": wording,
         "prompt_selection_on_validation": prompts,
         "validation": {
-            "constant": constant_system(validation["base"]),
-            **{name: scored_system(validation[name]) for name in SYSTEMS},
+            "constant": constant_system(validation["tfidf"]),
+            **{name: scored_system(path) for name, path in validation.items()},
         },
         "test": {
-            "constant": constant_system(test["base"]),
-            **{name: scored_system(test[name], tune_on=validation[name]) for name in SYSTEMS},
+            "constant": constant_system(test["tfidf"]),
+            **{name: scored_system(path, tune_on=validation[name]) for name, path in test.items()},
         },
     }
 
 
 def prompt_table(prompts: dict) -> str:
-    lines = ["| Prompt wording | ROC-AUC | Macro-F1 | Accuracy |", "|---|---:|---:|---:|"]
-    for name, m in prompts.items():
-        lines.append(f"| `{name}` | {m['roc_auc']:.3f} | {m['macro_f1']:.3f} | {m['accuracy']:.3f} |")
+    header = "| Prompt wording |" + "".join(f" {name} ROC-AUC | {name} Macro-F1 |" for name in MODELS.values())
+    lines = [header, "|---|" + "---:|---:|" * len(MODELS)]
+    for wording in PROMPTS:
+        cells = "".join(f" {prompts[tag][wording]['roc_auc']:.3f} | {prompts[tag][wording]['macro_f1']:.3f} |" for tag in MODELS)
+        lines.append(f"| `{wording}` |{cells}")
     return "\n".join(lines)
 
 
@@ -161,7 +180,7 @@ def with_interval(m: dict) -> str:
     return f"{m['macro_f1']:.3f} [{low:.3f}, {high:.3f}]"
 
 
-def result_table(systems: dict) -> str:
+def result_table(systems: dict, names: dict) -> str:
     tuned = any("tuned" in m for m in systems.values())
     header = "| System | Macro-F1 [95% interval] | Accuracy | Precision | Recall | ROC-AUC |"
     rule = "|---|---:|---:|---:|---:|---:|"
@@ -170,7 +189,7 @@ def result_table(systems: dict) -> str:
         rule += "---:|"
     lines = [header, rule]
     for key, m in systems.items():
-        name = SYSTEMS.get(key, 'Constant "not offensive"')
+        name = names[key]
         auc = f"{m['roc_auc']:.3f}" if "roc_auc" in m else "n/a"
         line = (
             f"| {name} | {with_interval(m)} | {m['accuracy']:.3f} | {m['precision_offensive']:.3f} "
@@ -193,12 +212,13 @@ def main() -> None:
     report = build_report(args.results_dir)
     (args.results_dir / "metrics.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
     print(
-        "Zero-shot base model on the validation split, by prompt wording:\n\n"
+        "Zero-shot base models on the validation split, by prompt wording:\n\n"
         f"{prompt_table(report['prompt_selection_on_validation'])}\n"
     )
+    names = system_names(report["zero_shot_wording"])
     for split in ("test", "validation"):
         rows = report[split]["constant"]["rows"]
-        print(f"{split.capitalize()} split, {rows} rows:\n\n{result_table(report[split])}\n")
+        print(f"{split.capitalize()} split, {rows} rows:\n\n{result_table(report[split], names)}\n")
 
 
 if __name__ == "__main__":

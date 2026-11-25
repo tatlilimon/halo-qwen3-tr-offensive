@@ -1,0 +1,965 @@
+11/25/2026 12:33:11 - INFO - halo.runtime.filesystem - Shared-filesystem scope: {'DIST_SHARED_FILESYSTEM': 'shared', 'DIST_INPUT_SHARED_FILESYSTEM': 'shared', 'DIST_OUTPUT_SHARED_FILESYSTEM': 'shared'} (set DIST_SHARED_FILESYSTEM=0 for per-node local storage).
+[INFO|configuration_utils.py:1018] 2026-11-25 12:33:11,787 >> loading configuration file config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json
+[INFO|configuration_utils.py:1090] 2026-11-25 12:33:11,788 >> Model config Qwen3Config {
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+[INFO|configuration_utils.py:1018] 2026-11-25 12:33:11,790 >> loading configuration file config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json
+[INFO|configuration_utils.py:1090] 2026-11-25 12:33:11,791 >> Model config Qwen3Config {
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+11/25/2026 12:33:11 - INFO - halo.distributed.parallelism_config - ============================================================
+PARALLELISM: DATA PARALLEL
+  World: 1 (1 nodes × 1 GPUs)
+  Data parallel: 1 distinct batches
+  Gradient sync: 1 ranks
+============================================================
+11/25/2026 12:33:11 - INFO - halo.data.pipeline.coordinated_map - [loading dataset /data/sft] Main (rank 0)...
+11/25/2026 12:33:11 - INFO - halo.data.sources.loading - Loading dataset from local path: /data/sft
+11/25/2026 12:33:11 - INFO - halo.data.sources.loading - Dataset /data/sft has no test split; its 'validation' split is the test split
+11/25/2026 12:33:11 - INFO - halo.data.pipeline.coordinated_map - [loading dataset /data/sft] Main (rank 0) completed
+11/25/2026 12:33:11 - INFO - halo.data.pipeline.coordinated_map - [filter operation (filtering empty prompt (train))] Main (rank 0)...
+11/25/2026 12:33:11 - INFO - halo.data.pipeline.coordinated_map - [filter operation (filtering empty prompt (train))] Main (rank 0) completed
+11/25/2026 12:33:11 - INFO - halo.data.pipeline.coordinated_map - [filter operation (filtering empty prompt (test))] Main (rank 0)...
+11/25/2026 12:33:11 - INFO - halo.data.pipeline.coordinated_map - [filter operation (filtering empty prompt (test))] Main (rank 0) completed
+11/25/2026 12:33:11 - INFO - halo.data.sources.loading - Training data after schema normalization: 29986
+11/25/2026 12:33:11 - INFO - halo.data.sources.loading - Columns in training dataset: ['prompt']
+11/25/2026 12:33:11 - INFO - halo.data.sources.loading - Test data after schema normalization: 1756
+11/25/2026 12:33:11 - INFO - halo.data.sources.loading - Columns in test dataset: ['prompt']
+[INFO|configuration_utils.py:1018] 2026-11-25 12:33:11,936 >> loading configuration file config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json
+[INFO|configuration_utils.py:1090] 2026-11-25 12:33:11,937 >> Model config Qwen3Config {
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+Fetching 12 files:   0%|          | 0/12 [00:00<?, ?it/s]Fetching 12 files: 100%|██████████| 12/12 [00:00<00:00, 895.71it/s]
+[INFO|configuration_utils.py:1018] 2026-11-25 12:33:11,955 >> loading configuration file config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json
+[INFO|configuration_utils.py:1090] 2026-11-25 12:33:11,956 >> Model config Qwen3Config {
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+11/25/2026 12:33:12 - INFO - halo.models.attention.selection - flash_attention_3 is this GPU's flash backend (flash_attn_3 installed); model-level checks may move a model off it.
+11/25/2026 12:33:12 - INFO - halo.model_loading.liger.dispatch - Applying Liger Kernel for qwen3: {'rope': True, 'cross_entropy': True, 'fused_linear_cross_entropy': False, 'rms_norm': True, 'swiglu': True}
+11/25/2026 12:33:12 - INFO - halo.model_loading.liger.dispatch - ✓ Liger Kernel applied for qwen3
+[INFO|configuration_utils.py:1018] 2026-11-25 12:33:12,012 >> loading configuration file config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json
+[INFO|configuration_utils.py:1090] 2026-11-25 12:33:12,013 >> Model config Qwen3Config {
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+[INFO|modeling_utils.py:764] 2026-11-25 12:33:13,201 >> loading weights file model.safetensors from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/model.safetensors.index.json
+[INFO|configuration_utils.py:1156] 2026-11-25 12:33:13,205 >> Generate config GenerationConfig {
+  "bos_token_id": 151643,
+  "eos_token_id": 151645,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "use_cache": true
+}
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<00:59,  5.21it/s]Loading weights:   1%|          | 2/311 [00:00<01:05,  4.72it/s]Loading weights:   9%|▉         | 29/311 [00:00<00:03, 79.93it/s]Loading weights:  20%|█▉        | 61/311 [00:00<00:01, 147.73it/s]Loading weights:  30%|██▉       | 92/311 [00:00<00:01, 193.94it/s]Loading weights:  41%|████      | 126/311 [00:00<00:00, 236.24it/s]Loading weights:  50%|█████     | 157/311 [00:00<00:00, 255.16it/s]Loading weights:  61%|██████    | 190/311 [00:01<00:00, 270.99it/s]Loading weights:  71%|███████▏  | 222/311 [00:01<00:00, 282.31it/s]Loading weights:  82%|████████▏ | 255/311 [00:01<00:00, 289.60it/s]Loading weights:  92%|█████████▏| 285/311 [00:01<00:00, 290.98it/s]Loading weights: 100%|██████████| 311/311 [00:01<00:00, 211.97it/s]
+[INFO|configuration_utils.py:1112] 2026-11-25 12:33:14,908 >> loading configuration file generation_config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/generation_config.json
+[INFO|configuration_utils.py:1156] 2026-11-25 12:33:14,908 >> Generate config GenerationConfig {
+  "bos_token_id": 151643,
+  "do_sample": true,
+  "eos_token_id": [
+    151645,
+    151643
+  ],
+  "pad_token_id": 151643,
+  "temperature": 0.6,
+  "top_k": 20,
+  "top_p": 0.95
+}
+
+11/25/2026 12:33:14 - INFO - halo.model_loading.buffer_repair - Fixed 1 rotary embedding inv_freq buffer(s) to float32
+11/25/2026 12:33:14 - INFO - halo.model_loading.parallel.loader - Model loaded with standard DDP
+11/25/2026 12:33:14 - INFO - halo.entrypoints.model_setup - Tokenizer: Qwen2Tokenizer(name_or_path='Qwen/Qwen3-1.7B', vocab_size=151643, model_max_length=2048, padding_side='right', truncation_side='right', special_tokens={'eos_token': '<|im_end|>', 'pad_token': '<|endoftext|>'}, added_tokens_decoder={
+	151643: AddedToken("<|endoftext|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151644: AddedToken("<|im_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151645: AddedToken("<|im_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151646: AddedToken("<|object_ref_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151647: AddedToken("<|object_ref_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151648: AddedToken("<|box_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151649: AddedToken("<|box_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151650: AddedToken("<|quad_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151651: AddedToken("<|quad_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151652: AddedToken("<|vision_start|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151653: AddedToken("<|vision_end|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151654: AddedToken("<|vision_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151655: AddedToken("<|image_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151656: AddedToken("<|video_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=True),
+	151657: AddedToken("<tool_call>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151658: AddedToken("</tool_call>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151659: AddedToken("<|fim_prefix|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151660: AddedToken("<|fim_middle|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151661: AddedToken("<|fim_suffix|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151662: AddedToken("<|fim_pad|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151663: AddedToken("<|repo_name|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151664: AddedToken("<|file_sep|>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151665: AddedToken("<tool_response>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151666: AddedToken("</tool_response>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151667: AddedToken("<think>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+	151668: AddedToken("</think>", rstrip=False, lstrip=False, single_word=False, normalized=False, special=False),
+})
+11/25/2026 12:33:14 - INFO - halo.entrypoints.model_setup - Model config: Qwen3Config {
+  "_halo_liger_applied_config": {
+    "cross_entropy": true,
+    "fused_linear_cross_entropy": false,
+    "rms_norm": true,
+    "rope": true,
+    "swiglu": true
+  },
+  "_halo_sinks_reset": true,
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": 151643,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+11/25/2026 12:33:14 - WARNING - halo.data.pipeline.map_cache_key - Dataset-map cache fingerprint for build_chat_row_processor.<locals>.process_row skips a value of type dict it cannot fingerprint - changes to that value will NOT invalidate the cache. If it affects the map output, thread it through cache_key_extras.
+11/25/2026 12:33:15 - INFO - halo.data.pipeline.coordinated_map - [map operation (Processing dataset)] Main (rank 0)...
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.coordinated_map - [map operation (Processing dataset)] Main (rank 0) completed
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.coordinated_map - [filter operation (filtering rejected input_ids)] Main (rank 0)...
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.coordinated_map - [filter operation (filtering rejected input_ids)] Main (rank 0) completed
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.rejected_rows - Filtered out 0/31742 examples (0.0%) rejected during processing (checked via input_ids)
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.coordinated_map - [packing the train split] Main (rank 0)...
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.coordinated_map - [packing the train split] Main (rank 0) completed
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.coordinated_map - [packing the eval split] Main (rank 0)...
+11/25/2026 12:33:16 - INFO - halo.data.pipeline.coordinated_map - [packing the eval split] Main (rank 0) completed
+11/25/2026 12:33:16 - WARNING - halo.data.collators.collator_rules - packing=True with per_device_train_batch_size=4 does not run 4 independent sequences: the packed rows are merged into a single row of up to 4 x max_length real tokens (transformers engages packed-sequence handling only at batch size 1). Document isolation is preserved and throughput is unaffected, but if the intent is a longer pack, raising max_length states it directly.
+11/25/2026 12:33:16 - INFO - halo.data.collators.factory - 📦 Using DataCollatorForCompletionOnlyLMWithPacking
+11/25/2026 12:33:16 - INFO - halo.entrypoints.data_setup - Example(s) from train dataset:
+11/25/2026 12:33:16 - INFO - halo.entrypoints.data_setup - {'input_ids': [151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 2858, 249, 242, 44268, 39, 1867, 72765, 67579, 30543, 82834, 77608, 828, 63005, 46, 125074, 42, 1861, 141390, 414, 2858, 249, 242, 38, 133347, 43, 127190, 132810, 37306, 52491, 41022, 38421, 45913, 129819, 1150, 75458, 1093, 33, 1094, 6352, 78150, 125074, 3022, 1093, 25272, 547, 56, 1093, 981, 2858, 249, 242, 3012, 86482, 125074, 51, 1093, 425, 3022, 1093, 43, 16028, 34037, 57, 2749, 47780, 7462, 7206, 42, 27768, 132613, 981, 67579, 30543, 81234, 125074, 42, 1791, 1150, 328, 3399, 60888, 9319, 56, 2794, 59782, 57, 2794, 35, 1511, 67579, 30543, 414, 63039, 243, 36, 30698, 47780, 425, 3022, 1093, 43, 934, 687, 472, 6349, 84502, 56, 1791, 63039, 243, 414, 2858, 249, 242, 86482, 125074, 25, 17, 21, 7811, 56, 25, 16, 13, 22, 22, 414, 2858, 249, 242, 7778, 1150, 2104, 38421, 784, 1093, 33, 1094, 6352, 78150, 125074, 3022, 1093, 25272, 425, 3022, 1093, 43, 934, 444, 52491, 10808, 953, 0, 2858, 249, 242, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 3355, 34112, 450, 134364, 305, 449, 4059, 46779, 4605, 88, 562, 2712, 30572, 47, 5251, 6610, 5208, 38421, 47, 19550, 297, 3923, 67128, 84488, 15136, 70, 332, 26, 11907, 47, 19, 20, 11, 20, 24, 12, 386, 6610, 16, 22, 11, 23, 22, 42484, 34112, 450, 134364, 305, 449, 4059, 46779, 4605, 44, 6610, 5208, 38421, 47, 387, 832, 72, 9693, 72, 2739, 139902, 297, 3923, 277, 25, 11907, 47, 220, 18, 20, 11, 22, 5251, 6610, 5208, 38421, 47, 220, 17, 24, 11, 19, 1069, 337, 266, 25611, 26, 11907, 47, 220, 20, 21, 11, 20, 15, 5251, 6610, 220, 16, 22, 11, 20, 19, 40510, 34112, 450, 134364, 305, 449, 4059, 72, 4605, 44, 6610, 387, 832, 72, 9693, 72, 2739, 139902, 297, 3923, 277, 25, 30572, 47, 220, 19, 19, 11, 23, 5251, 6610, 5208, 38421, 47, 220, 18, 16, 11, 21, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 23959, 3777, 1728, 1655, 3029, 135191, 129782, 1806, 332, 1728, 414, 11162, 241, 96, 256, 33489, 125074, 42, 1093, 1791, 256, 8220, 72, 12183, 37304, 11, 2544, 72, 26857, 14274, 72, 11, 132425, 75, 485, 5999, 6996, 15408, 33171, 135191, 2739, 22837, 518, 309, 126379, 5999, 83342, 5197, 13, 981, 451, 12336, 1195, 325, 220, 17, 128503, 57000, 256, 61804, 102, 144321, 378, 235, 146467, 145367, 144321, 378, 235, 146467, 256, 1863, 47780, 5609, 828, 386, 52491, 39, 4689, 47780, 7984, 640, 47780, 7369, 38100, 7206, 52983, 47780, 56, 868, 414, 23959, 3777, 1728, 1655, 3029, 135191, 129782, 1806, 332, 1728, 262, 671, 17, 16, 33, 6576, 7222, 25611, 57, 8832, 266, 44, 21558, 408, 285, 46779, 1655, 3029, 33, 1225, 742, 47220, 262, 671, 57, 8832, 266, 76, 21558, 20, 15, 15, 15, 981, 220, 17, 15, 17, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 15854, 62634, 220, 20, 8366, 5059, 26517, 16220, 33006, 13, 479, 97310, 220, 16, 17, 51365, 81900, 4076, 33006, 13, 262, 220, 20, 17568, 17, 19, 28, 16, 17, 15, 256, 220, 20, 17568, 16, 17, 28, 21, 15, 256, 220, 16, 17, 15, 12, 21, 15, 28, 21, 15, 256, 220, 21, 15, 144422, 17, 15, 28, 18, 38014, 295, 256, 220, 18, 17568, 16, 15, 28, 18, 15, 326, 8832, 262, 23905, 3235, 220, 18, 15, 17568, 18, 15, 28, 24, 15, 15, 326, 8832, 256, 809, 3777, 73426, 220, 16, 17, 17568, 24, 15, 15, 28, 16, 15, 11, 23, 15, 15, 326, 8832, 262, 220, 20, 128034, 73426, 220, 21, 15, 17568, 24, 15, 15, 28, 20, 19, 11, 15, 15, 15, 326, 8832, 26517, 16220, 33006, 256, 1863, 3777, 19196, 37304, 297, 4730, 359, 13, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 5120, 295, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 671, 4416, 89, 642, 76, 12294, 21, 56, 126764, 29233, 42, 329, 3630, 5197, 414, 11162, 248, 104, 59932, 344, 6405, 263, 89677, 262, 11162, 248, 104, 56, 2391, 2787, 301, 2660, 89677, 262, 11162, 248, 104, 52491, 77, 15649, 89677, 256, 11162, 248, 104, 35, 485, 346, 11, 73676, 3894, 89677, 256, 11162, 248, 104, 51, 352, 258, 89677, 256, 11162, 248, 104, 63361, 67957, 39857, 135932, 89677, 256, 11162, 248, 104, 32, 457, 89677, 256, 11162, 248, 104, 39, 5197, 324, 89677, 256, 63039, 107, 794, 416, 11, 36847, 128137, 762, 262, 63039, 107, 362, 126005, 12887, 52171, 74, 762, 262, 63039, 107, 472, 9810, 47880, 91733, 762, 256, 63039, 107, 468, 7222, 1199, 449, 7637, 762, 262, 63039, 107, 51149, 9942, 449, 7637, 4102, 43508, 414, 569, 6448, 569, 6448, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 74574, 72824, 7369, 38100, 468, 42, 711, 1898, 138964, 809, 52491, 42, 3385, 125823, 1715, 730, 828, 42, 915, 2801, 13, 256, 1345, 3131, 318, 450, 128489, 518, 3029, 126519, 2391, 2739, 695, 72, 1785, 19262, 220, 5254, 275, 61517, 70762, 3483, 1149, 318, 449, 5254, 97802, 4404, 13, 6040, 9809, 1154, 3583, 9467, 52171, 74, 3815, 12556, 482, 1899, 276, 27885, 220, 17, 15, 16, 24, 136040, 31919, 518, 3029, 374, 12303, 47220, 5197, 220, 220, 17, 15, 18898, 125020, 49933, 3179, 97802, 4438, 7028, 39519, 13, 414, 671, 31776, 35834, 32, 2787, 84, 125074, 392, 31919, 62733, 37304, 586, 2195, 47476, 1655, 3029, 262, 671, 89, 8832, 266, 76, 21558, 1655, 3029, 220, 18, 21, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 652, 43139, 449, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 125652, 75924, 33171, 293, 12004, 1863, 13, 63361, 308, 16074, 3637, 742, 130773, 3777, 434, 13, 63361, 42085, 139358, 15248, 133119, 2739, 73753, 6565, 404, 13, 64894, 10561, 2391, 15248, 125409, 554, 83, 131117, 7028, 64634, 264, 457, 297, 138649, 91557, 6591, 16942, 3342, 17797, 1578, 27626, 364, 7222, 485, 1489, 261, 6591, 6, 31954, 372, 12589, 77487, 126390, 127788, 277, 13, 36819, 458, 128489, 15248, 135434, 138541, 66287, 16017, 1225, 6565, 404, 13, 297, 6651, 64, 130165, 40890, 633, 404, 321, 8828, 72, 33171, 468, 13, 63361, 308, 16074, 3844, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 569, 6448, 36819, 259, 2145, 17324, 3777, 654, 3777, 125614, 2787, 64, 33171, 449, 450, 130338, 7222, 29233, 17106, 11011, 37304, 305, 6053, 36094, 355, 1187, 69, 3777, 127485, 89, 124717, 3235, 27394, 544, 355, 15248, 142183, 11, 29233, 74, 379, 2584, 304, 276, 3131, 133595, 27394, 544, 355, 93282, 84, 23425, 21140, 449, 450, 15248, 1062, 11011, 15453, 7755, 993, 133380, 19953, 8402, 404, 220, 29233, 4554, 53688, 276, 32473, 64, 379, 2584, 1062, 11011, 15453, 88, 12589, 264, 275, 8328, 48562, 42378, 752, 8345, 46392, 11, 2956, 7239, 2391, 5208, 379, 2375, 72, 8328, 309, 1370, 13, 63361, 16443, 33171, 449, 450, 6642, 294, 2956, 46945, 46779, 458, 5524, 16116, 10671, 29233, 2584, 834, 762, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 5120, 295, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 434, 11023, 3371, 22837, 305, 466, 84700, 60722, 452, 585, 309, 8328, 76, 28089, 63466, 134493, 350, 66, 296, 6190, 553, 1023, 308, 14134, 72, 967, 220, 18, 13, 20, 18898, 3761, 4360, 5120, 72, 5208, 13305, 956, 3131, 13, 33290, 3077, 449, 7637, 137549, 136390, 1728, 220, 16, 19, 18898, 8328, 6899, 2210, 134493, 305, 6053, 129864, 545, 124932, 16404, 318, 13, 16931, 3131, 82, 5197, 372, 17324, 1933, 318, 13, 422, 13546, 834, 73909, 49933, 3179, 74407, 11011, 318, 13, 33290, 3077, 449, 7637, 5208, 293, 2416, 266, 730, 57447, 30805, 600, 1021, 13, 444, 2391, 8935, 268, 3201, 1225, 2739, 258, 13, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198], 'seq_lengths': [243, 229, 223, 222, 215, 215, 214, 203, 203]}
+11/25/2026 12:33:16 - INFO - halo.entrypoints.data_setup - Example(s) from test dataset:
+11/25/2026 12:33:16 - INFO - halo.entrypoints.data_setup - {'input_ids': [151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 2157, 89, 71526, 95347, 1149, 38421, 64088, 83342, 5197, 256, 220, 21, 21, 22, 20165, 74, 527, 25611, 13796, 256, 220, 21, 22, 17, 20165, 74, 527, 25611, 13796, 256, 220, 21, 21, 24, 20165, 74, 527, 25611, 13796, 256, 220, 21, 22, 23, 20165, 74, 527, 25611, 13796, 256, 220, 22, 15, 17, 20165, 74, 527, 25611, 13796, 256, 220, 22, 15, 18, 20165, 74, 527, 25611, 13796, 256, 220, 21, 23, 24, 20165, 74, 527, 25611, 13796, 256, 220, 21, 22, 20, 20165, 74, 527, 25611, 13796, 256, 220, 21, 24, 17, 20165, 74, 527, 25611, 13796, 256, 220, 21, 22, 22, 20165, 74, 527, 25611, 13796, 256, 220, 21, 22, 15, 20165, 74, 527, 25611, 13796, 256, 220, 21, 22, 24, 20165, 74, 527, 25611, 13796, 256, 220, 22, 15, 16, 20165, 74, 527, 25611, 13796, 256, 220, 21, 22, 18, 20165, 74, 527, 25611, 13796, 256, 220, 21, 23, 21, 20165, 74, 527, 25611, 13796, 256, 220, 21, 23, 18, 20165, 74, 6, 25611, 13796, 256, 730, 57447, 13796, 46562, 2061, 268, 51149, 1149, 38, 301, 82156, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 2858, 249, 242, 44268, 39, 1867, 72765, 67579, 30543, 82834, 77608, 828, 63005, 46, 125074, 42, 1861, 145734, 38, 133347, 43, 127190, 132810, 37306, 52491, 41022, 38421, 45913, 129819, 1150, 75458, 1093, 33, 1094, 6352, 78150, 125074, 3022, 1093, 25272, 547, 56, 1093, 472, 13663, 132632, 51, 1093, 425, 3022, 1093, 43, 16028, 34037, 57, 2749, 47780, 7462, 7206, 42, 27768, 132613, 262, 67579, 30543, 81234, 125074, 42, 1791, 1150, 328, 3399, 60888, 9319, 56, 2794, 59782, 57, 2794, 35, 1511, 141390, 256, 63039, 243, 36, 30698, 47780, 425, 3022, 1093, 43, 934, 687, 472, 6349, 84502, 56, 1791, 256, 2858, 249, 242, 86482, 125074, 25, 17, 21, 7811, 56, 25, 16, 13, 22, 22, 256, 2858, 249, 242, 7778, 1150, 2104, 38421, 784, 1093, 33, 1094, 6352, 78150, 125074, 3022, 1093, 25272, 425, 3022, 1093, 43, 934, 444, 52491, 10808, 953, 0, 2858, 249, 242, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 569, 6448, 671, 57, 79474, 39041, 3131, 3101, 32293, 20756, 1194, 15326, 414, 328, 141452, 867, 125074, 44, 2749, 47780, 34037, 125823, 787, 22034, 953, 132217, 42, 9718, 17088, 2794, 47780, 56, 1348, 425, 63361, 47130, 2749, 640, 129819, 1150, 34037, 125823, 787, 22034, 953, 350, 1381, 1094, 1402, 33785, 125823, 40, 38421, 45913, 129819, 33489, 125074, 43, 33785, 11, 256, 78819, 47780, 6076, 47780, 38421, 784, 1093, 33, 1094, 51274, 220, 20, 15, 15, 15, 7369, 38100, 809, 2537, 81234, 56, 868, 414, 220, 18, 809, 1715, 87408, 425, 47780, 135216, 40892, 60888, 730, 1808, 51465, 32, 29857, 45913, 953, 328, 141452, 867, 125074, 44, 2749, 138964, 809, 47780, 3944, 34037, 57, 138346, 350, 3022, 129819, 47780, 809, 3925, 414, 569, 6448, 981, 569, 6448, 414, 569, 6448, 981, 569, 6448, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 730, 934, 1150, 125074, 132613, 350, 11907, 47780, 47, 45913, 47780, 27768, 129819, 133347, 129819, 1018, 23, 15, 6, 47780, 434, 1348, 63361, 34, 52491, 72373, 11907, 17768, 7462, 56, 129819, 6197, 43, 934, 32293, 328, 60556, 29857, 867, 2104, 42, 0, 256, 479, 134803, 27768, 35, 130600, 328, 133347, 133746, 547, 56, 16028, 56, 868, 2794, 11, 59700, 969, 362, 50764, 129819, 809, 934, 1637, 40, 434, 1348, 63361, 34, 52491, 809, 934, 1637, 40, 30572, 2916, 47780, 11, 6261, 72765, 5245, 32, 59700, 969, 328, 35610, 125074, 43508, 13, 72373, 11907, 17768, 7462, 56, 129819, 9630, 7012, 133746, 425, 19114, 47780, 11, 434, 134873, 867, 8065, 47780, 27768, 13, 425, 47780, 52867, 20533, 42, 3385, 58684, 125823, 47780, 12959, 57, 1791, 13, 468, 23652, 953, 47780, 34037, 32360, 52491, 127948, 5752, 97765, 479, 47780, 33, 47780, 425, 47780, 2446, 2104, 42, 27768, 0, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 671, 19462, 704, 88, 35, 291, 18958, 34, 5120, 391, 256, 50400, 60888, 67928, 3627, 828, 730, 934, 125074, 81234, 125823, 40, 809, 969, 1093, 38421, 3627, 1150, 29261, 953, 78819, 29923, 1637, 43, 934, 65169, 132613, 47780, 80305, 730, 134873, 47780, 27768, 35, 130600, 256, 425, 1861, 43, 934, 9718, 125823, 35, 1511, 3385, 125823, 127190, 11, 350, 7064, 53, 28297, 47780, 84502, 60888, 84629, 687, 9630, 45, 1093, 10402, 51, 934, 51274, 472, 2034, 2794, 1348, 132217, 730, 134873, 47780, 27768, 35, 130600, 414, 425, 133347, 28297, 47780, 1402, 2843, 32, 809, 63361, 81851, 135216, 10994, 134873, 5752, 1715, 50, 2843, 38421, 4103, 47780, 969, 16028, 7856, 57, 47780, 39, 425, 130600, 78819, 71133, 127190, 1150, 26711, 53, 2537, 43, 1402, 3022, 32, 63005, 969, 140950, 40, 56, 868, 52, 57, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 10635, 569, 6448, 25, 5836, 278, 1839, 33171, 28676, 262, 671, 331, 2628, 70529, 262, 671, 11553, 9686, 262, 671, 11599, 28552, 262, 671, 47203, 12294, 333, 129008, 262, 671, 24716, 747, 1512, 262, 671, 4412, 20564, 262, 671, 134631, 333, 129008, 262, 671, 333, 129008, 262, 671, 325, 9703, 1095, 262, 671, 2911, 11599, 11553, 262, 671, 11553, 34023, 262, 671, 78385, 262, 671, 47203, 12294, 262, 671, 125601, 6850, 25611, 262, 671, 1117, 267, 262, 671, 7222, 7570, 7222, 262, 671, 47203, 301, 1579, 47880, 13796, 262, 671, 901, 454, 11553, 262, 671, 88, 1118, 585, 262, 671, 70, 44226, 262, 671, 76, 3894, 262, 671, 97407, 2106, 262, 671, 1775, 1370, 76, 262, 671, 265, 1503, 1940, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 5120, 295, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 472, 942, 16220, 295, 1913, 20915, 506, 10715, 730, 52491, 36690, 5166, 1579, 358, 88, 558, 422, 124911, 16074, 76, 12294, 42125, 3732, 72, 43747, 35155, 2210, 730, 2253, 27885, 422, 124911, 16074, 76, 12294, 13, 256, 7355, 2823, 832, 72, 9011, 129580, 1345, 3131, 16220, 33006, 30145, 89652, 2411, 276, 404, 414, 647, 1225, 321, 1345, 3131, 16220, 33006, 358, 3828, 72, 362, 1646, 404, 13, 256, 220, 22, 76, 1541, 263, 506, 88, 1674, 124801, 472, 10298, 9011, 2157, 84009, 78753, 21209, 9416, 44476, 517, 13229, 12741, 256, 26492, 33, 127190, 66970, 2907, 41959, 300, 6591, 730, 25760, 404, 414, 1345, 3131, 318, 70868, 4259, 24836, 330, 42, 52491, 36690, 13225, 450, 127468, 1, 12741, 13, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 25125, 246, 30543, 50918, 148495, 146259, 148752, 30543, 50918, 145368, 30543, 256, 22612, 237, 145906, 147655, 146219, 147655, 146064, 146274, 146064, 147655, 146274, 147655, 145038, 256, 22612, 245, 146219, 145138, 145906, 145138, 147819, 145038, 147819, 145038, 145138, 146666, 145038, 256, 22612, 245, 145906, 147155, 147819, 147155, 145906, 145783, 145906, 147155, 145353, 145353, 147155, 262, 11162, 99, 233, 50918, 671, 1748, 58208, 238, 38760, 145865, 256, 730, 669, 355, 5197, 834, 802, 318, 449, 220, 81667, 452, 83342, 16358, 811, 802, 11853, 3201, 1225, 646, 13796, 659, 414, 671, 1748, 256, 671, 51, 585, 573, 256, 671, 34830, 1225, 414, 569, 6448, 981, 569, 6448, 981, 569, 6448, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 569, 6448, 569, 6448, 569, 6448, 10424, 295, 64896, 450, 3091, 75, 7136, 15248, 8557, 74, 15326, 379, 10215, 88, 1087, 359, 5197, 11, 7473, 1149, 258, 374, 23771, 304, 276, 12821, 2210, 1977, 70, 3921, 8328, 48562, 1147, 269, 1241, 50310, 449, 13, 27371, 62550, 36092, 14787, 5604, 2061, 62550, 11, 60551, 2740, 1195, 83, 6, 6591, 89677, 1977, 309, 352, 580, 9810, 69639, 1785, 268, 97659, 305, 3101, 3101, 34234, 1149, 72, 11179, 359, 4076, 33006, 11, 305, 31919, 6124, 258, 409, 126779, 6591, 40520, 285, 5208, 305, 5197, 20915, 11179, 359, 4076, 33006, 1224, 278, 34938, 3619, 285, 458, 6651, 57404, 449, 272, 562, 129369, 742, 13, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198, 151644, 872, 198, 32, 7222, 125494, 67, 14624, 2270, 258, 4274, 126220, 8443, 130446, 30, 328, 4747, 3777, 8443, 2270, 258, 26, 97659, 11302, 11, 65948, 133238, 13526, 2994, 15248, 129043, 9011, 86959, 1081, 30429, 134159, 129245, 13526, 2994, 16942, 3342, 135740, 135916, 127051, 404, 13, 809, 278, 125288, 924, 42085, 48228, 545, 967, 3761, 85, 391, 2739, 25, 3637, 295, 13526, 2994, 17669, 29233, 382, 34673, 258, 25, 6252, 126417, 304, 1998, 268, 129032, 8328, 76, 12589, 131727, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271, 67312, 29233, 151645, 198], 'seq_lengths': [263, 232, 232, 227, 215, 202, 200, 193, 192, 92]}
+11/25/2026 12:33:17 - WARNING - accelerate.utils.other - Detected kernel version 4.19.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+11/25/2026 12:33:17 - INFO - halo.trainers.construction.accelerator - Created Accelerator with distributed_type: DistributedType.NO
+11/25/2026 12:33:17 - INFO - halo.trainers.construction.accelerator - Disabled native_amp to prevent fp32 output conversion (avoids OOM for long sequences)
+11/25/2026 12:33:17 - INFO - halo.trainers.distributed_trainer -   Optimizer: AdamWBF16 (stochastic rounding, 6B/param)
+11/25/2026 12:33:17 - INFO - halo.trainers.parallelism.mode_setup -   Aligned 392 trainable PEFT param tensors (adapters + modules_to_save) to torch.bfloat16
+11/25/2026 12:33:17 - INFO - halo.entrypoints.script - Starting SFT training (mode: gmm)...
+11/25/2026 12:33:17 - INFO - halo.entrypoints.script -   DP size: 1
+11/25/2026 12:33:17 - INFO - halo.entrypoints.script -   Attention: flash_attention_3
+11/25/2026 12:33:17 - INFO - halo.entrypoints.script -   modality: text
+11/25/2026 12:33:17 - INFO - halo.optimizers.adamw_bf16 - ✓ AdamWBF16 optimizer: 17.4M bf16 params (SR, fused Triton step, up to 1 per launch), 0.0M fp32 params (standard)
+[INFO|trainer.py:1601] 2026-11-25 12:33:17,629 >> ***** Running training *****
+[INFO|trainer.py:1602] 2026-11-25 12:33:17,629 >>   Num examples = 1,814
+[INFO|trainer.py:1603] 2026-11-25 12:33:17,629 >>   Num Epochs = 2
+[INFO|trainer.py:1604] 2026-11-25 12:33:17,629 >>   Num update steps per epoch = 454
+[INFO|trainer.py:1605] 2026-11-25 12:33:17,629 >>   Instantaneous batch size per device = 4
+[INFO|trainer.py:1608] 2026-11-25 12:33:17,629 >>   Total train batch size (w. parallel, distributed & accumulation) = 4
+[INFO|trainer.py:1609] 2026-11-25 12:33:17,629 >>   Gradient Accumulation steps = 1
+[INFO|trainer.py:1610] 2026-11-25 12:33:17,629 >>   Total optimization steps = 908
+[INFO|trainer.py:1611] 2026-11-25 12:33:17,632 >>   Number of trainable parameters = 17,432,576
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - 
+===== Model view inside Trainer =====
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - PeftModelForCausalLM(
+  (base_model): LoraModel(
+    (model): Qwen3ForCausalLM(
+      (model): Qwen3Model(
+        (embed_tokens): Embedding(151936, 2048)
+        (layers): ModuleList(
+          (0-27): 28 x Qwen3DecoderLayer(
+            (self_attn): Qwen3Attention(
+              (q_proj): lora.Linear(
+                (base_layer): Linear(in_features=2048, out_features=2048, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=2048, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=2048, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (k_proj): lora.Linear(
+                (base_layer): Linear(in_features=2048, out_features=1024, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=2048, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1024, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (v_proj): lora.Linear(
+                (base_layer): Linear(in_features=2048, out_features=1024, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=2048, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1024, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (o_proj): lora.Linear(
+                (base_layer): Linear(in_features=2048, out_features=2048, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=2048, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=2048, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (q_norm): LigerRMSNorm(weight_shape=(128,), eps=1e-06, offset=0.0, in_place=True, row_mode=None)
+              (k_norm): LigerRMSNorm(weight_shape=(128,), eps=1e-06, offset=0.0, in_place=True, row_mode=None)
+            )
+            (mlp): LigerSwiGLUMLP(
+              (gate_proj): lora.Linear(
+                (base_layer): Linear(in_features=2048, out_features=6144, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=2048, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=6144, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (up_proj): lora.Linear(
+                (base_layer): Linear(in_features=2048, out_features=6144, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=2048, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=6144, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (down_proj): lora.Linear(
+                (base_layer): Linear(in_features=6144, out_features=2048, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=6144, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=2048, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+            )
+            (input_layernorm): LigerRMSNorm(weight_shape=(2048,), eps=1e-06, offset=0.0, in_place=True, row_mode=None)
+            (post_attention_layernorm): LigerRMSNorm(weight_shape=(2048,), eps=1e-06, offset=0.0, in_place=True, row_mode=None)
+          )
+        )
+        (norm): LigerRMSNorm(weight_shape=(2048,), eps=1e-06, offset=0.0, in_place=True, row_mode=None)
+        (rotary_emb): Qwen3RotaryEmbedding()
+      )
+      (lm_head): Linear(in_features=2048, out_features=151936, bias=False)
+    )
+  )
+)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - Total number of parameters (this rank): 1,738,007,552
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - Number of trainable parameters (this rank): 17,432,576
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - Percentage of trainable parameters: 1.00%
+
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - 
+===== Model parameter statistics (per rank) =====
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - List of module groups with normalized names:
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.q_proj.lora_A.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.q_proj.lora_B.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.k_proj.lora_A.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.k_proj.lora_B.default.weight - trainable: 458,752 / 458,752 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.v_proj.lora_A.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.v_proj.lora_B.default.weight - trainable: 458,752 / 458,752 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.o_proj.lora_A.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.o_proj.lora_B.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.gate_proj.lora_A.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.gate_proj.lora_B.default.weight - trainable: 2,752,512 / 2,752,512 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.up_proj.lora_A.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.up_proj.lora_B.default.weight - trainable: 2,752,512 / 2,752,512 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.down_proj.lora_A.default.weight - trainable: 2,752,512 / 2,752,512 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.down_proj.lora_B.default.weight - trainable: 917,504 / 917,504 (100.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.embed_tokens.weight - trainable: 0 / 311,164,928 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.q_proj.base_layer.weight - trainable: 0 / 117,440,512 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.k_proj.base_layer.weight - trainable: 0 / 58,720,256 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.v_proj.base_layer.weight - trainable: 0 / 58,720,256 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.o_proj.base_layer.weight - trainable: 0 / 117,440,512 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.q_norm.weight - trainable: 0 / 3,584 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.self_attn.k_norm.weight - trainable: 0 / 3,584 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.gate_proj.base_layer.weight - trainable: 0 / 352,321,536 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.up_proj.base_layer.weight - trainable: 0 / 352,321,536 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.mlp.down_proj.base_layer.weight - trainable: 0 / 352,321,536 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.input_layernorm.weight - trainable: 0 / 57,344 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.layers.X.post_attention_layernorm.weight - trainable: 0 / 57,344 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   base_model.model.model.norm.weight - trainable: 0 / 2,048 (0.00%)
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - 
+===== Model parameter dtypes =====
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - Parameter dtypes breakdown:
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats -   torch.bfloat16  - total: 1,738,007,552 params, trainable: 17,432,576 (1.00%), memory: 3.24 GB
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - Total parameter memory: 3.24 GB
+11/25/2026 12:33:17 - INFO - halo.callbacks.parameter_stats - ========================================
+
+  0%|          | 0/908 [00:00<?, ?it/s]11/25/2026 12:33:21 - WARNING - liger_kernel.backends.registry - Backend impl 'liger_kernel.ops.backends._ascend.rope' for op 'rope' could not be imported: ImportError: cannot import name 'tanh' from 'triton.language.math' (/usr/local/lib/python3.12/dist-packages/triton/language/math.py)
+11/25/2026 12:33:23 - WARNING - liger_kernel.backends.registry - Backend impl 'liger_kernel.ops.backends._ascend.cross_entropy' for op 'cross_entropy' could not be imported: ImportError: cannot import name 'tanh' from 'triton.language.math' (/usr/local/lib/python3.12/dist-packages/triton/language/math.py)
+  0%|          | 1/908 [00:09<2:29:33,  9.89s/it]  0%|          | 2/908 [00:10<1:04:16,  4.26s/it]  0%|          | 3/908 [00:10<36:58,  2.45s/it]    0%|          | 4/908 [00:10<24:06,  1.60s/it]  1%|          | 5/908 [00:11<17:02,  1.13s/it]  1%|          | 6/908 [00:11<12:45,  1.18it/s]  1%|          | 7/908 [00:11<09:59,  1.50it/s]  1%|          | 8/908 [00:11<08:15,  1.82it/s]  1%|          | 9/908 [00:12<07:03,  2.12it/s]  1%|          | 10/908 [00:12<06:13,  2.41it/s]                                                {'loss': '6.925', 'grad_norm': '16.88', 'learning_rate': '1.957e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 6530, 'num_attended_tokens_seen': '8.056e+04', 'entropy': '0.1017', 'mean_token_accuracy': '0.5735', 'epoch': '0.02203'}
+  1%|          | 10/908 [00:12<06:13,  2.41it/s]  1%|          | 11/908 [00:12<05:38,  2.65it/s]  1%|▏         | 12/908 [00:13<05:16,  2.83it/s]  1%|▏         | 13/908 [00:13<05:01,  2.97it/s]  2%|▏         | 14/908 [00:13<04:49,  3.09it/s]  2%|▏         | 15/908 [00:14<04:35,  3.24it/s]  2%|▏         | 16/908 [00:14<04:31,  3.28it/s]  2%|▏         | 17/908 [00:14<04:28,  3.32it/s]  2%|▏         | 18/908 [00:16<10:16,  1.44it/s]  2%|▏         | 19/908 [00:16<10:24,  1.42it/s]  2%|▏         | 20/908 [00:17<08:35,  1.72it/s]                                                {'loss': '4.276', 'grad_norm': '12.38', 'learning_rate': '4.13e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 13150, 'num_attended_tokens_seen': '1.576e+05', 'entropy': '0.2777', 'mean_token_accuracy': '0.655', 'epoch': '0.04405'}
+  2%|▏         | 20/908 [00:17<08:35,  1.72it/s]  2%|▏         | 21/908 [00:17<07:11,  2.06it/s]  2%|▏         | 22/908 [00:17<06:18,  2.34it/s]  3%|▎         | 23/908 [00:18<05:43,  2.58it/s]  3%|▎         | 24/908 [00:18<05:18,  2.77it/s]  3%|▎         | 25/908 [00:18<05:00,  2.94it/s]  3%|▎         | 26/908 [00:18<04:47,  3.07it/s]  3%|▎         | 27/908 [00:19<04:38,  3.16it/s]  3%|▎         | 28/908 [00:19<04:33,  3.22it/s]  3%|▎         | 29/908 [00:19<04:29,  3.26it/s]  3%|▎         | 30/908 [00:20<04:26,  3.29it/s]                                                {'loss': '0.4683', 'grad_norm': '2.438', 'learning_rate': '6.304e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 19690, 'num_attended_tokens_seen': '2.373e+05', 'entropy': '0.3769', 'mean_token_accuracy': '0.8953', 'epoch': '0.06608'}
+  3%|▎         | 30/908 [00:20<04:26,  3.29it/s]  3%|▎         | 31/908 [00:20<04:24,  3.31it/s]  4%|▎         | 32/908 [00:20<04:22,  3.33it/s]  4%|▎         | 33/908 [00:21<04:21,  3.35it/s]  4%|▎         | 34/908 [00:21<04:20,  3.35it/s]  4%|▍         | 35/908 [00:21<04:19,  3.37it/s]  4%|▍         | 36/908 [00:21<04:07,  3.53it/s]  4%|▍         | 37/908 [00:22<04:09,  3.49it/s]  4%|▍         | 38/908 [00:22<04:10,  3.47it/s]  4%|▍         | 39/908 [00:22<04:12,  3.44it/s]  4%|▍         | 40/908 [00:23<04:13,  3.42it/s]                                                {'loss': '0.0645', 'grad_norm': '0.9648', 'learning_rate': '8.478e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 26380, 'num_attended_tokens_seen': '3.161e+05', 'entropy': '0.1155', 'mean_token_accuracy': '0.9722', 'epoch': '0.08811'}
+  4%|▍         | 40/908 [00:23<04:13,  3.42it/s]  5%|▍         | 41/908 [00:23<04:15,  3.40it/s]  5%|▍         | 42/908 [00:23<04:14,  3.40it/s]  5%|▍         | 43/908 [00:23<04:14,  3.40it/s]  5%|▍         | 44/908 [00:24<04:14,  3.39it/s]  5%|▍         | 45/908 [00:24<04:14,  3.39it/s]  5%|▌         | 46/908 [00:24<04:02,  3.55it/s]  5%|▌         | 47/908 [00:25<04:05,  3.50it/s]  5%|▌         | 48/908 [00:25<04:08,  3.46it/s]  5%|▌         | 49/908 [00:25<04:09,  3.44it/s]  6%|▌         | 50/908 [00:25<04:09,  3.43it/s]                                                {'loss': '0.05671', 'grad_norm': '0.5781', 'learning_rate': '0.0001', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 32620, 'num_attended_tokens_seen': '3.95e+05', 'entropy': '0.05796', 'mean_token_accuracy': '0.9747', 'epoch': '0.1101'}
+  6%|▌         | 50/908 [00:25<04:09,  3.43it/s]  6%|▌         | 51/908 [00:26<04:10,  3.42it/s]  6%|▌         | 52/908 [00:26<04:11,  3.41it/s]  6%|▌         | 53/908 [00:26<04:11,  3.40it/s]  6%|▌         | 54/908 [00:27<04:11,  3.40it/s]  6%|▌         | 55/908 [00:27<04:10,  3.40it/s]  6%|▌         | 56/908 [00:27<04:10,  3.40it/s]  6%|▋         | 57/908 [00:28<04:09,  3.40it/s]  6%|▋         | 58/908 [00:28<04:10,  3.39it/s]  6%|▋         | 59/908 [00:28<04:11,  3.38it/s]  7%|▋         | 60/908 [00:28<04:10,  3.38it/s]                                                {'loss': '0.04752', 'grad_norm': '0.3613', 'learning_rate': '9.994e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 39140, 'num_attended_tokens_seen': '4.752e+05', 'entropy': '0.04812', 'mean_token_accuracy': '0.9794', 'epoch': '0.1322'}
+  7%|▋         | 60/908 [00:28<04:10,  3.38it/s]  7%|▋         | 61/908 [00:29<04:11,  3.37it/s]  7%|▋         | 62/908 [00:29<05:54,  2.39it/s]  7%|▋         | 63/908 [00:30<05:22,  2.62it/s]  7%|▋         | 64/908 [00:30<04:59,  2.82it/s]  7%|▋         | 65/908 [00:30<04:43,  2.97it/s]  7%|▋         | 66/908 [00:31<04:32,  3.09it/s]  7%|▋         | 67/908 [00:31<04:25,  3.16it/s]  7%|▋         | 68/908 [00:31<04:19,  3.24it/s]  8%|▊         | 69/908 [00:32<04:17,  3.26it/s]  8%|▊         | 70/908 [00:32<04:14,  3.29it/s]                                                {'loss': '0.04162', 'grad_norm': '0.4961', 'learning_rate': '9.982e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 45530, 'num_attended_tokens_seen': '5.557e+05', 'entropy': '0.03912', 'mean_token_accuracy': '0.9818', 'epoch': '0.1542'}
+  8%|▊         | 70/908 [00:32<04:14,  3.29it/s]  8%|▊         | 71/908 [00:32<04:13,  3.31it/s]  8%|▊         | 72/908 [00:32<04:11,  3.32it/s]  8%|▊         | 73/908 [00:33<04:10,  3.34it/s]  8%|▊         | 74/908 [00:33<04:08,  3.35it/s]  8%|▊         | 75/908 [00:33<04:07,  3.36it/s]  8%|▊         | 76/908 [00:34<04:05,  3.38it/s]  8%|▊         | 77/908 [00:34<04:05,  3.39it/s]  9%|▊         | 78/908 [00:35<08:54,  1.55it/s]  9%|▊         | 79/908 [00:36<07:27,  1.85it/s]  9%|▉         | 80/908 [00:36<06:25,  2.15it/s]                                                {'loss': '0.04585', 'grad_norm': '0.7422', 'learning_rate': '9.964e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 52160, 'num_attended_tokens_seen': '6.346e+05', 'entropy': '0.04696', 'mean_token_accuracy': '0.9787', 'epoch': '0.1762'}
+  9%|▉         | 80/908 [00:36<06:25,  2.15it/s]  9%|▉         | 81/908 [00:36<05:43,  2.41it/s]  9%|▉         | 82/908 [00:37<05:13,  2.63it/s]  9%|▉         | 83/908 [00:37<04:57,  2.78it/s]  9%|▉         | 84/908 [00:37<04:43,  2.91it/s]  9%|▉         | 85/908 [00:37<04:32,  3.02it/s]  9%|▉         | 86/908 [00:38<04:24,  3.11it/s] 10%|▉         | 87/908 [00:38<04:17,  3.19it/s] 10%|▉         | 88/908 [00:38<04:11,  3.26it/s] 10%|▉         | 89/908 [00:39<04:07,  3.31it/s] 10%|▉         | 90/908 [00:39<04:05,  3.34it/s]                                                {'loss': '0.04169', 'grad_norm': '0.2285', 'learning_rate': '9.939e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 58890, 'num_attended_tokens_seen': '7.154e+05', 'entropy': '0.0407', 'mean_token_accuracy': '0.9829', 'epoch': '0.1982'}
+ 10%|▉         | 90/908 [00:39<04:05,  3.34it/s] 10%|█         | 91/908 [00:39<04:04,  3.34it/s] 10%|█         | 92/908 [00:40<04:02,  3.37it/s] 10%|█         | 93/908 [00:40<04:02,  3.36it/s] 10%|█         | 94/908 [00:40<04:01,  3.38it/s] 10%|█         | 95/908 [00:40<03:55,  3.46it/s] 11%|█         | 96/908 [00:41<03:55,  3.45it/s] 11%|█         | 97/908 [00:41<03:56,  3.43it/s] 11%|█         | 98/908 [00:41<03:55,  3.43it/s] 11%|█         | 99/908 [00:42<03:56,  3.42it/s] 11%|█         | 100/908 [00:42<05:35,  2.41it/s]                                                 {'loss': '0.04244', 'grad_norm': '0.5273', 'learning_rate': '9.907e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 65450, 'num_attended_tokens_seen': '7.946e+05', 'entropy': '0.04176', 'mean_token_accuracy': '0.9797', 'epoch': '0.2203'}
+ 11%|█         | 100/908 [00:42<05:35,  2.41it/s] 11%|█         | 101/908 [00:43<05:06,  2.63it/s] 11%|█         | 102/908 [00:43<04:45,  2.83it/s] 11%|█▏        | 103/908 [00:43<04:30,  2.98it/s] 11%|█▏        | 104/908 [00:43<04:20,  3.09it/s] 12%|█▏        | 105/908 [00:44<04:11,  3.19it/s] 12%|█▏        | 106/908 [00:44<04:07,  3.25it/s] 12%|█▏        | 107/908 [00:44<04:03,  3.29it/s] 12%|█▏        | 108/908 [00:45<04:00,  3.33it/s] 12%|█▏        | 109/908 [00:45<03:58,  3.34it/s] 12%|█▏        | 110/908 [00:45<03:58,  3.35it/s]                                                 {'loss': '0.04822', 'grad_norm': '0.7656', 'learning_rate': '9.869e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 72150, 'num_attended_tokens_seen': '8.752e+05', 'entropy': '0.03254', 'mean_token_accuracy': '0.9785', 'epoch': '0.2423'}
+ 12%|█▏        | 110/908 [00:45<03:58,  3.35it/s] 12%|█▏        | 111/908 [00:45<03:57,  3.35it/s] 12%|█▏        | 112/908 [00:46<03:57,  3.35it/s] 12%|█▏        | 113/908 [00:46<03:56,  3.36it/s] 13%|█▎        | 114/908 [00:46<03:55,  3.38it/s] 13%|█▎        | 115/908 [00:47<03:53,  3.39it/s] 13%|█▎        | 116/908 [00:47<03:54,  3.38it/s] 13%|█▎        | 117/908 [00:47<03:52,  3.39it/s] 13%|█▎        | 118/908 [00:48<03:52,  3.40it/s] 13%|█▎        | 119/908 [00:48<03:52,  3.40it/s] 13%|█▎        | 120/908 [00:48<03:52,  3.40it/s]                                                 {'loss': '0.04365', 'grad_norm': '0.1074', 'learning_rate': '9.824e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 78670, 'num_attended_tokens_seen': '9.561e+05', 'entropy': '0.04525', 'mean_token_accuracy': '0.9834', 'epoch': '0.2643'}
+ 13%|█▎        | 120/908 [00:48<03:52,  3.40it/s] 13%|█▎        | 121/908 [00:48<03:52,  3.39it/s] 13%|█▎        | 122/908 [00:49<03:50,  3.41it/s] 14%|█▎        | 123/908 [00:49<03:50,  3.41it/s] 14%|█▎        | 124/908 [00:49<03:50,  3.40it/s] 14%|█▍        | 125/908 [00:50<03:49,  3.41it/s] 14%|█▍        | 126/908 [00:50<03:49,  3.40it/s] 14%|█▍        | 127/908 [00:50<03:49,  3.40it/s] 14%|█▍        | 128/908 [00:50<03:44,  3.47it/s] 14%|█▍        | 129/908 [00:51<03:46,  3.45it/s] 14%|█▍        | 130/908 [00:51<03:47,  3.42it/s]                                                 {'loss': '0.04466', 'grad_norm': '0.543', 'learning_rate': '9.773e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 85010, 'num_attended_tokens_seen': '1.036e+06', 'entropy': '0.03854', 'mean_token_accuracy': '0.9793', 'epoch': '0.2863'}
+ 14%|█▍        | 130/908 [00:51<03:47,  3.42it/s] 14%|█▍        | 131/908 [00:51<03:48,  3.41it/s] 15%|█▍        | 132/908 [00:52<03:46,  3.42it/s] 15%|█▍        | 133/908 [00:52<05:16,  2.45it/s] 15%|█▍        | 134/908 [00:53<04:49,  2.67it/s] 15%|█▍        | 135/908 [00:53<04:31,  2.85it/s] 15%|█▍        | 136/908 [00:53<04:17,  3.00it/s] 15%|█▌        | 137/908 [00:53<04:07,  3.12it/s] 15%|█▌        | 138/908 [00:54<04:01,  3.19it/s] 15%|█▌        | 139/908 [00:54<03:55,  3.26it/s] 15%|█▌        | 140/908 [00:54<03:52,  3.30it/s]                                                 {'loss': '0.04572', 'grad_norm': '0.3828', 'learning_rate': '9.716e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 92030, 'num_attended_tokens_seen': '1.117e+06', 'entropy': '0.04049', 'mean_token_accuracy': '0.9809', 'epoch': '0.3084'}
+ 15%|█▌        | 140/908 [00:54<03:52,  3.30it/s] 16%|█▌        | 141/908 [00:55<03:50,  3.33it/s] 16%|█▌        | 142/908 [00:55<03:45,  3.40it/s] 16%|█▌        | 143/908 [00:55<03:44,  3.41it/s] 16%|█▌        | 144/908 [00:56<03:44,  3.41it/s] 16%|█▌        | 145/908 [00:56<03:45,  3.39it/s] 16%|█▌        | 146/908 [00:56<03:45,  3.38it/s] 16%|█▌        | 147/908 [00:56<03:44,  3.39it/s] 16%|█▋        | 148/908 [00:57<03:44,  3.39it/s] 16%|█▋        | 149/908 [00:57<03:43,  3.40it/s] 17%|█▋        | 150/908 [00:57<03:43,  3.39it/s]                                                 {'loss': '0.04143', 'grad_norm': '0.3242', 'learning_rate': '9.652e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 98790, 'num_attended_tokens_seen': '1.196e+06', 'entropy': '0.04313', 'mean_token_accuracy': '0.9811', 'epoch': '0.3304'}
+ 17%|█▋        | 150/908 [00:57<03:43,  3.39it/s] 17%|█▋        | 151/908 [00:58<03:43,  3.39it/s] 17%|█▋        | 152/908 [00:58<03:43,  3.39it/s] 17%|█▋        | 153/908 [00:58<03:41,  3.41it/s] 17%|█▋        | 154/908 [00:58<03:41,  3.41it/s] 17%|█▋        | 155/908 [00:59<03:34,  3.51it/s] 17%|█▋        | 156/908 [00:59<03:31,  3.55it/s] 17%|█▋        | 157/908 [00:59<03:34,  3.50it/s] 17%|█▋        | 158/908 [01:00<03:36,  3.47it/s] 18%|█▊        | 159/908 [01:00<03:36,  3.46it/s] 18%|█▊        | 160/908 [01:00<03:25,  3.63it/s]                                                 {'loss': '0.03861', 'grad_norm': '0.2871', 'learning_rate': '9.582e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 104630, 'num_attended_tokens_seen': '1.273e+06', 'entropy': '0.03314', 'mean_token_accuracy': '0.9824', 'epoch': '0.3524'}
+ 18%|█▊        | 160/908 [01:00<03:25,  3.63it/s] 18%|█▊        | 161/908 [01:00<03:30,  3.55it/s] 18%|█▊        | 162/908 [01:01<03:32,  3.51it/s] 18%|█▊        | 163/908 [01:01<03:33,  3.49it/s] 18%|█▊        | 164/908 [01:01<03:35,  3.45it/s] 18%|█▊        | 165/908 [01:02<03:36,  3.43it/s] 18%|█▊        | 166/908 [01:02<03:36,  3.43it/s] 18%|█▊        | 167/908 [01:02<03:36,  3.43it/s] 19%|█▊        | 168/908 [01:02<03:35,  3.43it/s] 19%|█▊        | 169/908 [01:03<03:35,  3.43it/s] 19%|█▊        | 170/908 [01:03<03:35,  3.42it/s]                                                 {'loss': '0.04309', 'grad_norm': '0.09717', 'learning_rate': '9.506e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 111360, 'num_attended_tokens_seen': '1.353e+06', 'entropy': '0.04538', 'mean_token_accuracy': '0.9813', 'epoch': '0.3744'}
+ 19%|█▊        | 170/908 [01:03<03:35,  3.42it/s] 19%|█▉        | 171/908 [01:03<03:35,  3.42it/s] 19%|█▉        | 172/908 [01:04<03:35,  3.41it/s] 19%|█▉        | 173/908 [01:04<03:29,  3.51it/s] 19%|█▉        | 174/908 [01:04<03:31,  3.47it/s] 19%|█▉        | 175/908 [01:05<03:32,  3.45it/s] 19%|█▉        | 176/908 [01:05<05:16,  2.31it/s] 19%|█▉        | 177/908 [01:06<04:45,  2.56it/s] 20%|█▉        | 178/908 [01:06<04:23,  2.77it/s] 20%|█▉        | 179/908 [01:06<04:08,  2.93it/s] 20%|█▉        | 180/908 [01:06<03:58,  3.05it/s]                                                 {'loss': '0.03698', 'grad_norm': '0.3887', 'learning_rate': '9.424e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 117790, 'num_attended_tokens_seen': '1.433e+06', 'entropy': '0.03933', 'mean_token_accuracy': '0.9854', 'epoch': '0.3965'}
+ 20%|█▉        | 180/908 [01:06<03:58,  3.05it/s] 20%|█▉        | 181/908 [01:07<03:51,  3.14it/s] 20%|██        | 182/908 [01:07<03:45,  3.21it/s] 20%|██        | 183/908 [01:07<03:41,  3.27it/s] 20%|██        | 184/908 [01:08<03:39,  3.30it/s] 20%|██        | 185/908 [01:08<03:36,  3.33it/s] 20%|██        | 186/908 [01:08<03:35,  3.35it/s] 21%|██        | 187/908 [01:09<03:33,  3.37it/s] 21%|██        | 188/908 [01:09<03:33,  3.37it/s] 21%|██        | 189/908 [01:09<03:32,  3.38it/s] 21%|██        | 190/908 [01:09<03:31,  3.40it/s]                                                 {'loss': '0.03917', 'grad_norm': '0.2969', 'learning_rate': '9.336e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 124680, 'num_attended_tokens_seen': '1.514e+06', 'entropy': '0.03717', 'mean_token_accuracy': '0.9845', 'epoch': '0.4185'}
+ 21%|██        | 190/908 [01:09<03:31,  3.40it/s] 21%|██        | 191/908 [01:10<03:31,  3.39it/s] 21%|██        | 192/908 [01:10<03:31,  3.38it/s] 21%|██▏       | 193/908 [01:10<03:31,  3.38it/s] 21%|██▏       | 194/908 [01:11<03:30,  3.39it/s] 21%|██▏       | 195/908 [01:11<03:23,  3.51it/s] 22%|██▏       | 196/908 [01:11<03:24,  3.47it/s] 22%|██▏       | 197/908 [01:11<03:25,  3.46it/s] 22%|██▏       | 198/908 [01:12<03:25,  3.45it/s] 22%|██▏       | 199/908 [01:12<03:26,  3.43it/s] 22%|██▏       | 200/908 [01:12<03:27,  3.41it/s]                                                 {'loss': '0.03584', 'grad_norm': '0.3613', 'learning_rate': '9.243e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 131460, 'num_attended_tokens_seen': '1.593e+06', 'entropy': '0.03824', 'mean_token_accuracy': '0.9855', 'epoch': '0.4405'}
+ 22%|██▏       | 200/908 [01:12<03:27,  3.41it/s] 22%|██▏       | 201/908 [01:13<03:27,  3.40it/s] 22%|██▏       | 202/908 [01:13<03:27,  3.40it/s] 22%|██▏       | 203/908 [01:13<03:28,  3.39it/s] 22%|██▏       | 204/908 [01:14<03:28,  3.38it/s] 23%|██▎       | 205/908 [01:14<03:28,  3.37it/s] 23%|██▎       | 206/908 [01:14<03:27,  3.38it/s] 23%|██▎       | 207/908 [01:14<03:26,  3.40it/s] 23%|██▎       | 208/908 [01:15<03:26,  3.39it/s] 23%|██▎       | 209/908 [01:15<03:25,  3.39it/s] 23%|██▎       | 210/908 [01:15<03:24,  3.41it/s]                                                 {'loss': '0.03732', 'grad_norm': '0.2422', 'learning_rate': '9.143e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 138180, 'num_attended_tokens_seen': '1.673e+06', 'entropy': '0.03441', 'mean_token_accuracy': '0.9836', 'epoch': '0.4626'}
+ 23%|██▎       | 210/908 [01:15<03:24,  3.41it/s] 23%|██▎       | 211/908 [01:16<03:24,  3.41it/s] 23%|██▎       | 212/908 [01:16<03:24,  3.41it/s] 23%|██▎       | 213/908 [01:16<03:23,  3.42it/s] 24%|██▎       | 214/908 [01:17<04:42,  2.45it/s] 24%|██▎       | 215/908 [01:17<04:18,  2.68it/s] 24%|██▍       | 216/908 [01:17<04:01,  2.86it/s] 24%|██▍       | 217/908 [01:18<03:49,  3.01it/s] 24%|██▍       | 218/908 [01:18<03:40,  3.13it/s] 24%|██▍       | 219/908 [01:18<03:35,  3.20it/s] 24%|██▍       | 220/908 [01:19<03:31,  3.25it/s]                                                 {'loss': '0.0353', 'grad_norm': '0.25', 'learning_rate': '9.039e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 144830, 'num_attended_tokens_seen': '1.754e+06', 'entropy': '0.03352', 'mean_token_accuracy': '0.9856', 'epoch': '0.4846'}
+ 24%|██▍       | 220/908 [01:19<03:31,  3.25it/s] 24%|██▍       | 221/908 [01:19<03:28,  3.30it/s] 24%|██▍       | 222/908 [01:19<03:25,  3.33it/s] 25%|██▍       | 223/908 [01:19<03:22,  3.39it/s] 25%|██▍       | 224/908 [01:20<03:21,  3.39it/s] 25%|██▍       | 225/908 [01:20<03:21,  3.39it/s] 25%|██▍       | 226/908 [01:20<03:20,  3.39it/s] 25%|██▌       | 227/908 [01:21<03:20,  3.39it/s] 25%|██▌       | 228/908 [01:21<03:20,  3.40it/s] 25%|██▌       | 229/908 [01:21<03:19,  3.40it/s] 25%|██▌       | 230/908 [01:22<03:19,  3.40it/s]                                                 {'loss': '0.03719', 'grad_norm': '0.1631', 'learning_rate': '8.929e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 151500, 'num_attended_tokens_seen': '1.834e+06', 'entropy': '0.03274', 'mean_token_accuracy': '0.9843', 'epoch': '0.5066'}
+ 25%|██▌       | 230/908 [01:22<03:19,  3.40it/s] 25%|██▌       | 231/908 [01:22<03:19,  3.39it/s] 26%|██▌       | 232/908 [01:22<03:19,  3.39it/s] 26%|██▌       | 233/908 [01:22<03:18,  3.40it/s] 26%|██▌       | 234/908 [01:23<03:18,  3.40it/s] 26%|██▌       | 235/908 [01:23<03:17,  3.40it/s] 26%|██▌       | 236/908 [01:23<03:18,  3.39it/s] 26%|██▌       | 237/908 [01:24<03:18,  3.38it/s] 26%|██▌       | 238/908 [01:24<03:17,  3.39it/s] 26%|██▋       | 239/908 [01:24<03:17,  3.40it/s] 26%|██▋       | 240/908 [01:24<03:16,  3.40it/s]                                                 {'loss': '0.03788', 'grad_norm': '0.4082', 'learning_rate': '8.813e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 158110, 'num_attended_tokens_seen': '1.915e+06', 'entropy': '0.03931', 'mean_token_accuracy': '0.9852', 'epoch': '0.5286'}
+ 26%|██▋       | 240/908 [01:24<03:16,  3.40it/s] 27%|██▋       | 241/908 [01:25<03:17,  3.38it/s] 27%|██▋       | 242/908 [01:25<03:16,  3.39it/s] 27%|██▋       | 243/908 [01:25<03:15,  3.40it/s] 27%|██▋       | 244/908 [01:26<03:07,  3.54it/s] 27%|██▋       | 245/908 [01:26<03:09,  3.50it/s] 27%|██▋       | 246/908 [01:26<03:11,  3.46it/s] 27%|██▋       | 247/908 [01:27<04:27,  2.47it/s] 27%|██▋       | 248/908 [01:27<04:04,  2.70it/s] 27%|██▋       | 249/908 [01:27<03:48,  2.88it/s] 28%|██▊       | 250/908 [01:28<03:37,  3.03it/s]                                                 {'loss': '0.03917', 'grad_norm': '0.1226', 'learning_rate': '8.693e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 164760, 'num_attended_tokens_seen': '1.994e+06', 'entropy': '0.0347', 'mean_token_accuracy': '0.982', 'epoch': '0.5507'}
+ 28%|██▊       | 250/908 [01:28<03:37,  3.03it/s] 28%|██▊       | 251/908 [01:28<03:30,  3.12it/s] 28%|██▊       | 252/908 [01:28<03:25,  3.19it/s] 28%|██▊       | 253/908 [01:29<03:21,  3.25it/s] 28%|██▊       | 254/908 [01:29<03:18,  3.29it/s] 28%|██▊       | 255/908 [01:29<03:16,  3.32it/s] 28%|██▊       | 256/908 [01:30<03:14,  3.35it/s] 28%|██▊       | 257/908 [01:30<03:12,  3.38it/s] 28%|██▊       | 258/908 [01:30<03:11,  3.39it/s] 29%|██▊       | 259/908 [01:30<03:11,  3.40it/s] 29%|██▊       | 260/908 [01:31<03:10,  3.40it/s]                                                 {'loss': '0.03697', 'grad_norm': '0.2412', 'learning_rate': '8.568e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 171330, 'num_attended_tokens_seen': '2.075e+06', 'entropy': '0.03838', 'mean_token_accuracy': '0.9826', 'epoch': '0.5727'}
+ 29%|██▊       | 260/908 [01:31<03:10,  3.40it/s] 29%|██▊       | 261/908 [01:31<03:11,  3.38it/s] 29%|██▉       | 262/908 [01:31<03:10,  3.38it/s] 29%|██▉       | 263/908 [01:32<03:09,  3.40it/s] 29%|██▉       | 264/908 [01:32<03:09,  3.40it/s] 29%|██▉       | 265/908 [01:32<03:08,  3.41it/s] 29%|██▉       | 266/908 [01:32<03:03,  3.49it/s] 29%|██▉       | 267/908 [01:33<03:05,  3.46it/s] 30%|██▉       | 268/908 [01:33<03:05,  3.44it/s] 30%|██▉       | 269/908 [01:33<03:06,  3.43it/s] 30%|██▉       | 270/908 [01:34<03:07,  3.41it/s]                                                 {'loss': '0.03582', 'grad_norm': '0.1167', 'learning_rate': '8.438e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 178170, 'num_attended_tokens_seen': '2.155e+06', 'entropy': '0.03329', 'mean_token_accuracy': '0.9863', 'epoch': '0.5947'}
+ 30%|██▉       | 270/908 [01:34<03:07,  3.41it/s] 30%|██▉       | 271/908 [01:34<03:08,  3.38it/s] 30%|██▉       | 272/908 [01:34<03:08,  3.38it/s] 30%|███       | 273/908 [01:34<03:07,  3.39it/s] 30%|███       | 274/908 [01:35<03:06,  3.39it/s] 30%|███       | 275/908 [01:35<03:06,  3.40it/s] 30%|███       | 276/908 [01:35<03:05,  3.41it/s] 31%|███       | 277/908 [01:36<02:58,  3.54it/s] 31%|███       | 278/908 [01:36<03:00,  3.50it/s] 31%|███       | 279/908 [01:36<02:58,  3.52it/s] 31%|███       | 280/908 [01:36<03:00,  3.48it/s]                                                 {'loss': '0.03791', 'grad_norm': '0.1387', 'learning_rate': '8.303e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 184530, 'num_attended_tokens_seen': '2.234e+06', 'entropy': '0.04085', 'mean_token_accuracy': '0.9832', 'epoch': '0.6167'}
+ 31%|███       | 280/908 [01:36<03:00,  3.48it/s] 31%|███       | 281/908 [01:37<03:00,  3.47it/s] 31%|███       | 282/908 [01:37<03:01,  3.45it/s] 31%|███       | 283/908 [01:37<03:02,  3.43it/s] 31%|███▏      | 284/908 [01:38<03:04,  3.39it/s] 31%|███▏      | 285/908 [01:38<03:04,  3.38it/s] 31%|███▏      | 286/908 [01:38<03:02,  3.40it/s] 32%|███▏      | 287/908 [01:39<03:03,  3.39it/s] 32%|███▏      | 288/908 [01:39<03:02,  3.40it/s] 32%|███▏      | 289/908 [01:39<03:02,  3.40it/s] 32%|███▏      | 290/908 [01:40<04:12,  2.45it/s]                                                 {'loss': '0.03312', 'grad_norm': '0.207', 'learning_rate': '8.164e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 191150, 'num_attended_tokens_seen': '2.314e+06', 'entropy': '0.03428', 'mean_token_accuracy': '0.987', 'epoch': '0.6388'}
+ 32%|███▏      | 290/908 [01:40<04:12,  2.45it/s] 32%|███▏      | 291/908 [01:40<03:51,  2.67it/s] 32%|███▏      | 292/908 [01:40<03:36,  2.84it/s] 32%|███▏      | 293/908 [01:41<03:26,  2.98it/s] 32%|███▏      | 294/908 [01:41<03:08,  3.26it/s] 32%|███▏      | 295/908 [01:41<03:06,  3.29it/s] 33%|███▎      | 296/908 [01:42<03:03,  3.34it/s] 33%|███▎      | 297/908 [01:42<03:02,  3.35it/s] 33%|███▎      | 298/908 [01:42<03:01,  3.36it/s] 33%|███▎      | 299/908 [01:42<03:00,  3.38it/s] 33%|███▎      | 300/908 [01:43<02:57,  3.43it/s]                                                 {'loss': '0.03459', 'grad_norm': '0.09814', 'learning_rate': '8.021e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 197660, 'num_attended_tokens_seen': '2.393e+06', 'entropy': '0.03366', 'mean_token_accuracy': '0.9857', 'epoch': '0.6608'}
+ 33%|███▎      | 300/908 [01:43<02:57,  3.43it/s] 33%|███▎      | 301/908 [01:43<02:58,  3.40it/s] 33%|███▎      | 302/908 [01:43<02:58,  3.40it/s] 33%|███▎      | 303/908 [01:44<02:58,  3.40it/s] 33%|███▎      | 304/908 [01:44<02:57,  3.40it/s] 34%|███▎      | 305/908 [01:44<02:57,  3.40it/s] 34%|███▎      | 306/908 [01:44<02:57,  3.39it/s] 34%|███▍      | 307/908 [01:45<02:56,  3.40it/s] 34%|███▍      | 308/908 [01:45<02:56,  3.40it/s] 34%|███▍      | 309/908 [01:45<02:46,  3.59it/s] 34%|███▍      | 310/908 [01:46<02:49,  3.54it/s]                                                 {'loss': '0.03782', 'grad_norm': '0.1543', 'learning_rate': '7.874e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 204110, 'num_attended_tokens_seen': '2.472e+06', 'entropy': '0.03671', 'mean_token_accuracy': '0.9847', 'epoch': '0.6828'}
+ 34%|███▍      | 310/908 [01:46<02:49,  3.54it/s] 34%|███▍      | 311/908 [01:46<02:50,  3.50it/s] 34%|███▍      | 312/908 [01:46<02:51,  3.47it/s] 34%|███▍      | 313/908 [01:46<02:51,  3.46it/s] 35%|███▍      | 314/908 [01:47<02:52,  3.43it/s] 35%|███▍      | 315/908 [01:47<02:52,  3.43it/s] 35%|███▍      | 316/908 [01:47<02:53,  3.42it/s] 35%|███▍      | 317/908 [01:48<02:52,  3.42it/s] 35%|███▌      | 318/908 [01:48<02:53,  3.41it/s] 35%|███▌      | 319/908 [01:48<02:53,  3.40it/s] 35%|███▌      | 320/908 [01:49<02:52,  3.41it/s]                                                 {'loss': '0.0336', 'grad_norm': '0.1309', 'learning_rate': '7.723e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 210670, 'num_attended_tokens_seen': '2.553e+06', 'entropy': '0.03548', 'mean_token_accuracy': '0.986', 'epoch': '0.7048'}
+ 35%|███▌      | 320/908 [01:49<02:52,  3.41it/s] 35%|███▌      | 321/908 [01:49<02:52,  3.40it/s] 35%|███▌      | 322/908 [01:49<02:52,  3.39it/s] 36%|███▌      | 323/908 [01:49<02:52,  3.39it/s] 36%|███▌      | 324/908 [01:50<02:52,  3.38it/s] 36%|███▌      | 325/908 [01:50<02:52,  3.38it/s] 36%|███▌      | 326/908 [01:50<02:52,  3.38it/s] 36%|███▌      | 327/908 [01:51<02:51,  3.38it/s] 36%|███▌      | 328/908 [01:51<04:04,  2.37it/s] 36%|███▌      | 329/908 [01:52<03:41,  2.61it/s] 36%|███▋      | 330/908 [01:52<03:25,  2.81it/s]                                                 {'loss': '0.03349', 'grad_norm': '0.1904', 'learning_rate': '7.568e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 217330, 'num_attended_tokens_seen': '2.633e+06', 'entropy': '0.03156', 'mean_token_accuracy': '0.9847', 'epoch': '0.7269'}
+ 36%|███▋      | 330/908 [01:52<03:25,  2.81it/s] 36%|███▋      | 331/908 [01:52<03:14,  2.96it/s] 37%|███▋      | 332/908 [01:53<03:06,  3.08it/s] 37%|███▋      | 333/908 [01:53<03:01,  3.17it/s] 37%|███▋      | 334/908 [01:53<02:56,  3.25it/s] 37%|███▋      | 335/908 [01:53<02:54,  3.29it/s] 37%|███▋      | 336/908 [01:54<02:52,  3.31it/s] 37%|███▋      | 337/908 [01:54<02:51,  3.33it/s] 37%|███▋      | 338/908 [01:54<02:49,  3.35it/s] 37%|███▋      | 339/908 [01:55<02:48,  3.38it/s] 37%|███▋      | 340/908 [01:55<02:48,  3.38it/s]                                                 {'loss': '0.03383', 'grad_norm': '0.1572', 'learning_rate': '7.41e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 223780, 'num_attended_tokens_seen': '2.714e+06', 'entropy': '0.03352', 'mean_token_accuracy': '0.9871', 'epoch': '0.7489'}
+ 37%|███▋      | 340/908 [01:55<02:48,  3.38it/s] 38%|███▊      | 341/908 [01:55<02:47,  3.39it/s] 38%|███▊      | 342/908 [01:55<02:46,  3.40it/s] 38%|███▊      | 343/908 [01:56<02:46,  3.40it/s] 38%|███▊      | 344/908 [01:56<02:45,  3.41it/s] 38%|███▊      | 345/908 [01:56<02:45,  3.41it/s] 38%|███▊      | 346/908 [01:57<02:44,  3.41it/s] 38%|███▊      | 347/908 [01:57<02:44,  3.41it/s] 38%|███▊      | 348/908 [01:57<02:43,  3.42it/s] 38%|███▊      | 349/908 [01:57<02:43,  3.42it/s] 39%|███▊      | 350/908 [01:58<02:42,  3.42it/s]                                                 {'loss': '0.0355', 'grad_norm': '0.1621', 'learning_rate': '7.249e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 230500, 'num_attended_tokens_seen': '2.795e+06', 'entropy': '0.03517', 'mean_token_accuracy': '0.9851', 'epoch': '0.7709'}
+ 39%|███▊      | 350/908 [01:58<02:42,  3.42it/s] 39%|███▊      | 351/908 [01:58<02:43,  3.41it/s] 39%|███▉      | 352/908 [01:58<02:42,  3.42it/s] 39%|███▉      | 353/908 [01:59<02:42,  3.42it/s] 39%|███▉      | 354/908 [01:59<02:42,  3.41it/s] 39%|███▉      | 355/908 [01:59<02:42,  3.41it/s] 39%|███▉      | 356/908 [02:00<02:42,  3.40it/s] 39%|███▉      | 357/908 [02:00<02:42,  3.40it/s] 39%|███▉      | 358/908 [02:00<02:41,  3.40it/s] 40%|███▉      | 359/908 [02:00<02:41,  3.40it/s] 40%|███▉      | 360/908 [02:01<02:41,  3.40it/s]                                                 {'loss': '0.03252', 'grad_norm': '0.1533', 'learning_rate': '7.085e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 236960, 'num_attended_tokens_seen': '2.875e+06', 'entropy': '0.03048', 'mean_token_accuracy': '0.9859', 'epoch': '0.793'}
+ 40%|███▉      | 360/908 [02:01<02:41,  3.40it/s] 40%|███▉      | 361/908 [02:01<03:46,  2.42it/s] 40%|███▉      | 362/908 [02:02<03:25,  2.66it/s] 40%|███▉      | 363/908 [02:02<03:11,  2.84it/s] 40%|████      | 364/908 [02:02<03:01,  2.99it/s] 40%|████      | 365/908 [02:03<02:54,  3.11it/s] 40%|████      | 366/908 [02:03<02:49,  3.20it/s] 40%|████      | 367/908 [02:03<02:46,  3.26it/s] 41%|████      | 368/908 [02:03<02:38,  3.42it/s] 41%|████      | 369/908 [02:04<02:38,  3.41it/s] 41%|████      | 370/908 [02:04<02:37,  3.41it/s]                                                 {'loss': '0.03184', 'grad_norm': '0.1738', 'learning_rate': '6.918e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 243700, 'num_attended_tokens_seen': '2.954e+06', 'entropy': '0.0349', 'mean_token_accuracy': '0.9874', 'epoch': '0.815'}
+ 41%|████      | 370/908 [02:04<02:37,  3.41it/s] 41%|████      | 371/908 [02:04<02:38,  3.39it/s] 41%|████      | 372/908 [02:05<02:37,  3.40it/s] 41%|████      | 373/908 [02:05<02:36,  3.41it/s] 41%|████      | 374/908 [02:05<02:30,  3.54it/s] 41%|████▏     | 375/908 [02:05<02:32,  3.51it/s] 41%|████▏     | 376/908 [02:06<02:33,  3.47it/s] 42%|████▏     | 377/908 [02:06<02:32,  3.49it/s] 42%|████▏     | 378/908 [02:06<02:33,  3.46it/s] 42%|████▏     | 379/908 [02:07<02:33,  3.44it/s] 42%|████▏     | 380/908 [02:07<02:33,  3.44it/s]                                                 {'loss': '0.03656', 'grad_norm': '0.1602', 'learning_rate': '6.748e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 250260, 'num_attended_tokens_seen': '3.034e+06', 'entropy': '0.03222', 'mean_token_accuracy': '0.9855', 'epoch': '0.837'}
+ 42%|████▏     | 380/908 [02:07<02:33,  3.44it/s] 42%|████▏     | 381/908 [02:07<02:34,  3.42it/s] 42%|████▏     | 382/908 [02:07<02:34,  3.41it/s] 42%|████▏     | 383/908 [02:08<02:33,  3.42it/s] 42%|████▏     | 384/908 [02:08<02:33,  3.42it/s] 42%|████▏     | 385/908 [02:08<02:33,  3.40it/s] 43%|████▎     | 386/908 [02:09<02:26,  3.56it/s] 43%|████▎     | 387/908 [02:09<02:28,  3.51it/s] 43%|████▎     | 388/908 [02:09<02:29,  3.47it/s] 43%|████▎     | 389/908 [02:10<02:30,  3.44it/s] 43%|████▎     | 390/908 [02:10<02:31,  3.43it/s]                                                 {'loss': '0.0335', 'grad_norm': '0.1445', 'learning_rate': '6.576e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 256910, 'num_attended_tokens_seen': '3.113e+06', 'entropy': '0.03585', 'mean_token_accuracy': '0.9863', 'epoch': '0.859'}
+ 43%|████▎     | 390/908 [02:10<02:31,  3.43it/s] 43%|████▎     | 391/908 [02:10<02:31,  3.42it/s] 43%|████▎     | 392/908 [02:10<02:31,  3.41it/s] 43%|████▎     | 393/908 [02:11<02:31,  3.40it/s] 43%|████▎     | 394/908 [02:11<02:30,  3.41it/s] 44%|████▎     | 395/908 [02:11<02:30,  3.41it/s] 44%|████▎     | 396/908 [02:12<02:29,  3.42it/s] 44%|████▎     | 397/908 [02:12<02:29,  3.41it/s] 44%|████▍     | 398/908 [02:12<02:29,  3.42it/s] 44%|████▍     | 399/908 [02:12<02:28,  3.42it/s] 44%|████▍     | 400/908 [02:13<02:28,  3.41it/s]                                                 {'loss': '0.03457', 'grad_norm': '0.1826', 'learning_rate': '6.402e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 263690, 'num_attended_tokens_seen': '3.193e+06', 'entropy': '0.03098', 'mean_token_accuracy': '0.9851', 'epoch': '0.8811'}
+ 44%|████▍     | 400/908 [02:13<02:28,  3.41it/s] 44%|████▍     | 401/908 [02:13<02:28,  3.41it/s] 44%|████▍     | 402/908 [02:13<02:28,  3.40it/s] 44%|████▍     | 403/908 [02:14<02:28,  3.41it/s] 44%|████▍     | 404/908 [02:14<03:25,  2.45it/s] 45%|████▍     | 405/908 [02:15<03:07,  2.68it/s] 45%|████▍     | 406/908 [02:15<02:55,  2.87it/s] 45%|████▍     | 407/908 [02:15<02:45,  3.02it/s] 45%|████▍     | 408/908 [02:15<02:39,  3.13it/s] 45%|████▌     | 409/908 [02:16<02:35,  3.20it/s] 45%|████▌     | 410/908 [02:16<02:32,  3.27it/s]                                                 {'loss': '0.03068', 'grad_norm': '0.1465', 'learning_rate': '6.226e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 270810, 'num_attended_tokens_seen': '3.274e+06', 'entropy': '0.03275', 'mean_token_accuracy': '0.9879', 'epoch': '0.9031'}
+ 45%|████▌     | 410/908 [02:16<02:32,  3.27it/s] 45%|████▌     | 411/908 [02:16<02:30,  3.31it/s] 45%|████▌     | 412/908 [02:17<02:28,  3.33it/s] 45%|████▌     | 413/908 [02:17<02:27,  3.36it/s] 46%|████▌     | 414/908 [02:17<02:26,  3.36it/s] 46%|████▌     | 415/908 [02:18<02:26,  3.37it/s] 46%|████▌     | 416/908 [02:18<02:25,  3.39it/s] 46%|████▌     | 417/908 [02:18<02:24,  3.39it/s] 46%|████▌     | 418/908 [02:18<02:24,  3.40it/s] 46%|████▌     | 419/908 [02:19<02:24,  3.39it/s] 46%|████▋     | 420/908 [02:19<02:23,  3.39it/s]                                                 {'loss': '0.0313', 'grad_norm': '0.1855', 'learning_rate': '6.049e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 277400, 'num_attended_tokens_seen': '3.354e+06', 'entropy': '0.03324', 'mean_token_accuracy': '0.9879', 'epoch': '0.9251'}
+ 46%|████▋     | 420/908 [02:19<02:23,  3.39it/s] 46%|████▋     | 421/908 [02:19<02:23,  3.40it/s] 46%|████▋     | 422/908 [02:20<02:22,  3.42it/s] 47%|████▋     | 423/908 [02:20<02:22,  3.41it/s] 47%|████▋     | 424/908 [02:20<02:21,  3.42it/s] 47%|████▋     | 425/908 [02:20<02:21,  3.42it/s] 47%|████▋     | 426/908 [02:21<02:21,  3.41it/s] 47%|████▋     | 427/908 [02:21<02:21,  3.41it/s] 47%|████▋     | 428/908 [02:21<02:21,  3.40it/s] 47%|████▋     | 429/908 [02:22<02:21,  3.39it/s] 47%|████▋     | 430/908 [02:22<02:20,  3.40it/s]                                                 {'loss': '0.03067', 'grad_norm': '0.21', 'learning_rate': '5.87e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 284310, 'num_attended_tokens_seen': '3.435e+06', 'entropy': '0.02876', 'mean_token_accuracy': '0.987', 'epoch': '0.9471'}
+ 47%|████▋     | 430/908 [02:22<02:20,  3.40it/s] 47%|████▋     | 431/908 [02:22<02:14,  3.54it/s] 48%|████▊     | 432/908 [02:22<02:15,  3.50it/s] 48%|████▊     | 433/908 [02:23<02:15,  3.49it/s] 48%|████▊     | 434/908 [02:23<02:16,  3.47it/s] 48%|████▊     | 435/908 [02:23<02:16,  3.46it/s] 48%|████▊     | 436/908 [02:24<02:17,  3.44it/s] 48%|████▊     | 437/908 [02:24<02:13,  3.52it/s] 48%|████▊     | 438/908 [02:24<02:15,  3.48it/s] 48%|████▊     | 439/908 [02:24<02:15,  3.47it/s] 48%|████▊     | 440/908 [02:25<02:15,  3.45it/s]                                                 {'loss': '0.02895', 'grad_norm': '0.1338', 'learning_rate': '5.69e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 290750, 'num_attended_tokens_seen': '3.512e+06', 'entropy': '0.03183', 'mean_token_accuracy': '0.9882', 'epoch': '0.9692'}
+ 48%|████▊     | 440/908 [02:25<02:15,  3.45it/s] 49%|████▊     | 441/908 [02:25<02:15,  3.44it/s] 49%|████▊     | 442/908 [02:26<03:11,  2.44it/s] 49%|████▉     | 443/908 [02:26<02:54,  2.67it/s] 49%|████▉     | 444/908 [02:26<02:42,  2.86it/s] 49%|████▉     | 445/908 [02:27<02:34,  3.01it/s] 49%|████▉     | 446/908 [02:27<02:28,  3.11it/s] 49%|████▉     | 447/908 [02:27<02:23,  3.20it/s] 49%|████▉     | 448/908 [02:28<02:21,  3.26it/s] 49%|████▉     | 449/908 [02:28<02:19,  3.30it/s] 50%|████▉     | 450/908 [02:28<02:17,  3.33it/s]                                                 {'loss': '0.03013', 'grad_norm': '0.3242', 'learning_rate': '5.509e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 297560, 'num_attended_tokens_seen': '3.593e+06', 'entropy': '0.02792', 'mean_token_accuracy': '0.9877', 'epoch': '0.9912'}
+ 50%|████▉     | 450/908 [02:28<02:17,  3.33it/s] 50%|████▉     | 451/908 [02:28<02:16,  3.36it/s] 50%|████▉     | 452/908 [02:29<02:15,  3.38it/s] 50%|████▉     | 453/908 [02:29<02:14,  3.39it/s] 50%|█████     | 454/908 [02:29<02:08,  3.53it/s][INFO|trainer.py:2914] 2026-11-25 12:35:47,410 >> 
+***** Running Evaluation *****
+[INFO|trainer.py:2916] 2026-11-25 12:35:47,410 >>   Num examples = 107
+[INFO|trainer.py:2919] 2026-11-25 12:35:47,410 >>   Batch size = 4
+
+  0%|          | 0/27 [00:00<?, ?it/s][A
+ 11%|█         | 3/27 [00:00<00:01, 17.06it/s][A
+ 19%|█▊        | 5/27 [00:00<00:01, 13.94it/s][A
+ 26%|██▌       | 7/27 [00:00<00:01, 13.01it/s][A
+ 33%|███▎      | 9/27 [00:00<00:01, 12.54it/s][A
+ 41%|████      | 11/27 [00:00<00:01, 12.28it/s][A
+ 48%|████▊     | 13/27 [00:01<00:01, 12.07it/s][A
+ 56%|█████▌    | 15/27 [00:01<00:00, 12.00it/s][A
+ 63%|██████▎   | 17/27 [00:01<00:00, 12.17it/s][A
+ 70%|███████   | 19/27 [00:01<00:00, 12.02it/s][A
+ 78%|███████▊  | 21/27 [00:01<00:00, 11.91it/s][A
+ 85%|████████▌ | 23/27 [00:01<00:00, 11.90it/s][A
+ 93%|█████████▎| 25/27 [00:02<00:00, 11.81it/s][A
+100%|██████████| 27/27 [00:02<00:00, 12.73it/s][A                                                 
+                                               [A{'eval_loss': '0.03414', 'eval_model_preparation_time': '0.0113', 'eval_runtime': '2.271', 'eval_samples_per_second': '47.12', 'eval_steps_per_second': '11.89', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 299860, 'eval_num_attended_tokens_seen': '3.593e+06', 'eval_entropy': '0.03116', 'eval_mean_token_accuracy': '0.9853', 'epoch': '1'}
+ 50%|█████     | 454/908 [02:32<02:08,  3.53it/s]
+100%|██████████| 27/27 [00:02<00:00, 12.73it/s][A
+                                               [A[INFO|tokenization_utils_base.py:3380] 2026-11-25 12:35:49,736 >> chat template saved in /vol/runs/sft-qwen3-1.7b-lora/checkpoint-454/chat_template.jinja
+[INFO|tokenization_utils_base.py:2127] 2026-11-25 12:35:49,737 >> tokenizer config file saved in /vol/runs/sft-qwen3-1.7b-lora/checkpoint-454/tokenizer_config.json
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+11/25/2026 12:35:50 - WARNING - huggingface_hub.utils._http - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[INFO|configuration_utils.py:1018] 2026-11-25 12:35:50,198 >> loading configuration file config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json
+[INFO|configuration_utils.py:1090] 2026-11-25 12:35:50,199 >> Model config Qwen3Config {
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+11/25/2026 12:35:50 - INFO - halo.checkpoint.parallel.adapters - Saved PEFT adapters to /vol/runs/sft-qwen3-1.7b-lora/checkpoint-454
+11/25/2026 12:35:50 - INFO - halo.checkpoint.parallel.sidecars - ✓ Persisted LR scheduler to /vol/runs/sft-qwen3-1.7b-lora/checkpoint-454
+ 50%|█████     | 455/908 [02:32<08:42,  1.15s/it] 50%|█████     | 456/908 [02:33<06:44,  1.12it/s] 50%|█████     | 457/908 [02:33<05:22,  1.40it/s] 50%|█████     | 458/908 [02:33<04:24,  1.70it/s] 51%|█████     | 459/908 [02:34<03:44,  2.00it/s] 51%|█████     | 460/908 [02:34<03:16,  2.28it/s]                                                 {'loss': '0.03361', 'grad_norm': '0.1279', 'learning_rate': '5.328e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 303910, 'num_attended_tokens_seen': '3.669e+06', 'entropy': '0.03224', 'mean_token_accuracy': '0.988', 'epoch': '1.013'}
+ 51%|█████     | 460/908 [02:34<03:16,  2.28it/s] 51%|█████     | 461/908 [02:34<02:56,  2.53it/s] 51%|█████     | 462/908 [02:34<02:42,  2.74it/s] 51%|█████     | 463/908 [02:35<02:33,  2.90it/s] 51%|█████     | 464/908 [02:35<02:26,  3.04it/s] 51%|█████     | 465/908 [02:35<02:20,  3.15it/s] 51%|█████▏    | 466/908 [02:36<02:17,  3.22it/s] 51%|█████▏    | 467/908 [02:36<02:14,  3.28it/s] 52%|█████▏    | 468/908 [02:36<02:12,  3.33it/s] 52%|█████▏    | 469/908 [02:37<02:10,  3.35it/s] 52%|█████▏    | 470/908 [02:37<02:10,  3.37it/s]                                                 {'loss': '0.02926', 'grad_norm': '0.1992', 'learning_rate': '5.146e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 310220, 'num_attended_tokens_seen': '3.75e+06', 'entropy': '0.03641', 'mean_token_accuracy': '0.9884', 'epoch': '1.035'}
+ 52%|█████▏    | 470/908 [02:37<02:10,  3.37it/s] 52%|█████▏    | 471/908 [02:37<02:09,  3.38it/s] 52%|█████▏    | 472/908 [02:37<02:07,  3.42it/s] 52%|█████▏    | 473/908 [02:38<02:07,  3.40it/s] 52%|█████▏    | 474/908 [02:38<02:07,  3.40it/s] 52%|█████▏    | 475/908 [02:38<02:07,  3.39it/s] 52%|█████▏    | 476/908 [02:39<02:56,  2.44it/s] 53%|█████▎    | 477/908 [02:39<02:41,  2.67it/s] 53%|█████▎    | 478/908 [02:40<02:28,  2.89it/s] 53%|█████▎    | 479/908 [02:40<02:21,  3.04it/s] 53%|█████▎    | 480/908 [02:40<02:16,  3.14it/s]                                                 {'loss': '0.02611', 'grad_norm': '0.1289', 'learning_rate': '4.964e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 317020, 'num_attended_tokens_seen': '3.83e+06', 'entropy': '0.02226', 'mean_token_accuracy': '0.9887', 'epoch': '1.057'}
+ 53%|█████▎    | 480/908 [02:40<02:16,  3.14it/s] 53%|█████▎    | 481/908 [02:40<02:13,  3.20it/s] 53%|█████▎    | 482/908 [02:41<02:11,  3.25it/s] 53%|█████▎    | 483/908 [02:41<02:08,  3.30it/s] 53%|█████▎    | 484/908 [02:41<02:00,  3.51it/s] 53%|█████▎    | 485/908 [02:42<02:01,  3.49it/s] 54%|█████▎    | 486/908 [02:42<02:01,  3.47it/s] 54%|█████▎    | 487/908 [02:42<02:01,  3.46it/s] 54%|█████▎    | 488/908 [02:42<01:56,  3.59it/s] 54%|█████▍    | 489/908 [02:43<01:58,  3.54it/s] 54%|█████▍    | 490/908 [02:43<01:59,  3.50it/s]                                                 {'loss': '0.02742', 'grad_norm': '0.168', 'learning_rate': '4.781e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 323510, 'num_attended_tokens_seen': '3.907e+06', 'entropy': '0.02543', 'mean_token_accuracy': '0.9894', 'epoch': '1.079'}
+ 54%|█████▍    | 490/908 [02:43<01:59,  3.50it/s] 54%|█████▍    | 491/908 [02:43<02:00,  3.47it/s] 54%|█████▍    | 492/908 [02:44<02:00,  3.46it/s] 54%|█████▍    | 493/908 [02:44<02:00,  3.45it/s] 54%|█████▍    | 494/908 [02:44<02:00,  3.44it/s] 55%|█████▍    | 495/908 [02:44<02:00,  3.44it/s] 55%|█████▍    | 496/908 [02:45<02:00,  3.42it/s] 55%|█████▍    | 497/908 [02:45<02:00,  3.41it/s] 55%|█████▍    | 498/908 [02:45<02:00,  3.41it/s] 55%|█████▍    | 499/908 [02:46<01:59,  3.41it/s] 55%|█████▌    | 500/908 [02:46<01:59,  3.41it/s]                                                 {'loss': '0.03248', 'grad_norm': '0.2334', 'learning_rate': '4.6e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 329960, 'num_attended_tokens_seen': '3.987e+06', 'entropy': '0.03362', 'mean_token_accuracy': '0.9857', 'epoch': '1.101'}
+ 55%|█████▌    | 500/908 [02:46<01:59,  3.41it/s] 55%|█████▌    | 501/908 [02:46<01:59,  3.40it/s] 55%|█████▌    | 502/908 [02:46<01:58,  3.41it/s] 55%|█████▌    | 503/908 [02:47<01:55,  3.50it/s] 56%|█████▌    | 504/908 [02:47<01:56,  3.47it/s] 56%|█████▌    | 505/908 [02:47<01:56,  3.45it/s] 56%|█████▌    | 506/908 [02:48<01:56,  3.44it/s] 56%|█████▌    | 507/908 [02:48<01:56,  3.44it/s] 56%|█████▌    | 508/908 [02:48<01:56,  3.43it/s] 56%|█████▌    | 509/908 [02:49<01:56,  3.42it/s] 56%|█████▌    | 510/908 [02:49<01:56,  3.42it/s]                                                 {'loss': '0.02741', 'grad_norm': '0.09082', 'learning_rate': '4.418e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 336580, 'num_attended_tokens_seen': '4.067e+06', 'entropy': '0.02977', 'mean_token_accuracy': '0.9885', 'epoch': '1.123'}
+ 56%|█████▌    | 510/908 [02:49<01:56,  3.42it/s] 56%|█████▋    | 511/908 [02:49<01:56,  3.42it/s] 56%|█████▋    | 512/908 [02:49<01:55,  3.43it/s] 56%|█████▋    | 513/908 [02:50<01:55,  3.42it/s] 57%|█████▋    | 514/908 [02:50<01:55,  3.40it/s] 57%|█████▋    | 515/908 [02:50<01:55,  3.40it/s] 57%|█████▋    | 516/908 [02:51<01:49,  3.59it/s] 57%|█████▋    | 517/908 [02:51<01:45,  3.70it/s] 57%|█████▋    | 518/908 [02:51<01:47,  3.61it/s] 57%|█████▋    | 519/908 [02:51<01:49,  3.56it/s] 57%|█████▋    | 520/908 [02:52<02:34,  2.52it/s]                                                 {'loss': '0.02819', 'grad_norm': '0.2266', 'learning_rate': '4.238e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 342880, 'num_attended_tokens_seen': '4.142e+06', 'entropy': '0.02383', 'mean_token_accuracy': '0.9883', 'epoch': '1.145'}
+ 57%|█████▋    | 520/908 [02:52<02:34,  2.52it/s] 57%|█████▋    | 521/908 [02:52<02:21,  2.73it/s] 57%|█████▋    | 522/908 [02:53<02:13,  2.90it/s] 58%|█████▊    | 523/908 [02:53<02:06,  3.04it/s] 58%|█████▊    | 524/908 [02:53<02:02,  3.14it/s] 58%|█████▊    | 525/908 [02:53<01:58,  3.22it/s] 58%|█████▊    | 526/908 [02:54<01:56,  3.27it/s] 58%|█████▊    | 527/908 [02:54<01:55,  3.31it/s] 58%|█████▊    | 528/908 [02:54<01:53,  3.33it/s] 58%|█████▊    | 529/908 [02:55<01:52,  3.36it/s] 58%|█████▊    | 530/908 [02:55<01:52,  3.37it/s]                                                 {'loss': '0.03202', 'grad_norm': '0.168', 'learning_rate': '4.058e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 349150, 'num_attended_tokens_seen': '4.223e+06', 'entropy': '0.03305', 'mean_token_accuracy': '0.986', 'epoch': '1.167'}
+ 58%|█████▊    | 530/908 [02:55<01:52,  3.37it/s] 58%|█████▊    | 531/908 [02:55<01:51,  3.38it/s] 59%|█████▊    | 532/908 [02:56<01:51,  3.39it/s] 59%|█████▊    | 533/908 [02:56<01:50,  3.40it/s] 59%|█████▉    | 534/908 [02:56<01:49,  3.41it/s] 59%|█████▉    | 535/908 [02:56<01:49,  3.41it/s] 59%|█████▉    | 536/908 [02:57<01:48,  3.42it/s] 59%|█████▉    | 537/908 [02:57<01:48,  3.41it/s] 59%|█████▉    | 538/908 [02:57<01:48,  3.42it/s] 59%|█████▉    | 539/908 [02:58<01:48,  3.41it/s] 59%|█████▉    | 540/908 [02:58<01:47,  3.42it/s]                                                 {'loss': '0.02645', 'grad_norm': '0.1348', 'learning_rate': '3.88e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 356050, 'num_attended_tokens_seen': '4.304e+06', 'entropy': '0.02848', 'mean_token_accuracy': '0.9897', 'epoch': '1.189'}
+ 59%|█████▉    | 540/908 [02:58<01:47,  3.42it/s] 60%|█████▉    | 541/908 [02:58<01:47,  3.41it/s] 60%|█████▉    | 542/908 [02:58<01:44,  3.51it/s] 60%|█████▉    | 543/908 [02:59<01:44,  3.49it/s] 60%|█████▉    | 544/908 [02:59<01:44,  3.47it/s] 60%|██████    | 545/908 [02:59<01:45,  3.44it/s] 60%|██████    | 546/908 [03:00<01:45,  3.44it/s] 60%|██████    | 547/908 [03:00<01:44,  3.45it/s] 60%|██████    | 548/908 [03:00<01:44,  3.44it/s] 60%|██████    | 549/908 [03:00<01:44,  3.44it/s] 61%|██████    | 550/908 [03:01<01:44,  3.43it/s]                                                 {'loss': '0.02998', 'grad_norm': '0.1172', 'learning_rate': '3.703e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 362390, 'num_attended_tokens_seen': '4.383e+06', 'entropy': '0.03067', 'mean_token_accuracy': '0.9874', 'epoch': '1.211'}
+ 61%|██████    | 550/908 [03:01<01:44,  3.43it/s] 61%|██████    | 551/908 [03:01<01:44,  3.43it/s] 61%|██████    | 552/908 [03:01<01:44,  3.41it/s] 61%|██████    | 553/908 [03:02<01:43,  3.44it/s] 61%|██████    | 554/908 [03:02<01:42,  3.44it/s] 61%|██████    | 555/908 [03:02<01:42,  3.44it/s] 61%|██████    | 556/908 [03:03<01:42,  3.45it/s] 61%|██████▏   | 557/908 [03:03<01:41,  3.44it/s] 61%|██████▏   | 558/908 [03:03<01:41,  3.43it/s] 62%|██████▏   | 559/908 [03:03<01:40,  3.46it/s] 62%|██████▏   | 560/908 [03:04<02:20,  2.47it/s]                                                 {'loss': '0.03025', 'grad_norm': '0.2715', 'learning_rate': '3.528e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 369100, 'num_attended_tokens_seen': '4.463e+06', 'entropy': '0.02785', 'mean_token_accuracy': '0.9885', 'epoch': '1.233'}
+ 62%|██████▏   | 560/908 [03:04<02:20,  2.47it/s] 62%|██████▏   | 561/908 [03:04<02:09,  2.68it/s] 62%|██████▏   | 562/908 [03:05<01:58,  2.93it/s] 62%|██████▏   | 563/908 [03:05<01:52,  3.06it/s] 62%|██████▏   | 564/908 [03:05<01:49,  3.15it/s] 62%|██████▏   | 565/908 [03:06<01:46,  3.21it/s] 62%|██████▏   | 566/908 [03:06<01:44,  3.27it/s] 62%|██████▏   | 567/908 [03:06<01:42,  3.31it/s] 63%|██████▎   | 568/908 [03:06<01:41,  3.34it/s] 63%|██████▎   | 569/908 [03:07<01:40,  3.36it/s] 63%|██████▎   | 570/908 [03:07<01:40,  3.37it/s]                                                 {'loss': '0.02617', 'grad_norm': '0.2344', 'learning_rate': '3.355e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 375810, 'num_attended_tokens_seen': '4.544e+06', 'entropy': '0.02877', 'mean_token_accuracy': '0.9897', 'epoch': '1.256'}
+ 63%|██████▎   | 570/908 [03:07<01:40,  3.37it/s] 63%|██████▎   | 571/908 [03:07<01:40,  3.36it/s] 63%|██████▎   | 572/908 [03:08<01:39,  3.37it/s] 63%|██████▎   | 573/908 [03:08<01:39,  3.38it/s] 63%|██████▎   | 574/908 [03:08<01:38,  3.39it/s] 63%|██████▎   | 575/908 [03:08<01:38,  3.39it/s] 63%|██████▎   | 576/908 [03:09<01:37,  3.39it/s] 64%|██████▎   | 577/908 [03:09<01:37,  3.40it/s] 64%|██████▎   | 578/908 [03:09<01:37,  3.40it/s] 64%|██████▍   | 579/908 [03:10<01:36,  3.41it/s] 64%|██████▍   | 580/908 [03:10<01:36,  3.41it/s]                                                 {'loss': '0.02777', 'grad_norm': '0.166', 'learning_rate': '3.184e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 382490, 'num_attended_tokens_seen': '4.624e+06', 'entropy': '0.02898', 'mean_token_accuracy': '0.9901', 'epoch': '1.278'}
+ 64%|██████▍   | 580/908 [03:10<01:36,  3.41it/s] 64%|██████▍   | 581/908 [03:10<01:36,  3.40it/s] 64%|██████▍   | 582/908 [03:11<01:35,  3.40it/s] 64%|██████▍   | 583/908 [03:11<01:35,  3.40it/s] 64%|██████▍   | 584/908 [03:11<01:31,  3.56it/s] 64%|██████▍   | 585/908 [03:11<01:32,  3.50it/s] 65%|██████▍   | 586/908 [03:12<01:32,  3.48it/s] 65%|██████▍   | 587/908 [03:12<01:32,  3.46it/s] 65%|██████▍   | 588/908 [03:12<01:32,  3.45it/s] 65%|██████▍   | 589/908 [03:13<01:32,  3.44it/s] 65%|██████▍   | 590/908 [03:13<01:32,  3.42it/s]                                                 {'loss': '0.02419', 'grad_norm': '0.1689', 'learning_rate': '3.015e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 389060, 'num_attended_tokens_seen': '4.703e+06', 'entropy': '0.01976', 'mean_token_accuracy': '0.9903', 'epoch': '1.3'}
+ 65%|██████▍   | 590/908 [03:13<01:32,  3.42it/s] 65%|██████▌   | 591/908 [03:13<01:33,  3.40it/s] 65%|██████▌   | 592/908 [03:13<01:32,  3.41it/s] 65%|██████▌   | 593/908 [03:14<01:32,  3.40it/s] 65%|██████▌   | 594/908 [03:14<01:32,  3.40it/s] 66%|██████▌   | 595/908 [03:15<02:08,  2.43it/s] 66%|██████▌   | 596/908 [03:15<01:57,  2.66it/s] 66%|██████▌   | 597/908 [03:15<01:49,  2.85it/s] 66%|██████▌   | 598/908 [03:16<01:43,  2.99it/s] 66%|██████▌   | 599/908 [03:16<01:39,  3.10it/s] 66%|██████▌   | 600/908 [03:16<01:36,  3.19it/s]                                                 {'loss': '0.02681', 'grad_norm': '0.2158', 'learning_rate': '2.849e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 395860, 'num_attended_tokens_seen': '4.784e+06', 'entropy': '0.02613', 'mean_token_accuracy': '0.9882', 'epoch': '1.322'}
+ 66%|██████▌   | 600/908 [03:16<01:36,  3.19it/s] 66%|██████▌   | 601/908 [03:16<01:34,  3.25it/s] 66%|██████▋   | 602/908 [03:17<01:33,  3.28it/s] 66%|██████▋   | 603/908 [03:17<01:31,  3.32it/s] 67%|██████▋   | 604/908 [03:17<01:31,  3.34it/s] 67%|██████▋   | 605/908 [03:18<01:30,  3.35it/s] 67%|██████▋   | 606/908 [03:18<01:29,  3.36it/s] 67%|██████▋   | 607/908 [03:18<01:29,  3.36it/s] 67%|██████▋   | 608/908 [03:19<01:29,  3.36it/s] 67%|██████▋   | 609/908 [03:19<01:28,  3.37it/s] 67%|██████▋   | 610/908 [03:19<01:28,  3.38it/s]                                                 {'loss': '0.03076', 'grad_norm': '0.2021', 'learning_rate': '2.686e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 402330, 'num_attended_tokens_seen': '4.864e+06', 'entropy': '0.02894', 'mean_token_accuracy': '0.9875', 'epoch': '1.344'}
+ 67%|██████▋   | 610/908 [03:19<01:28,  3.38it/s] 67%|██████▋   | 611/908 [03:19<01:27,  3.38it/s] 67%|██████▋   | 612/908 [03:20<01:27,  3.38it/s] 68%|██████▊   | 613/908 [03:20<01:26,  3.39it/s] 68%|██████▊   | 614/908 [03:20<01:26,  3.40it/s] 68%|██████▊   | 615/908 [03:21<01:26,  3.39it/s] 68%|██████▊   | 616/908 [03:21<01:26,  3.39it/s] 68%|██████▊   | 617/908 [03:21<01:25,  3.41it/s] 68%|██████▊   | 618/908 [03:21<01:25,  3.40it/s] 68%|██████▊   | 619/908 [03:22<01:24,  3.41it/s] 68%|██████▊   | 620/908 [03:22<01:24,  3.40it/s]                                                 {'loss': '0.02809', 'grad_norm': '0.2852', 'learning_rate': '2.526e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 409140, 'num_attended_tokens_seen': '4.945e+06', 'entropy': '0.03185', 'mean_token_accuracy': '0.9885', 'epoch': '1.366'}
+ 68%|██████▊   | 620/908 [03:22<01:24,  3.40it/s] 68%|██████▊   | 621/908 [03:22<01:24,  3.40it/s] 69%|██████▊   | 622/908 [03:23<01:23,  3.41it/s] 69%|██████▊   | 623/908 [03:23<01:24,  3.39it/s] 69%|██████▊   | 624/908 [03:23<01:23,  3.38it/s] 69%|██████▉   | 625/908 [03:24<01:23,  3.40it/s] 69%|██████▉   | 626/908 [03:24<01:23,  3.39it/s] 69%|██████▉   | 627/908 [03:24<01:22,  3.40it/s] 69%|██████▉   | 628/908 [03:24<01:22,  3.41it/s] 69%|██████▉   | 629/908 [03:25<01:21,  3.41it/s] 69%|██████▉   | 630/908 [03:25<01:21,  3.40it/s]                                                 {'loss': '0.03004', 'grad_norm': '0.1504', 'learning_rate': '2.37e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 416150, 'num_attended_tokens_seen': '5.026e+06', 'entropy': '0.02713', 'mean_token_accuracy': '0.9886', 'epoch': '1.388'}
+ 69%|██████▉   | 630/908 [03:25<01:21,  3.40it/s] 69%|██████▉   | 631/908 [03:25<01:21,  3.40it/s] 70%|██████▉   | 632/908 [03:26<01:21,  3.40it/s] 70%|██████▉   | 633/908 [03:26<01:20,  3.40it/s] 70%|██████▉   | 634/908 [03:26<01:20,  3.42it/s] 70%|██████▉   | 635/908 [03:26<01:19,  3.42it/s] 70%|███████   | 636/908 [03:27<01:19,  3.42it/s] 70%|███████   | 637/908 [03:27<01:19,  3.42it/s] 70%|███████   | 638/908 [03:27<01:19,  3.41it/s] 70%|███████   | 639/908 [03:28<01:18,  3.41it/s] 70%|███████   | 640/908 [03:28<01:57,  2.28it/s]                                                 {'loss': '0.02945', 'grad_norm': '0.2676', 'learning_rate': '2.216e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 422810, 'num_attended_tokens_seen': '5.106e+06', 'entropy': '0.03364', 'mean_token_accuracy': '0.9875', 'epoch': '1.41'}
+ 70%|███████   | 640/908 [03:28<01:57,  2.28it/s] 71%|███████   | 641/908 [03:29<01:47,  2.48it/s] 71%|███████   | 642/908 [03:29<01:40,  2.65it/s] 71%|███████   | 643/908 [03:29<01:34,  2.81it/s] 71%|███████   | 644/908 [03:30<01:30,  2.91it/s] 71%|███████   | 645/908 [03:30<01:27,  2.99it/s] 71%|███████   | 646/908 [03:30<01:26,  3.04it/s] 71%|███████▏  | 647/908 [03:31<01:25,  3.06it/s] 71%|███████▏  | 648/908 [03:31<01:23,  3.11it/s] 71%|███████▏  | 649/908 [03:31<01:22,  3.13it/s] 72%|███████▏  | 650/908 [03:32<01:21,  3.18it/s]                                                 {'loss': '0.02659', 'grad_norm': '0.1826', 'learning_rate': '2.067e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 429490, 'num_attended_tokens_seen': '5.187e+06', 'entropy': '0.02653', 'mean_token_accuracy': '0.9894', 'epoch': '1.432'}
+ 72%|███████▏  | 650/908 [03:32<01:21,  3.18it/s] 72%|███████▏  | 651/908 [03:32<01:19,  3.21it/s] 72%|███████▏  | 652/908 [03:32<01:18,  3.26it/s] 72%|███████▏  | 653/908 [03:32<01:17,  3.29it/s] 72%|███████▏  | 654/908 [03:33<01:16,  3.32it/s] 72%|███████▏  | 655/908 [03:33<01:16,  3.33it/s] 72%|███████▏  | 656/908 [03:33<01:15,  3.33it/s] 72%|███████▏  | 657/908 [03:34<01:14,  3.35it/s] 72%|███████▏  | 658/908 [03:34<01:14,  3.36it/s] 73%|███████▎  | 659/908 [03:34<01:13,  3.37it/s] 73%|███████▎  | 660/908 [03:35<01:13,  3.38it/s]                                                 {'loss': '0.03004', 'grad_norm': '0.2578', 'learning_rate': '1.921e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 436080, 'num_attended_tokens_seen': '5.267e+06', 'entropy': '0.02771', 'mean_token_accuracy': '0.9885', 'epoch': '1.454'}
+ 73%|███████▎  | 660/908 [03:35<01:13,  3.38it/s] 73%|███████▎  | 661/908 [03:35<01:13,  3.38it/s] 73%|███████▎  | 662/908 [03:35<01:12,  3.42it/s] 73%|███████▎  | 663/908 [03:35<01:11,  3.41it/s] 73%|███████▎  | 664/908 [03:36<01:11,  3.42it/s] 73%|███████▎  | 665/908 [03:36<01:08,  3.56it/s] 73%|███████▎  | 666/908 [03:36<01:09,  3.50it/s] 73%|███████▎  | 667/908 [03:37<01:09,  3.46it/s] 74%|███████▎  | 668/908 [03:37<01:09,  3.44it/s] 74%|███████▎  | 669/908 [03:37<01:09,  3.43it/s] 74%|███████▍  | 670/908 [03:37<01:09,  3.42it/s]                                                 {'loss': '0.02474', 'grad_norm': '0.1426', 'learning_rate': '1.78e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 442700, 'num_attended_tokens_seen': '5.347e+06', 'entropy': '0.02676', 'mean_token_accuracy': '0.9906', 'epoch': '1.476'}
+ 74%|███████▍  | 670/908 [03:37<01:09,  3.42it/s] 74%|███████▍  | 671/908 [03:38<01:09,  3.41it/s] 74%|███████▍  | 672/908 [03:38<01:09,  3.38it/s] 74%|███████▍  | 673/908 [03:38<01:09,  3.37it/s] 74%|███████▍  | 674/908 [03:39<01:09,  3.36it/s] 74%|███████▍  | 675/908 [03:39<01:09,  3.35it/s] 74%|███████▍  | 676/908 [03:39<01:09,  3.34it/s] 75%|███████▍  | 677/908 [03:39<01:08,  3.35it/s] 75%|███████▍  | 678/908 [03:40<01:08,  3.36it/s] 75%|███████▍  | 679/908 [03:40<01:07,  3.37it/s] 75%|███████▍  | 680/908 [03:41<01:41,  2.24it/s]                                                 {'loss': '0.02428', 'grad_norm': '0.1367', 'learning_rate': '1.643e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 449600, 'num_attended_tokens_seen': '5.427e+06', 'entropy': '0.02536', 'mean_token_accuracy': '0.9891', 'epoch': '1.498'}
+ 75%|███████▍  | 680/908 [03:41<01:41,  2.24it/s] 75%|███████▌  | 681/908 [03:41<01:30,  2.50it/s] 75%|███████▌  | 682/908 [03:41<01:23,  2.71it/s] 75%|███████▌  | 683/908 [03:42<01:18,  2.88it/s] 75%|███████▌  | 684/908 [03:42<01:14,  3.01it/s] 75%|███████▌  | 685/908 [03:42<01:11,  3.10it/s] 76%|███████▌  | 686/908 [03:43<01:09,  3.18it/s] 76%|███████▌  | 687/908 [03:43<01:08,  3.24it/s] 76%|███████▌  | 688/908 [03:43<01:07,  3.27it/s] 76%|███████▌  | 689/908 [03:44<01:06,  3.30it/s] 76%|███████▌  | 690/908 [03:44<01:05,  3.31it/s]                                                 {'loss': '0.03202', 'grad_norm': '0.2295', 'learning_rate': '1.51e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 456140, 'num_attended_tokens_seen': '5.508e+06', 'entropy': '0.02748', 'mean_token_accuracy': '0.9869', 'epoch': '1.52'}
+ 76%|███████▌  | 690/908 [03:44<01:05,  3.31it/s] 76%|███████▌  | 691/908 [03:44<01:05,  3.32it/s] 76%|███████▌  | 692/908 [03:44<01:04,  3.33it/s] 76%|███████▋  | 693/908 [03:45<01:04,  3.34it/s] 76%|███████▋  | 694/908 [03:45<01:03,  3.35it/s] 77%|███████▋  | 695/908 [03:45<01:01,  3.45it/s] 77%|███████▋  | 696/908 [03:46<01:00,  3.52it/s] 77%|███████▋  | 697/908 [03:46<01:00,  3.46it/s] 77%|███████▋  | 698/908 [03:46<01:01,  3.44it/s] 77%|███████▋  | 699/908 [03:46<01:01,  3.41it/s] 77%|███████▋  | 700/908 [03:47<01:01,  3.41it/s]                                                 {'loss': '0.02692', 'grad_norm': '0.1699', 'learning_rate': '1.382e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 462750, 'num_attended_tokens_seen': '5.586e+06', 'entropy': '0.02817', 'mean_token_accuracy': '0.9891', 'epoch': '1.542'}
+ 77%|███████▋  | 700/908 [03:47<01:01,  3.41it/s] 77%|███████▋  | 701/908 [03:47<01:01,  3.38it/s] 77%|███████▋  | 702/908 [03:47<01:00,  3.39it/s] 77%|███████▋  | 703/908 [03:48<01:00,  3.39it/s] 78%|███████▊  | 704/908 [03:48<01:00,  3.38it/s] 78%|███████▊  | 705/908 [03:48<01:00,  3.37it/s] 78%|███████▊  | 706/908 [03:49<00:59,  3.38it/s] 78%|███████▊  | 707/908 [03:49<00:59,  3.38it/s] 78%|███████▊  | 708/908 [03:49<00:59,  3.38it/s] 78%|███████▊  | 709/908 [03:49<00:58,  3.39it/s] 78%|███████▊  | 710/908 [03:50<00:58,  3.40it/s]                                                 {'loss': '0.02531', 'grad_norm': '0.375', 'learning_rate': '1.258e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 469470, 'num_attended_tokens_seen': '5.666e+06', 'entropy': '0.02663', 'mean_token_accuracy': '0.9909', 'epoch': '1.564'}
+ 78%|███████▊  | 710/908 [03:50<00:58,  3.40it/s] 78%|███████▊  | 711/908 [03:50<00:58,  3.39it/s] 78%|███████▊  | 712/908 [03:50<00:57,  3.38it/s] 79%|███████▊  | 713/908 [03:51<00:57,  3.37it/s] 79%|███████▊  | 714/908 [03:51<00:56,  3.45it/s] 79%|███████▊  | 715/908 [03:52<01:21,  2.38it/s] 79%|███████▉  | 716/908 [03:52<01:12,  2.63it/s] 79%|███████▉  | 717/908 [03:52<01:07,  2.81it/s] 79%|███████▉  | 718/908 [03:53<01:04,  2.96it/s] 79%|███████▉  | 719/908 [03:53<01:01,  3.07it/s] 79%|███████▉  | 720/908 [03:53<00:59,  3.15it/s]                                                 {'loss': '0.0234', 'grad_norm': '0.1572', 'learning_rate': '1.14e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 476650, 'num_attended_tokens_seen': '5.746e+06', 'entropy': '0.0257', 'mean_token_accuracy': '0.9908', 'epoch': '1.586'}
+ 79%|███████▉  | 720/908 [03:53<00:59,  3.15it/s] 79%|███████▉  | 721/908 [03:53<00:58,  3.19it/s] 80%|███████▉  | 722/908 [03:54<00:57,  3.24it/s] 80%|███████▉  | 723/908 [03:54<00:56,  3.28it/s] 80%|███████▉  | 724/908 [03:54<00:55,  3.30it/s] 80%|███████▉  | 725/908 [03:55<00:55,  3.31it/s] 80%|███████▉  | 726/908 [03:55<00:54,  3.33it/s] 80%|████████  | 727/908 [03:55<00:54,  3.34it/s] 80%|████████  | 728/908 [03:55<00:53,  3.37it/s] 80%|████████  | 729/908 [03:56<00:53,  3.37it/s] 80%|████████  | 730/908 [03:56<00:52,  3.37it/s]                                                 {'loss': '0.03345', 'grad_norm': '0.1396', 'learning_rate': '1.027e-05', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 483270, 'num_attended_tokens_seen': '5.826e+06', 'entropy': '0.02824', 'mean_token_accuracy': '0.9882', 'epoch': '1.608'}
+ 80%|████████  | 730/908 [03:56<00:52,  3.37it/s] 81%|████████  | 731/908 [03:56<00:52,  3.36it/s] 81%|████████  | 732/908 [03:57<00:52,  3.37it/s] 81%|████████  | 733/908 [03:57<00:51,  3.37it/s] 81%|████████  | 734/908 [03:57<00:51,  3.37it/s] 81%|████████  | 735/908 [03:58<00:51,  3.36it/s] 81%|████████  | 736/908 [03:58<00:51,  3.34it/s] 81%|████████  | 737/908 [03:58<00:51,  3.34it/s] 81%|████████▏ | 738/908 [03:58<00:51,  3.33it/s] 81%|████████▏ | 739/908 [03:59<00:50,  3.33it/s] 81%|████████▏ | 740/908 [03:59<00:48,  3.44it/s]                                                 {'loss': '0.02978', 'grad_norm': '0.1348', 'learning_rate': '9.188e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 489630, 'num_attended_tokens_seen': '5.906e+06', 'entropy': '0.03028', 'mean_token_accuracy': '0.9865', 'epoch': '1.63'}
+ 81%|████████▏ | 740/908 [03:59<00:48,  3.44it/s] 82%|████████▏ | 741/908 [03:59<00:48,  3.42it/s] 82%|████████▏ | 742/908 [04:00<00:48,  3.40it/s] 82%|████████▏ | 743/908 [04:00<00:48,  3.40it/s] 82%|████████▏ | 744/908 [04:00<00:46,  3.53it/s] 82%|████████▏ | 745/908 [04:00<00:46,  3.47it/s] 82%|████████▏ | 746/908 [04:01<00:47,  3.43it/s] 82%|████████▏ | 747/908 [04:01<00:47,  3.40it/s] 82%|████████▏ | 748/908 [04:01<00:47,  3.39it/s] 82%|████████▏ | 749/908 [04:02<00:46,  3.38it/s] 83%|████████▎ | 750/908 [04:02<00:46,  3.38it/s]                                                 {'loss': '0.02484', 'grad_norm': '0.1318', 'learning_rate': '8.163e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 496200, 'num_attended_tokens_seen': '5.985e+06', 'entropy': '0.02777', 'mean_token_accuracy': '0.9889', 'epoch': '1.652'}
+ 83%|████████▎ | 750/908 [04:02<00:46,  3.38it/s] 83%|████████▎ | 751/908 [04:02<00:46,  3.37it/s] 83%|████████▎ | 752/908 [04:03<00:46,  3.38it/s] 83%|████████▎ | 753/908 [04:03<00:45,  3.37it/s] 83%|████████▎ | 754/908 [04:03<00:45,  3.38it/s] 83%|████████▎ | 755/908 [04:03<00:45,  3.39it/s] 83%|████████▎ | 756/908 [04:04<00:44,  3.40it/s] 83%|████████▎ | 757/908 [04:04<00:44,  3.40it/s] 83%|████████▎ | 758/908 [04:04<00:44,  3.40it/s] 84%|████████▎ | 759/908 [04:05<00:43,  3.40it/s] 84%|████████▎ | 760/908 [04:05<01:00,  2.44it/s]                                                 {'loss': '0.02612', 'grad_norm': '0.334', 'learning_rate': '7.193e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 502430, 'num_attended_tokens_seen': '6.065e+06', 'entropy': '0.02976', 'mean_token_accuracy': '0.9892', 'epoch': '1.674'}
+ 84%|████████▎ | 760/908 [04:05<01:00,  2.44it/s] 84%|████████▍ | 761/908 [04:06<00:55,  2.66it/s] 84%|████████▍ | 762/908 [04:06<00:51,  2.84it/s] 84%|████████▍ | 763/908 [04:06<00:48,  2.99it/s] 84%|████████▍ | 764/908 [04:06<00:46,  3.11it/s] 84%|████████▍ | 765/908 [04:07<00:44,  3.19it/s] 84%|████████▍ | 766/908 [04:07<00:41,  3.44it/s] 84%|████████▍ | 767/908 [04:07<00:41,  3.44it/s] 85%|████████▍ | 768/908 [04:08<00:40,  3.44it/s] 85%|████████▍ | 769/908 [04:08<00:40,  3.44it/s] 85%|████████▍ | 770/908 [04:08<00:40,  3.43it/s]                                                 {'loss': '0.0264', 'grad_norm': '0.1602', 'learning_rate': '6.28e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 509100, 'num_attended_tokens_seen': '6.144e+06', 'entropy': '0.025', 'mean_token_accuracy': '0.9915', 'epoch': '1.696'}
+ 85%|████████▍ | 770/908 [04:08<00:40,  3.43it/s] 85%|████████▍ | 771/908 [04:08<00:40,  3.34it/s] 85%|████████▌ | 772/908 [04:09<00:40,  3.37it/s] 85%|████████▌ | 773/908 [04:09<00:39,  3.38it/s] 85%|████████▌ | 774/908 [04:09<00:39,  3.38it/s] 85%|████████▌ | 775/908 [04:10<00:39,  3.40it/s] 85%|████████▌ | 776/908 [04:10<00:38,  3.40it/s] 86%|████████▌ | 777/908 [04:10<00:38,  3.40it/s] 86%|████████▌ | 778/908 [04:11<00:38,  3.40it/s] 86%|████████▌ | 779/908 [04:11<00:37,  3.40it/s] 86%|████████▌ | 780/908 [04:11<00:37,  3.41it/s]                                                 {'loss': '0.02437', 'grad_norm': '0.09424', 'learning_rate': '5.425e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 515970, 'num_attended_tokens_seen': '6.224e+06', 'entropy': '0.02415', 'mean_token_accuracy': '0.9908', 'epoch': '1.718'}
+ 86%|████████▌ | 780/908 [04:11<00:37,  3.41it/s] 86%|████████▌ | 781/908 [04:11<00:37,  3.41it/s] 86%|████████▌ | 782/908 [04:12<00:36,  3.41it/s] 86%|████████▌ | 783/908 [04:12<00:36,  3.40it/s] 86%|████████▋ | 784/908 [04:12<00:36,  3.40it/s] 86%|████████▋ | 785/908 [04:13<00:34,  3.55it/s] 87%|████████▋ | 786/908 [04:13<00:34,  3.50it/s] 87%|████████▋ | 787/908 [04:13<00:34,  3.47it/s] 87%|████████▋ | 788/908 [04:13<00:34,  3.44it/s] 87%|████████▋ | 789/908 [04:14<00:34,  3.43it/s] 87%|████████▋ | 790/908 [04:14<00:34,  3.41it/s]                                                 {'loss': '0.02964', 'grad_norm': '0.2334', 'learning_rate': '4.629e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 522290, 'num_attended_tokens_seen': '6.303e+06', 'entropy': '0.02584', 'mean_token_accuracy': '0.9889', 'epoch': '1.74'}
+ 87%|████████▋ | 790/908 [04:14<00:34,  3.41it/s] 87%|████████▋ | 791/908 [04:14<00:34,  3.39it/s] 87%|████████▋ | 792/908 [04:15<00:34,  3.39it/s] 87%|████████▋ | 793/908 [04:15<00:33,  3.38it/s] 87%|████████▋ | 794/908 [04:15<00:33,  3.38it/s] 88%|████████▊ | 795/908 [04:16<00:33,  3.38it/s] 88%|████████▊ | 796/908 [04:16<00:33,  3.37it/s] 88%|████████▊ | 797/908 [04:16<00:32,  3.38it/s] 88%|████████▊ | 798/908 [04:16<00:31,  3.48it/s] 88%|████████▊ | 799/908 [04:17<00:31,  3.45it/s] 88%|████████▊ | 800/908 [04:17<00:44,  2.44it/s]                                                 {'loss': '0.02474', 'grad_norm': '0.1367', 'learning_rate': '3.894e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 529200, 'num_attended_tokens_seen': '6.383e+06', 'entropy': '0.02592', 'mean_token_accuracy': '0.9896', 'epoch': '1.762'}
+ 88%|████████▊ | 800/908 [04:17<00:44,  2.44it/s] 88%|████████▊ | 801/908 [04:18<00:40,  2.67it/s] 88%|████████▊ | 802/908 [04:18<00:37,  2.85it/s] 88%|████████▊ | 803/908 [04:18<00:35,  3.00it/s] 89%|████████▊ | 804/908 [04:19<00:33,  3.11it/s] 89%|████████▊ | 805/908 [04:19<00:31,  3.31it/s] 89%|████████▉ | 806/908 [04:19<00:30,  3.32it/s] 89%|████████▉ | 807/908 [04:19<00:30,  3.34it/s] 89%|████████▉ | 808/908 [04:20<00:29,  3.35it/s] 89%|████████▉ | 809/908 [04:20<00:29,  3.35it/s] 89%|████████▉ | 810/908 [04:20<00:29,  3.36it/s]                                                 {'loss': '0.02773', 'grad_norm': '0.3203', 'learning_rate': '3.219e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 535630, 'num_attended_tokens_seen': '6.462e+06', 'entropy': '0.02731', 'mean_token_accuracy': '0.9885', 'epoch': '1.784'}
+ 89%|████████▉ | 810/908 [04:20<00:29,  3.36it/s] 89%|████████▉ | 811/908 [04:21<00:28,  3.37it/s] 89%|████████▉ | 812/908 [04:21<00:28,  3.37it/s] 90%|████████▉ | 813/908 [04:21<00:28,  3.39it/s] 90%|████████▉ | 814/908 [04:21<00:27,  3.39it/s] 90%|████████▉ | 815/908 [04:22<00:27,  3.39it/s] 90%|████████▉ | 816/908 [04:22<00:27,  3.40it/s] 90%|████████▉ | 817/908 [04:22<00:25,  3.53it/s] 90%|█████████ | 818/908 [04:23<00:25,  3.48it/s] 90%|█████████ | 819/908 [04:23<00:25,  3.46it/s] 90%|█████████ | 820/908 [04:23<00:25,  3.43it/s]                                                 {'loss': '0.03079', 'grad_norm': '0.1582', 'learning_rate': '2.607e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 541890, 'num_attended_tokens_seen': '6.542e+06', 'entropy': '0.02955', 'mean_token_accuracy': '0.9877', 'epoch': '1.806'}
+ 90%|█████████ | 820/908 [04:23<00:25,  3.43it/s] 90%|█████████ | 821/908 [04:24<00:25,  3.40it/s] 91%|█████████ | 822/908 [04:24<00:25,  3.40it/s] 91%|█████████ | 823/908 [04:24<00:25,  3.40it/s] 91%|█████████ | 824/908 [04:24<00:24,  3.40it/s] 91%|█████████ | 825/908 [04:25<00:24,  3.38it/s] 91%|█████████ | 826/908 [04:25<00:24,  3.38it/s] 91%|█████████ | 827/908 [04:25<00:23,  3.39it/s] 91%|█████████ | 828/908 [04:26<00:23,  3.39it/s] 91%|█████████▏| 829/908 [04:26<00:23,  3.40it/s] 91%|█████████▏| 830/908 [04:26<00:21,  3.58it/s]                                                 {'loss': '0.0263', 'grad_norm': '0.1377', 'learning_rate': '2.058e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 548340, 'num_attended_tokens_seen': '6.621e+06', 'entropy': '0.02971', 'mean_token_accuracy': '0.9905', 'epoch': '1.828'}
+ 91%|█████████▏| 830/908 [04:26<00:21,  3.58it/s] 92%|█████████▏| 831/908 [04:26<00:21,  3.52it/s] 92%|█████████▏| 832/908 [04:27<00:20,  3.67it/s] 92%|█████████▏| 833/908 [04:27<00:20,  3.59it/s] 92%|█████████▏| 834/908 [04:27<00:20,  3.52it/s] 92%|█████████▏| 835/908 [04:28<00:29,  2.49it/s] 92%|█████████▏| 836/908 [04:28<00:26,  2.71it/s] 92%|█████████▏| 837/908 [04:28<00:24,  2.88it/s] 92%|█████████▏| 838/908 [04:29<00:23,  3.02it/s] 92%|█████████▏| 839/908 [04:29<00:22,  3.13it/s] 93%|█████████▎| 840/908 [04:29<00:21,  3.21it/s]                                                 {'loss': '0.02539', 'grad_norm': '0.2051', 'learning_rate': '1.573e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 554860, 'num_attended_tokens_seen': '6.7e+06', 'entropy': '0.02906', 'mean_token_accuracy': '0.9897', 'epoch': '1.85'}
+ 93%|█████████▎| 840/908 [04:29<00:21,  3.21it/s] 93%|█████████▎| 841/908 [04:30<00:20,  3.27it/s] 93%|█████████▎| 842/908 [04:30<00:19,  3.32it/s] 93%|█████████▎| 843/908 [04:30<00:19,  3.35it/s] 93%|█████████▎| 844/908 [04:31<00:18,  3.37it/s] 93%|█████████▎| 845/908 [04:31<00:18,  3.38it/s] 93%|█████████▎| 846/908 [04:31<00:18,  3.38it/s] 93%|█████████▎| 847/908 [04:31<00:17,  3.40it/s] 93%|█████████▎| 848/908 [04:32<00:17,  3.41it/s] 94%|█████████▎| 849/908 [04:32<00:17,  3.41it/s] 94%|█████████▎| 850/908 [04:32<00:16,  3.41it/s]                                                 {'loss': '0.02813', 'grad_norm': '0.1523', 'learning_rate': '1.151e-06', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 561540, 'num_attended_tokens_seen': '6.78e+06', 'entropy': '0.02837', 'mean_token_accuracy': '0.9882', 'epoch': '1.872'}
+ 94%|█████████▎| 850/908 [04:32<00:16,  3.41it/s] 94%|█████████▎| 851/908 [04:33<00:16,  3.41it/s] 94%|█████████▍| 852/908 [04:33<00:16,  3.40it/s] 94%|█████████▍| 853/908 [04:33<00:16,  3.40it/s] 94%|█████████▍| 854/908 [04:33<00:15,  3.41it/s] 94%|█████████▍| 855/908 [04:34<00:15,  3.42it/s] 94%|█████████▍| 856/908 [04:34<00:15,  3.41it/s] 94%|█████████▍| 857/908 [04:34<00:14,  3.40it/s] 94%|█████████▍| 858/908 [04:35<00:14,  3.41it/s] 95%|█████████▍| 859/908 [04:35<00:14,  3.43it/s] 95%|█████████▍| 860/908 [04:35<00:14,  3.43it/s]                                                 {'loss': '0.0312', 'grad_norm': '0.1299', 'learning_rate': '7.952e-07', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 567990, 'num_attended_tokens_seen': '6.861e+06', 'entropy': '0.02839', 'mean_token_accuracy': '0.9862', 'epoch': '1.894'}
+ 95%|█████████▍| 860/908 [04:35<00:14,  3.43it/s] 95%|█████████▍| 861/908 [04:36<00:13,  3.41it/s] 95%|█████████▍| 862/908 [04:36<00:13,  3.39it/s] 95%|█████████▌| 863/908 [04:36<00:13,  3.38it/s] 95%|█████████▌| 864/908 [04:36<00:13,  3.38it/s] 95%|█████████▌| 865/908 [04:37<00:12,  3.38it/s] 95%|█████████▌| 866/908 [04:37<00:12,  3.37it/s] 95%|█████████▌| 867/908 [04:37<00:12,  3.37it/s] 96%|█████████▌| 868/908 [04:38<00:11,  3.38it/s] 96%|█████████▌| 869/908 [04:38<00:11,  3.38it/s] 96%|█████████▌| 870/908 [04:38<00:11,  3.39it/s]                                                 {'loss': '0.02674', 'grad_norm': '0.1592', 'learning_rate': '5.042e-07', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 574550, 'num_attended_tokens_seen': '6.942e+06', 'entropy': '0.02866', 'mean_token_accuracy': '0.9905', 'epoch': '1.916'}
+ 96%|█████████▌| 870/908 [04:38<00:11,  3.39it/s] 96%|█████████▌| 871/908 [04:38<00:10,  3.39it/s] 96%|█████████▌| 872/908 [04:39<00:10,  3.38it/s] 96%|█████████▌| 873/908 [04:39<00:10,  3.38it/s] 96%|█████████▋| 874/908 [04:39<00:10,  3.39it/s] 96%|█████████▋| 875/908 [04:40<00:09,  3.40it/s] 96%|█████████▋| 876/908 [04:40<00:09,  3.39it/s] 97%|█████████▋| 877/908 [04:40<00:09,  3.38it/s] 97%|█████████▋| 878/908 [04:41<00:08,  3.50it/s] 97%|█████████▋| 879/908 [04:41<00:08,  3.45it/s] 97%|█████████▋| 880/908 [04:42<00:11,  2.45it/s]                                                 {'loss': '0.02291', 'grad_norm': '0.1357', 'learning_rate': '2.79e-07', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 581200, 'num_attended_tokens_seen': '7.021e+06', 'entropy': '0.02659', 'mean_token_accuracy': '0.9919', 'epoch': '1.938'}
+ 97%|█████████▋| 880/908 [04:42<00:11,  2.45it/s] 97%|█████████▋| 881/908 [04:42<00:10,  2.67it/s] 97%|█████████▋| 882/908 [04:42<00:09,  2.85it/s] 97%|█████████▋| 883/908 [04:42<00:08,  3.00it/s] 97%|█████████▋| 884/908 [04:43<00:07,  3.11it/s] 97%|█████████▋| 885/908 [04:43<00:07,  3.19it/s] 98%|█████████▊| 886/908 [04:43<00:06,  3.25it/s] 98%|█████████▊| 887/908 [04:44<00:06,  3.30it/s] 98%|█████████▊| 888/908 [04:44<00:06,  3.33it/s] 98%|█████████▊| 889/908 [04:44<00:05,  3.35it/s] 98%|█████████▊| 890/908 [04:44<00:05,  3.36it/s]                                                 {'loss': '0.0249', 'grad_norm': '0.1387', 'learning_rate': '1.198e-07', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 588080, 'num_attended_tokens_seen': '7.101e+06', 'entropy': '0.02635', 'mean_token_accuracy': '0.9898', 'epoch': '1.96'}
+ 98%|█████████▊| 890/908 [04:44<00:05,  3.36it/s] 98%|█████████▊| 891/908 [04:45<00:05,  3.36it/s] 98%|█████████▊| 892/908 [04:45<00:04,  3.37it/s] 98%|█████████▊| 893/908 [04:45<00:04,  3.38it/s] 98%|█████████▊| 894/908 [04:46<00:04,  3.39it/s] 99%|█████████▊| 895/908 [04:46<00:03,  3.39it/s] 99%|█████████▊| 896/908 [04:46<00:03,  3.39it/s] 99%|█████████▉| 897/908 [04:47<00:03,  3.40it/s] 99%|█████████▉| 898/908 [04:47<00:02,  3.39it/s] 99%|█████████▉| 899/908 [04:47<00:02,  3.38it/s] 99%|█████████▉| 900/908 [04:47<00:02,  3.37it/s]                                                 {'loss': '0.02326', 'grad_norm': '0.2354', 'learning_rate': '2.689e-08', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 594850, 'num_attended_tokens_seen': '7.182e+06', 'entropy': '0.02582', 'mean_token_accuracy': '0.9911', 'epoch': '1.982'}
+ 99%|█████████▉| 900/908 [04:47<00:02,  3.37it/s] 99%|█████████▉| 901/908 [04:48<00:02,  3.37it/s] 99%|█████████▉| 902/908 [04:48<00:01,  3.36it/s] 99%|█████████▉| 903/908 [04:48<00:01,  3.37it/s]100%|█████████▉| 904/908 [04:49<00:01,  3.38it/s]100%|█████████▉| 905/908 [04:49<00:00,  3.38it/s]100%|█████████▉| 906/908 [04:49<00:00,  3.38it/s]100%|█████████▉| 907/908 [04:49<00:00,  3.35it/s]100%|██████████| 908/908 [04:50<00:00,  3.41it/s][INFO|trainer.py:2914] 2026-11-25 12:38:07,934 >> 
+***** Running Evaluation *****
+[INFO|trainer.py:2916] 2026-11-25 12:38:07,934 >>   Num examples = 107
+[INFO|trainer.py:2919] 2026-11-25 12:38:07,934 >>   Batch size = 4
+
+  0%|          | 0/27 [00:00<?, ?it/s][A
+ 11%|█         | 3/27 [00:00<00:01, 17.66it/s][A
+ 19%|█▊        | 5/27 [00:00<00:01, 14.09it/s][A
+ 26%|██▌       | 7/27 [00:00<00:01, 13.08it/s][A
+ 33%|███▎      | 9/27 [00:00<00:01, 12.52it/s][A
+ 41%|████      | 11/27 [00:00<00:01, 12.26it/s][A
+ 48%|████▊     | 13/27 [00:01<00:01, 12.07it/s][A
+ 56%|█████▌    | 15/27 [00:01<00:01, 11.95it/s][A
+ 63%|██████▎   | 17/27 [00:01<00:00, 12.13it/s][A
+ 70%|███████   | 19/27 [00:01<00:00, 11.98it/s][A
+ 78%|███████▊  | 21/27 [00:01<00:00, 11.86it/s][A
+ 85%|████████▌ | 23/27 [00:01<00:00, 11.87it/s][A
+ 93%|█████████▎| 25/27 [00:02<00:00, 11.83it/s][A
+100%|██████████| 27/27 [00:02<00:00, 12.81it/s][A                                                 
+                                               [A{'eval_loss': '0.03343', 'eval_model_preparation_time': '0.0113', 'eval_runtime': '2.264', 'eval_samples_per_second': '47.27', 'eval_steps_per_second': '11.93', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 599720, 'eval_num_attended_tokens_seen': '7.182e+06', 'eval_entropy': '0.02803', 'eval_mean_token_accuracy': '0.9856', 'epoch': '2'}
+100%|██████████| 908/908 [04:52<00:00,  3.41it/s]
+100%|██████████| 27/27 [00:02<00:00, 12.81it/s][A
+                                               [A[INFO|tokenization_utils_base.py:3380] 2026-11-25 12:38:10,263 >> chat template saved in /vol/runs/sft-qwen3-1.7b-lora/checkpoint-908/chat_template.jinja
+[INFO|tokenization_utils_base.py:2127] 2026-11-25 12:38:10,264 >> tokenizer config file saved in /vol/runs/sft-qwen3-1.7b-lora/checkpoint-908/tokenizer_config.json
+[INFO|configuration_utils.py:1018] 2026-11-25 12:38:10,713 >> loading configuration file config.json from cache at /vol/hf/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e/config.json
+[INFO|configuration_utils.py:1090] 2026-11-25 12:38:10,714 >> Model config Qwen3Config {
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "head_dim": 128,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "initializer_range": 0.02,
+  "intermediate_size": 6144,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 40960,
+  "max_window_layers": 28,
+  "model_type": "qwen3",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 8,
+  "pad_token_id": null,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "rope_theta": 1000000,
+    "rope_type": "default"
+  },
+  "sliding_window": null,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.20.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 151936
+}
+
+11/25/2026 12:38:10 - INFO - halo.checkpoint.parallel.adapters - Saved PEFT adapters to /vol/runs/sft-qwen3-1.7b-lora/checkpoint-908
+11/25/2026 12:38:10 - INFO - halo.checkpoint.parallel.sidecars - ✓ Persisted LR scheduler to /vol/runs/sft-qwen3-1.7b-lora/checkpoint-908
+[INFO|trainer.py:1975] 2026-11-25 12:38:10,782 >> 
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+                                                 {'train_runtime': '293.2', 'train_samples_per_second': '12.38', 'train_steps_per_second': '3.097', 'train_loss': '0.1603', 'parallelism/dp_size': 1, 'num_unmasked_output_tokens_seen': 599720, 'epoch': '2'}
+100%|██████████| 908/908 [04:53<00:00,  3.41it/s]100%|██████████| 908/908 [04:53<00:00,  3.10it/s]
+11/25/2026 12:38:10 - INFO - halo.entrypoints.script - SFT training completed successfully!

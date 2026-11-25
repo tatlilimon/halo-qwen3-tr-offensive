@@ -3,9 +3,10 @@
 Training rows and scoring prompts have to render to the same text, so both
 sides build their messages here.
 
-There are three wordings so that the zero-shot base model can be measured with
-each of them. SELECTED is the wording with the best zero-shot ROC-AUC on the
-validation split; the adapter is trained and scored with it.
+There are three wordings so that the zero-shot base models can be measured with
+each of them. SELECTED is the wording the adapters are trained and scored with.
+It was chosen with Qwen3-0.6B, for which it has the best zero-shot ROC-AUC on
+the validation split.
 """
 
 from typing import NamedTuple
