@@ -1,7 +1,7 @@
 """Compute the result tables from the score files in the results directory.
 
 Score files, one JSON line per row with `label` and `score` (positive means offensive).
-<model> is qwen3-0.6b or qwen3-1.7b:
+<model> is qwen3-0.6b, qwen3-1.7b or gpt-oss-20b:
   tfidf_validation.jsonl, tfidf_test.jsonl    TF-IDF baseline
   <model>_zeroshot_validation_<prompt>.jsonl  zero-shot base model, one file per prompt wording
   <model>_zeroshot_test_<prompt>.jsonl        zero-shot base model with its best wording
@@ -35,7 +35,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_f
 from prompts import PROMPTS, SELECTED
 
 # File-name tag and display name of each base model.
-MODELS = {"qwen3-0.6b": "Qwen3-0.6B", "qwen3-1.7b": "Qwen3-1.7B"}
+MODELS = {"qwen3-0.6b": "Qwen3-0.6B", "qwen3-1.7b": "Qwen3-1.7B", "gpt-oss-20b": "gpt-oss-20b"}
 # The training wording (prompts.SELECTED) was chosen with this model, before the larger one was trained.
 PROMPT_CHOSEN_WITH = "qwen3-0.6b"
 

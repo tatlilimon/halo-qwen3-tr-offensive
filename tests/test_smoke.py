@@ -13,8 +13,10 @@ import score
 from prompts import PROMPTS, SELECTED, user_message
 
 CONFIGS = [yaml.safe_load(path.read_text()) for path in sorted((Path(__file__).parent.parent / "configs").glob("*.yaml"))]
-MARKER = CONFIGS[0]["assistant_message_template"]
-# The CPU checks use the smaller model; both models ship the same tokenizer and chat template.
+QWEN_CONFIGS = [c for c in CONFIGS if c["model_name_or_path"].startswith("Qwen/")]
+MARKER = QWEN_CONFIGS[0]["assistant_message_template"]
+# The CPU checks use the smallest model; the two Qwen3 models ship the same tokenizer and chat
+# template. gpt-oss-20b is trained with a template from the Halo image and is too large to load here.
 SMALL = "Qwen/Qwen3-0.6B"
 
 
@@ -25,12 +27,22 @@ def tokenizer():
 
 def test_configs_train_the_models_that_are_scored():
     assert {c["model_name_or_path"]: c["model_revision"] for c in CONFIGS} == score.MODELS
-    assert all(c["assistant_message_template"] == MARKER for c in CONFIGS)
+    assert all(c["assistant_message_template"] == MARKER for c in QWEN_CONFIGS)
 
 
-def test_models_share_the_chat_template(tokenizer):
-    for model, revision in score.MODELS.items():
-        assert AutoTokenizer.from_pretrained(model, revision=revision).chat_template == tokenizer.chat_template
+def test_qwen_models_share_the_chat_template(tokenizer):
+    for config in QWEN_CONFIGS:
+        other = AutoTokenizer.from_pretrained(config["model_name_or_path"], revision=config["model_revision"])
+        assert other.chat_template == tokenizer.chat_template
+
+
+def test_scoring_prompt_is_the_thinking_disabled_prompt(tokenizer):
+    # score.py cuts a rendered training row at the answer; for Qwen3 that must equal the stock
+    # generation prompt with thinking disabled, which is what the usage example in the README builds.
+    messages = [user_message("örnek metin")]
+    row = tokenizer.apply_chat_template([*messages, {"role": "assistant", "content": score.ANSWER_SLOT}], tokenize=False)
+    stock = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True, enable_thinking=False)
+    assert row[: row.rindex(score.ANSWER_SLOT)] == stock
 
 
 def test_training_row_extends_the_scoring_prompt(tokenizer):

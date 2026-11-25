@@ -55,7 +55,7 @@ def train(config: str, overrides: str = ""):
 
 
 @app.function(gpu="H100", volumes={VOLUME: volume}, timeout=30 * 60)
-def score_remote(split: str, model: str, adapter: str, prompt: str) -> str:
+def score_remote(split: str, model: str, adapter: str, prompt: str, chat_template: str) -> str:
     sh("python", "prepare_data.py", "--out", "/data", cwd=PROJECT)
     cmd = ["python", "score.py", "--data", f"/data/{split}.jsonl", "--out", "/tmp/scores.jsonl", "--model", model]
     cmd += ["--batch-size", "256"]
@@ -63,14 +63,17 @@ def score_remote(split: str, model: str, adapter: str, prompt: str) -> str:
         cmd += ["--adapter", f"{VOLUME}/{adapter}"]
     if prompt:
         cmd += ["--prompt", prompt]
+    if chat_template:
+        cmd += ["--chat-template", f"/workspace/{chat_template}"]
     sh(*cmd, cwd=PROJECT)
     return Path("/tmp/scores.jsonl").read_text(encoding="utf-8")
 
 
 @app.local_entrypoint()
-def score(split: str, name: str, model: str, adapter: str = "", prompt: str = ""):
-    """An empty `prompt` means the selected wording in prompts.py."""
+def score(split: str, name: str, model: str, adapter: str = "", prompt: str = "", chat_template: str = ""):
+    """An empty `prompt` means the selected wording in prompts.py. `chat_template` is a
+    path inside the Halo checkout of the image, for models trained with one of its templates."""
     out = HERE / "results" / f"{name}.jsonl"
     out.parent.mkdir(exist_ok=True)
-    out.write_text(score_remote.remote(split, model, adapter, prompt), encoding="utf-8")
+    out.write_text(score_remote.remote(split, model, adapter, prompt, chat_template), encoding="utf-8")
     print(f"wrote {out}")

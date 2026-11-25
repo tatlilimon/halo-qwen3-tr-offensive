@@ -5,3 +5,4 @@ data/
 adapter/
 .env
 *.safetensors
+adapter-gpt-oss/

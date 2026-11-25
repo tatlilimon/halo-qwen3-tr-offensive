@@ -1,0 +1,53 @@
+# Halo SFT with LoRA: gpt-oss-20b on Turkish offensive-language detection, on one GPU.
+# Launch inside the Halo image, after prepare_data.py has written /data:
+#   halo launch sft <this file> --output_dir=<dir>
+
+# --- Model ---
+# The BF16 mirror of openai/gpt-oss-20b, as the Halo cookbook asks for.
+model_name_or_path: unsloth/gpt-oss-20b-BF16
+model_revision: 5a6fe4c0c1a86147cb9dc1bb99486e61d12a3c9e
+# Keep the pretrained attention sinks, frozen, so the adapter fits the stock
+# model that score.py loads. Live sinks rule out the flash kernels on Hopper.
+reset_sinks: false
+attn_implementation: eager
+# The router is frozen, so there is nothing for a balancing loss to train.
+moe_balancing: none
+
+# --- Dataset ---
+dataset: /data/sft
+# Halo's SFT template for this family: no reasoning, every answer in the final channel.
+chat_template: jinja-templates/gpt-oss/gpt-oss-multiturn.jinja
+force_chat_template: true
+assistant_message_template: <|start|>assistant<|channel|>final<|message|>
+
+# --- LoRA ---
+# Attention projections only: the expert weights are fused tensors that stock PEFT cannot adapt.
+use_peft: true
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+
+# --- Training ---
+# Eager attention cannot pack rows, so batches are padded: 64 rows per step is
+# about what the packed Qwen3 runs see.
+per_device_train_batch_size: 64
+per_device_eval_batch_size: 64
+num_train_epochs: 2.0
+learning_rate: 1.0e-04
+lr_scheduler_type: cosine
+warmup_steps: 0.05
+seed: 42
+max_length: 1024
+packing: false
+
+# --- Output ---
+eval_strategy: epoch
+save_strategy: epoch
+save_only_model: true
+logging_steps: 10
+report_to: none
