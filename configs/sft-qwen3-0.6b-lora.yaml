@@ -1,0 +1,51 @@
+# Halo SFT with LoRA: Qwen3-0.6B on Turkish offensive-language detection.
+# Launch inside the Halo image, after prepare_data.py has written /data:
+#   halo launch sft <this file> --output_dir=<dir>
+
+# --- Model ---
+model_name_or_path: Qwen/Qwen3-0.6B
+model_revision: c1899de289a04d12100db370d81485cdf75e47ca
+
+# --- Dataset ---
+# A save_to_disk directory with train and validation splits. Halo reads the
+# validation split as its eval split.
+dataset: /data/sft
+# The stock chat template renders the answer turn of a training row with an
+# empty think block. Ending the marker after that block puts the loss on the
+# answer word and the end-of-turn token only.
+assistant_message_template: "<|im_start|>assistant\n<think>\n\n</think>\n\n"
+
+# --- LoRA ---
+use_peft: true
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+- gate_proj
+- up_proj
+- down_proj
+
+# --- Training ---
+per_device_train_batch_size: 4
+per_device_eval_batch_size: 4
+num_train_epochs: 2.0
+learning_rate: 1.0e-04
+lr_scheduler_type: cosine
+warmup_steps: 0.05
+seed: 42
+
+# --- Sequence length and packing ---
+# A row is about 110 tokens, so one packed block of 2048 tokens holds about 18 rows.
+max_length: 2048
+packing: true
+
+# --- Output ---
+eval_strategy: epoch
+save_strategy: epoch
+save_only_model: true
+logging_steps: 10
+report_to: none

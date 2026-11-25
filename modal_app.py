@@ -1,0 +1,71 @@
+"""Run data preparation, Halo training and GPU scoring on Modal.
+
+Train; checkpoints are written to the Modal volume:
+    modal run modal_app.py::train
+
+Score a split with the base model, or with a checkpoint from the volume. The
+score file is written to results/ on the local machine:
+    modal run modal_app.py::score --split validation --name base_validation_en --prompt en
+    modal run modal_app.py::score --split test --name base_test
+    modal run modal_app.py::score --split test --name finetuned_test \
+        --adapter runs/sft-qwen3-0.6b-lora/checkpoint-<step>
+"""
+
+import subprocess
+from pathlib import Path
+
+import modal
+
+HALO_IMAGE = "public.ecr.aws/whitecircle/halo:hopper-1.3.0rc1"
+PROJECT = "/root/project"
+VOLUME = "/vol"
+HERE = Path(__file__).parent
+
+image = (
+    modal.Image.from_registry(HALO_IMAGE)
+    # The base image's entrypoint only prints a banner.
+    .entrypoint([])
+    .env({"HF_HOME": f"{VOLUME}/hf"})
+    .add_local_dir(HERE, PROJECT, ignore=[".venv", ".git", "data", "results", "**/__pycache__", ".pytest_cache"])
+)
+app = modal.App("halo-qwen3-tr-offensive", image=image)
+volume = modal.Volume.from_name("halo-qwen3-tr-offensive", create_if_missing=True)
+
+
+def sh(*cmd: str, cwd: str) -> None:
+    print("+", " ".join(cmd), flush=True)
+    subprocess.run(cmd, cwd=cwd, check=True)
+
+
+@app.function(gpu="H100", volumes={VOLUME: volume}, timeout=60 * 60)
+def train(run_name: str = "sft-qwen3-0.6b-lora", overrides: str = ""):
+    """`overrides` is passed to Halo as is, for example "--max_steps=5 --save_strategy=no"."""
+    sh("python", "prepare_data.py", "--out", "/data", cwd=PROJECT)
+    # Halo resolves its scripts from its own checkout, which the image keeps in /workspace.
+    sh(
+        "halo", "launch", "sft", f"{PROJECT}/configs/sft-qwen3-0.6b-lora.yaml",
+        f"--output_dir={VOLUME}/runs/{run_name}", *overrides.split(),
+        cwd="/workspace",
+    )  # fmt: skip
+    volume.commit()
+
+
+@app.function(gpu="H100", volumes={VOLUME: volume}, timeout=30 * 60)
+def score_remote(split: str, adapter: str, prompt: str) -> str:
+    sh("python", "prepare_data.py", "--out", "/data", cwd=PROJECT)
+    cmd = ["python", "score.py", "--data", f"/data/{split}.jsonl", "--out", "/tmp/scores.jsonl", "--batch-size", "256"]
+    if adapter:
+        cmd += ["--adapter", f"{VOLUME}/{adapter}"]
+    if prompt:
+        cmd += ["--prompt", prompt]
+    sh(*cmd, cwd=PROJECT)
+    return Path("/tmp/scores.jsonl").read_text(encoding="utf-8")
+
+
+@app.local_entrypoint()
+def score(split: str = "test", name: str = "base_test", adapter: str = "", prompt: str = ""):
+    """An empty `prompt` means the selected wording in prompts.py."""
+    out = HERE / "results" / f"{name}.jsonl"
+    out.parent.mkdir(exist_ok=True)
+    out.write_text(score_remote.remote(split, adapter, prompt), encoding="utf-8")
+    print(f"wrote {out}")
