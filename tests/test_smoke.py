@@ -29,23 +29,24 @@ def test_config_trains_the_model_that_is_scored():
 def test_training_row_extends_the_scoring_prompt(tokenizer):
     messages = [user_message("örnek metin")]
     prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True, enable_thinking=False)
-    assert prompt.endswith(MARKER)
-    for word in PROMPTS[SELECTED].answers:
+    prompt_ids = tokenizer.encode(prompt, add_special_tokens=False)
+    for label, word in enumerate(PROMPTS[SELECTED].answers):
         row = tokenizer.apply_chat_template([*messages, {"role": "assistant", "content": word}], tokenize=False)
         assert row == prompt + word + "<|im_end|>\n"
+        # The position score.py reads is where a training row holds the first answer token.
+        row_ids = tokenizer.encode(row, add_special_tokens=False)
+        assert row_ids[: len(prompt_ids)] == prompt_ids
+        assert row_ids[len(prompt_ids)] == score.answer_token_ids(tokenizer, SELECTED)[label]
 
 
-def test_marker_token_ids_locate_the_answer(tokenizer):
+def test_marker_occurs_once_in_a_tokenized_row(tokenizer):
     # Halo finds the trained span by searching the marker's token ids in the row's token ids.
-    offensive = PROMPTS[SELECTED].answers[1]
     row = tokenizer.apply_chat_template(
-        [user_message("örnek metin"), {"role": "assistant", "content": offensive}], tokenize=False
+        [user_message("örnek metin"), {"role": "assistant", "content": PROMPTS[SELECTED].answers[1]}], tokenize=False
     )
     row_ids = tokenizer.encode(row, add_special_tokens=False)
     marker_ids = tokenizer.encode(MARKER, add_special_tokens=False)
-    starts = [i for i in range(len(row_ids)) if row_ids[i : i + len(marker_ids)] == marker_ids]
-    assert len(starts) == 1
-    assert row_ids[starts[0] + len(marker_ids)] == score.answer_token_ids(tokenizer, SELECTED)[1]
+    assert sum(row_ids[i : i + len(marker_ids)] == marker_ids for i in range(len(row_ids))) == 1
 
 
 @pytest.mark.parametrize("prompt", sorted(PROMPTS))
