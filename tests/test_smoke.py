@@ -66,6 +66,15 @@ def test_best_threshold_matches_brute_force():
     assert f1_score(labels, scores > found, average="macro", zero_division=0) == pytest.approx(best)
 
 
+def test_bootstrap_interval_contains_the_point_estimate():
+    rng = np.random.default_rng(1)
+    labels = rng.integers(0, 2, 500)
+    predictions = np.where(rng.random(500) < 0.8, labels, 1 - labels)
+    low, high = report.bootstrap_interval(labels, predictions)
+    assert low < f1_score(labels, predictions, average="macro") < high
+    assert high - low < 0.1
+
+
 def test_scoring_runs_on_cpu():
     tokenizer, model = score.load(None, "cpu")
     rows = score.score_texts(tokenizer, model, ["Günaydın, bugün hava çok güzel.", "Bu filmi çok beğendim."], batch_size=2)

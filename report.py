@@ -17,6 +17,9 @@ which for the language model is greedy decoding between its two answers. On the
 test split each system is also scored at the threshold that maximises macro-F1
 on the validation split, which separates what a system knows from how well its
 default decision happens to be calibrated.
+
+Macro-F1 comes with a 95% bootstrap interval over the evaluated rows. It
+describes the sampling noise of the split, not the variance between training runs.
 """
 
 import argparse
@@ -44,6 +47,14 @@ def read_scores(path: Path) -> tuple[np.ndarray, np.ndarray, list[str]]:
     return labels, scores, [r["top"] for r in rows if "top" in r]
 
 
+def macro_f1_from_counts(tp, fp, fn, tn):
+    """Macro-F1 from confusion counts; works on arrays of counts. A class with no rows scores 0."""
+    with np.errstate(invalid="ignore"):
+        f1_offensive = np.nan_to_num(2 * tp / (2 * tp + fp + fn))
+        f1_not_offensive = np.nan_to_num(2 * tn / (2 * tn + fp + fn))
+    return (f1_offensive + f1_not_offensive) / 2
+
+
 def best_threshold(labels: np.ndarray, scores: np.ndarray) -> float:
     """Threshold t that maximises macro-F1 of the rule `score > t`.
 
@@ -53,15 +64,10 @@ def best_threshold(labels: np.ndarray, scores: np.ndarray) -> float:
     order = np.argsort(-scores, kind="stable")
     y, s = labels[order], scores[order]
     n, positives = len(y), int(y.sum())
-    k = np.arange(n + 1)
     tp = np.concatenate([[0], np.cumsum(y)])
-    fp = k - tp
+    fp = np.arange(n + 1) - tp
     fn = positives - tp
-    tn = (n - positives) - fp
-    with np.errstate(invalid="ignore"):
-        f1_pos = np.nan_to_num(2 * tp / (2 * tp + fp + fn))
-        f1_neg = np.nan_to_num(2 * tn / (2 * tn + fp + fn))
-    macro_f1 = (f1_pos + f1_neg) / 2
+    macro_f1 = macro_f1_from_counts(tp, fp, fn, (n - positives) - fp)
     # A cut between two equal scores cannot be expressed as a threshold.
     macro_f1[1:n][s[:-1] == s[1:]] = -1.0
     best = int(np.argmax(macro_f1))
@@ -72,12 +78,22 @@ def best_threshold(labels: np.ndarray, scores: np.ndarray) -> float:
     return float((s[best - 1] + s[best]) / 2)
 
 
+def bootstrap_interval(labels: np.ndarray, predictions: np.ndarray, resamples: int = 2000) -> list[float]:
+    """95% percentile interval of macro-F1 over rows drawn with replacement."""
+    rows = np.random.default_rng(0).integers(0, len(labels), (resamples, len(labels)))
+    y, p = labels[rows] == 1, predictions[rows] == 1
+    tp, fp, fn = (y & p).sum(axis=1), (~y & p).sum(axis=1), (y & ~p).sum(axis=1)
+    values = macro_f1_from_counts(tp, fp, fn, len(labels) - tp - fp - fn)
+    return [float(v) for v in np.percentile(values, [2.5, 97.5])]
+
+
 def metrics(labels: np.ndarray, predictions: np.ndarray) -> dict:
     precision, recall, f1, _ = precision_recall_fscore_support(labels, predictions, labels=[0, 1], zero_division=0)
     tn, fp, fn, tp = confusion_matrix(labels, predictions, labels=[0, 1]).ravel()
     return {
         "accuracy": float(accuracy_score(labels, predictions)),
         "macro_f1": float(np.mean(f1)),
+        "macro_f1_interval": bootstrap_interval(labels, predictions),
         "f1_offensive": float(f1[1]),
         "precision_offensive": float(precision[1]),
         "recall_offensive": float(recall[1]),
@@ -136,13 +152,18 @@ def build_report(results_dir: Path) -> dict:
 def prompt_table(prompts: dict) -> str:
     lines = ["| Prompt wording | ROC-AUC | Macro-F1 | Accuracy |", "|---|---:|---:|---:|"]
     for name, m in prompts.items():
-        lines.append(f"| `{name}` | {m['roc_auc']:.4f} | {m['macro_f1']:.4f} | {m['accuracy']:.4f} |")
+        lines.append(f"| `{name}` | {m['roc_auc']:.3f} | {m['macro_f1']:.3f} | {m['accuracy']:.3f} |")
     return "\n".join(lines)
+
+
+def with_interval(m: dict) -> str:
+    low, high = m["macro_f1_interval"]
+    return f"{m['macro_f1']:.3f} [{low:.3f}, {high:.3f}]"
 
 
 def result_table(systems: dict) -> str:
     tuned = any("tuned" in m for m in systems.values())
-    header = "| System | Macro-F1 | Accuracy | Precision | Recall | ROC-AUC |"
+    header = "| System | Macro-F1 [95% interval] | Accuracy | Precision | Recall | ROC-AUC |"
     rule = "|---|---:|---:|---:|---:|---:|"
     if tuned:
         header += " Macro-F1, tuned threshold |"
@@ -150,13 +171,13 @@ def result_table(systems: dict) -> str:
     lines = [header, rule]
     for key, m in systems.items():
         name = SYSTEMS.get(key, 'Constant "not offensive"')
-        auc = f"{m['roc_auc']:.4f}" if "roc_auc" in m else "n/a"
+        auc = f"{m['roc_auc']:.3f}" if "roc_auc" in m else "n/a"
         line = (
-            f"| {name} | {m['macro_f1']:.4f} | {m['accuracy']:.4f} | {m['precision_offensive']:.4f} "
-            f"| {m['recall_offensive']:.4f} | {auc} |"
+            f"| {name} | {with_interval(m)} | {m['accuracy']:.3f} | {m['precision_offensive']:.3f} "
+            f"| {m['recall_offensive']:.3f} | {auc} |"
         )
         if tuned:
-            line += f" {m['tuned']['macro_f1']:.4f} |" if "tuned" in m else " n/a |"
+            line += f" {with_interval(m['tuned'])} |" if "tuned" in m else " n/a |"
         lines.append(line)
     return "\n".join(lines)
 
@@ -164,7 +185,11 @@ def result_table(systems: dict) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Compute the result tables from score files.")
     parser.add_argument("--results-dir", type=Path, default=Path("results"))
+    parser.add_argument("--file", type=Path, help="print the metrics of one score file instead of the report")
     args = parser.parse_args()
+    if args.file:
+        print(json.dumps(scored_system(args.file), indent=2, ensure_ascii=False))
+        return
     report = build_report(args.results_dir)
     (args.results_dir / "metrics.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
     print(
