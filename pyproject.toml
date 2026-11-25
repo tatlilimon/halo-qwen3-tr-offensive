@@ -7,6 +7,7 @@ requires-python = ">=3.12,<3.13"
 # GPU runs inside that image use the same library code.
 dependencies = [
     "datasets==4.8.5",
+    "huggingface-hub==1.33.0",
     "modal==1.6.4",
     "numpy==2.4.6",
     "peft==0.18.1",

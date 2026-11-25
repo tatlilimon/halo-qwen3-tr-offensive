@@ -39,7 +39,9 @@ warmup_steps: 0.05
 seed: 42
 
 # --- Sequence length and packing ---
-# A row is about 110 tokens, so one packed block of 2048 tokens holds about 18 rows.
+# A rendered row is about 120 tokens, so one packed block of 2048 tokens holds
+# about 17 rows. Halo merges the 4 blocks of a batch into one sequence and keeps
+# the rows apart in attention.
 max_length: 2048
 packing: true
 

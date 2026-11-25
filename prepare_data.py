@@ -1,24 +1,44 @@
-"""Download the dataset at a pinned revision and write training and evaluation files.
+"""Download OffensEval-TR 2020 at a pinned revision and write training and evaluation files.
 
 Written to --out:
   sft/              DatasetDict on disk (train, validation) with a `prompt`
                     column of chat messages, the format Halo SFT reads
-  validation.jsonl  {"text": ..., "label": 0 or 1} rows for score.py
-  test.jsonl        same, the untouched public test split
+  train.jsonl       {"text": ..., "label": 0 or 1} rows, read by baseline_tfidf.py
+  validation.jsonl  the same for the development split
+  test.jsonl        the same for the official test split, used as published
   stats.json        row counts before and after cleaning
 """
 
 import argparse
 import json
+import re
 from collections import Counter
 from pathlib import Path
 
-from datasets import Dataset, DatasetDict, load_dataset
+from datasets import Dataset, DatasetDict
+from huggingface_hub import hf_hub_download
 
 from prompts import PROMPTS, SELECTED, user_message
 
-DATASET = "Toygar/turkish-offensive-language-detection"
-REVISION = "5aff92f9c824061b0781a5ff1bbf1e8246de5840"
+# The official training set split into train and dev by Stefan Schweter, with
+# the official test set unchanged. User mentions are already replaced by @USER.
+DATASET = "stefan-it/offenseval2020_tr"
+REVISION = "f34679caea00504400fc70421adb853765c2a0f7"
+FILES = {"train": "train.txt", "validation": "dev.txt", "test": "test.txt"}
+LINE = re.compile(r"__label__(NOT|OFF) (.*)")
+
+
+def read_split(filename: str) -> list[dict]:
+    path = hf_hub_download(DATASET, filename, repo_type="dataset", revision=REVISION)
+    rows = []
+    for line in Path(path).read_text(encoding="utf-8").split("\n"):
+        if not line:
+            continue
+        match = LINE.fullmatch(line)
+        if match is None:
+            raise ValueError(f"unexpected line in {filename}: {line[:80]!r}")
+        rows.append({"text": match.group(2), "label": int(match.group(1) == "OFF")})
+    return rows
 
 
 def dedup_key(text: str) -> str:
@@ -45,8 +65,8 @@ def sft_rows(rows: list[dict]) -> Dataset:
 
 def write_jsonl(path: Path, rows: list[dict]) -> None:
     with path.open("w", encoding="utf-8") as f:
-        for r in rows:
-            f.write(json.dumps({"text": r["text"], "label": r["label"]}, ensure_ascii=False) + "\n")
+        for row in rows:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
 def main() -> None:
@@ -54,8 +74,7 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("data"))
     args = parser.parse_args()
 
-    raw = load_dataset(DATASET, revision=REVISION)
-    splits = {name: [{"text": r["text"], "label": int(r["label"])} for r in raw[name]] for name in raw}
+    splits = {name: read_split(filename) for name, filename in FILES.items()}
 
     # The test split is used as published. Validation rows that repeat a test
     # text, and train rows that repeat a test, validation or earlier train
@@ -67,6 +86,7 @@ def main() -> None:
 
     args.out.mkdir(parents=True, exist_ok=True)
     DatasetDict({"train": sft_rows(train), "validation": sft_rows(validation)}).save_to_disk(str(args.out / "sft"))
+    write_jsonl(args.out / "train.jsonl", train)
     write_jsonl(args.out / "validation.jsonl", validation)
     write_jsonl(args.out / "test.jsonl", test)
 
