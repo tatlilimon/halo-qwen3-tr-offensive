@@ -181,7 +181,7 @@ print(answer("Günaydın, bugün hava çok güzel."))    # hayır
 print(answer("Sen tam bir aptalsın, sus artık."))    # evet
 ```
 
-The prompt has to match the training prompt exactly, and `enable_thinking=False` is required. To score a file of tweets the way the tables were made, use `score.py --model Qwen/Qwen3-1.7B --adapter adapter`.
+The prompt has to match the training prompt exactly, and `enable_thinking=False` is required. This example was run on a CPU machine with 20 GB of memory; in fp32 the 1.7B model alone takes about 8 GB. To score a file of tweets the way the tables were made, use `score.py --model Qwen/Qwen3-1.7B --adapter adapter`.
 
 ## Limitations and known failures
 
@@ -190,7 +190,7 @@ The prompt has to match the training prompt exactly, and `enable_thinking=False`
 - The 0.6B adapter does not beat the TF-IDF baseline, and the 1.7B adapter beats it clearly only at the default decision. Use the baseline if you need a cheap classifier for this data.
 - The numbers come from one seed and no hyperparameter search. Because a rerun with the same seed gives the same adapter, the variance across seeds was not measured. The intervals describe the sampling noise of the split only.
 - The base models were only measured with thinking disabled, the mode the adapters use.
-- The reported scores were computed in bf16 on the GPU. Scoring in fp32 on a CPU gives slightly different logits, so tweets near the threshold can flip between setups.
+- The reported scores were computed in bf16 on the GPU. For the 0.6B adapter, scoring the first 96 test tweets in fp32 on a CPU gave the same 96 decisions with logit differences up to 0.36, so tweets near the threshold can flip between setups. This was not measured for the 1.7B adapter.
 - The pipeline was only run on Modal with the `hopper` image.
 - Most tweets in the dataset were labeled by a single volunteer annotator, and agreement on a doubly annotated sample was Cohen's kappa 0.761 (Zampieri et al., 2020, section 3). A model trained on these tweets inherits their label noise, topics and biases, and is not a moderation system on its own.
 
