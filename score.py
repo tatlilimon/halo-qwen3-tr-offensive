@@ -81,7 +81,8 @@ def main() -> None:
     parser.add_argument("--limit", type=int, help="score only the first N rows")
     args = parser.parse_args()
 
-    rows = [json.loads(line) for line in args.data.read_text(encoding="utf-8").splitlines()]
+    with args.data.open(encoding="utf-8") as f:
+        rows = [json.loads(line) for line in f]
     if args.limit:
         rows = rows[: args.limit]
     device = "cuda" if torch.cuda.is_available() else "cpu"
