@@ -1,21 +1,22 @@
-"""Compute the result tables from the score files written by score.py.
+"""Compute the result tables from the score files in the results directory.
 
-Read from the results directory:
+Score files, one JSON line per row with `label` and `score` (positive means offensive):
   base_validation_<prompt>.jsonl  zero-shot base model on validation, one file per prompt wording
   base_test.jsonl                 zero-shot base model on test, selected wording
-  finetuned_test.jsonl            base model plus adapter on test, selected wording
+  finetuned_validation.jsonl      base model plus adapter on validation
+  finetuned_test.jsonl            base model plus adapter on test
+  tfidf_validation.jsonl          TF-IDF baseline on validation
+  tfidf_test.jsonl                TF-IDF baseline on test
 
-Two Markdown tables are printed and metrics.json is written next to the score files.
+Three Markdown tables are printed and metrics.json is written next to the score files.
 
-Prompt table (validation split): the zero-shot base model with each wording.
+Prompt table: the zero-shot base model on the validation split with each wording.
 
-Result table (test split):
-  constant      always answers "not offensive", the majority class of the training split
-  base          Qwen3-0.6B zero-shot, decision threshold 0
-  base, tuned   the same scores with the threshold that maximises macro-F1 on
-                the validation split, to separate what the base model knows
-                from how well its two answers happen to be calibrated
-  fine-tuned    Qwen3-0.6B with the LoRA adapter, decision threshold 0
+Result tables, one per split. Every system is scored at decision threshold 0,
+which for the language model is greedy decoding between its two answers. On the
+test split each system is also scored at the threshold that maximises macro-F1
+on the validation split, which separates what a system knows from how well its
+default decision happens to be calibrated.
 """
 
 import argparse
@@ -28,12 +29,19 @@ from sklearn.metrics import accuracy_score, confusion_matrix, precision_recall_f
 
 from prompts import PROMPTS, SELECTED
 
+SYSTEMS = {
+    "tfidf": "TF-IDF character n-grams + logistic regression",
+    "base": "Qwen3-0.6B zero-shot",
+    "finetuned": "Qwen3-0.6B + LoRA (this repo)",
+}
+
 
 def read_scores(path: Path) -> tuple[np.ndarray, np.ndarray, list[str]]:
-    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+    with path.open(encoding="utf-8") as f:
+        rows = [json.loads(line) for line in f]
     labels = np.array([r["label"] for r in rows])
     scores = np.array([r["score"] for r in rows])
-    return labels, scores, [r["top"] for r in rows]
+    return labels, scores, [r["top"] for r in rows if "top" in r]
 
 
 def best_threshold(labels: np.ndarray, scores: np.ndarray) -> float:
@@ -77,17 +85,26 @@ def metrics(labels: np.ndarray, predictions: np.ndarray) -> dict:
     }
 
 
-def scored_system(path: Path, threshold: float | None = None) -> dict:
+def scored_system(path: Path, tune_on: Path | None = None) -> dict:
+    """Metrics of one score file; `tune_on` adds the metrics at the threshold tuned on that file."""
     labels, scores, tops = read_scores(path)
-    threshold = 0.0 if threshold is None else threshold
-    return {
+    result = {
         "rows": int(len(labels)),
-        "threshold": threshold,
-        **metrics(labels, (scores > threshold).astype(int)),
+        **metrics(labels, (scores > 0).astype(int)),
         "roc_auc": float(roc_auc_score(labels, scores)),
-        # What free greedy decoding would start with, most frequent first.
-        "top_tokens": dict(Counter(tops).most_common(3)),
     }
+    if tops:
+        # What free greedy decoding would start with, most frequent first.
+        result["top_tokens"] = dict(Counter(tops).most_common(3))
+    if tune_on is not None:
+        threshold = best_threshold(*read_scores(tune_on)[:2])
+        result["tuned"] = {"threshold": threshold, **metrics(labels, (scores > threshold).astype(int))}
+    return result
+
+
+def constant_system(path: Path) -> dict:
+    labels, _, _ = read_scores(path)
+    return {"rows": int(len(labels)), **metrics(labels, np.zeros_like(labels))}
 
 
 def build_report(results_dir: Path) -> dict:
@@ -96,17 +113,22 @@ def build_report(results_dir: Path) -> dict:
     if best != SELECTED:
         raise ValueError(f"prompts.SELECTED is {SELECTED!r} but {best!r} has the best zero-shot ROC-AUC on validation")
 
-    val_labels, val_scores, _ = read_scores(results_dir / f"base_validation_{SELECTED}.jsonl")
-    test_labels, _, _ = read_scores(results_dir / "base_test.jsonl")
-    if not np.array_equal(test_labels, read_scores(results_dir / "finetuned_test.jsonl")[0]):
-        raise ValueError("base_test.jsonl and finetuned_test.jsonl do not hold the same rows")
+    validation = {name: results_dir / f"{name}_validation.jsonl" for name in SYSTEMS}
+    validation["base"] = results_dir / f"base_validation_{SELECTED}.jsonl"
+    test = {name: results_dir / f"{name}_test.jsonl" for name in SYSTEMS}
+    for files in (validation, test):
+        labels = [read_scores(path)[0] for path in files.values()]
+        if not all(np.array_equal(labels[0], other) for other in labels[1:]):
+            raise ValueError(f"score files do not hold the same rows: {[p.name for p in files.values()]}")
     return {
         "prompt_selection_on_validation": prompts,
+        "validation": {
+            "constant": constant_system(validation["base"]),
+            **{name: scored_system(validation[name]) for name in SYSTEMS},
+        },
         "test": {
-            "constant": {"rows": int(len(test_labels)), **metrics(test_labels, np.zeros_like(test_labels))},
-            "base": scored_system(results_dir / "base_test.jsonl"),
-            "base_tuned": scored_system(results_dir / "base_test.jsonl", best_threshold(val_labels, val_scores)),
-            "finetuned": scored_system(results_dir / "finetuned_test.jsonl"),
+            "constant": constant_system(test["base"]),
+            **{name: scored_system(test[name], tune_on=validation[name]) for name in SYSTEMS},
         },
     }
 
@@ -118,24 +140,24 @@ def prompt_table(prompts: dict) -> str:
     return "\n".join(lines)
 
 
-def result_table(test: dict) -> str:
-    names = {
-        "constant": 'Constant "not offensive"',
-        "base": "Qwen3-0.6B zero-shot",
-        "base_tuned": "Qwen3-0.6B zero-shot, threshold tuned on validation",
-        "finetuned": "Qwen3-0.6B + LoRA (this repo)",
-    }
-    lines = [
-        "| System | Accuracy | Macro-F1 | F1 offensive | Precision | Recall | ROC-AUC |",
-        "|---|---:|---:|---:|---:|---:|---:|",
-    ]
-    for key, name in names.items():
-        m = test[key]
+def result_table(systems: dict) -> str:
+    tuned = any("tuned" in m for m in systems.values())
+    header = "| System | Macro-F1 | Accuracy | Precision | Recall | ROC-AUC |"
+    rule = "|---|---:|---:|---:|---:|---:|"
+    if tuned:
+        header += " Macro-F1, tuned threshold |"
+        rule += "---:|"
+    lines = [header, rule]
+    for key, m in systems.items():
+        name = SYSTEMS.get(key, 'Constant "not offensive"')
         auc = f"{m['roc_auc']:.4f}" if "roc_auc" in m else "n/a"
-        lines.append(
-            f"| {name} | {m['accuracy']:.4f} | {m['macro_f1']:.4f} | {m['f1_offensive']:.4f} "
-            f"| {m['precision_offensive']:.4f} | {m['recall_offensive']:.4f} | {auc} |"
+        line = (
+            f"| {name} | {m['macro_f1']:.4f} | {m['accuracy']:.4f} | {m['precision_offensive']:.4f} "
+            f"| {m['recall_offensive']:.4f} | {auc} |"
         )
+        if tuned:
+            line += f" {m['tuned']['macro_f1']:.4f} |" if "tuned" in m else " n/a |"
+        lines.append(line)
     return "\n".join(lines)
 
 
@@ -145,8 +167,13 @@ def main() -> None:
     args = parser.parse_args()
     report = build_report(args.results_dir)
     (args.results_dir / "metrics.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
-    print(f"Zero-shot base model on the validation split, by prompt wording:\n\n{prompt_table(report['prompt_selection_on_validation'])}\n")
-    print(f"Test split, prompt wording `{SELECTED}`:\n\n{result_table(report['test'])}")
+    print(
+        "Zero-shot base model on the validation split, by prompt wording:\n\n"
+        f"{prompt_table(report['prompt_selection_on_validation'])}\n"
+    )
+    for split in ("test", "validation"):
+        rows = report[split]["constant"]["rows"]
+        print(f"{split.capitalize()} split, {rows} rows:\n\n{result_table(report[split])}\n")
 
 
 if __name__ == "__main__":
