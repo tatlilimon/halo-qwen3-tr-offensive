@@ -12,18 +12,25 @@ import report
 import score
 from prompts import PROMPTS, SELECTED, user_message
 
-CONFIG = yaml.safe_load((Path(__file__).parent.parent / "configs" / "sft-qwen3-0.6b-lora.yaml").read_text())
-MARKER = CONFIG["assistant_message_template"]
+CONFIGS = [yaml.safe_load(path.read_text()) for path in sorted((Path(__file__).parent.parent / "configs").glob("*.yaml"))]
+MARKER = CONFIGS[0]["assistant_message_template"]
+# The CPU checks use the smaller model; both models ship the same tokenizer and chat template.
+SMALL = "Qwen/Qwen3-0.6B"
 
 
 @pytest.fixture(scope="module")
 def tokenizer():
-    return AutoTokenizer.from_pretrained(score.BASE_MODEL, revision=score.BASE_REVISION)
+    return AutoTokenizer.from_pretrained(SMALL, revision=score.MODELS[SMALL])
 
 
-def test_config_trains_the_model_that_is_scored():
-    assert CONFIG["model_name_or_path"] == score.BASE_MODEL
-    assert CONFIG["model_revision"] == score.BASE_REVISION
+def test_configs_train_the_models_that_are_scored():
+    assert {c["model_name_or_path"]: c["model_revision"] for c in CONFIGS} == score.MODELS
+    assert all(c["assistant_message_template"] == MARKER for c in CONFIGS)
+
+
+def test_models_share_the_chat_template(tokenizer):
+    for model, revision in score.MODELS.items():
+        assert AutoTokenizer.from_pretrained(model, revision=revision).chat_template == tokenizer.chat_template
 
 
 def test_training_row_extends_the_scoring_prompt(tokenizer):
@@ -76,7 +83,7 @@ def test_bootstrap_interval_contains_the_point_estimate():
 
 
 def test_scoring_runs_on_cpu():
-    tokenizer, model = score.load(None, "cpu")
+    tokenizer, model = score.load(SMALL, None, "cpu")
     rows = score.score_texts(tokenizer, model, ["Günaydın, bugün hava çok güzel.", "Bu filmi çok beğendim."], batch_size=2)
     assert len(rows) == 2
     assert all(np.isfinite(r["score"]) and isinstance(r["top"], str) for r in rows)

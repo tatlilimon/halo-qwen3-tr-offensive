@@ -20,8 +20,11 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from prompts import PROMPTS, SELECTED, user_message
 
-BASE_MODEL = "Qwen/Qwen3-0.6B"
-BASE_REVISION = "c1899de289a04d12100db370d81485cdf75e47ca"
+# Hub id and pinned revision of each base model.
+MODELS = {
+    "Qwen/Qwen3-0.6B": "c1899de289a04d12100db370d81485cdf75e47ca",
+    "Qwen/Qwen3-1.7B": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+}
 
 
 def answer_token_ids(tokenizer, prompt: str) -> tuple[int, int]:
@@ -32,12 +35,12 @@ def answer_token_ids(tokenizer, prompt: str) -> tuple[int, int]:
     return negative, positive
 
 
-def load(adapter: str | None, device: str):
-    tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, revision=BASE_REVISION)
+def load(base: str, adapter: str | None, device: str):
+    tokenizer = AutoTokenizer.from_pretrained(base, revision=MODELS[base])
     # Left padding keeps the last position of every row on its final prompt token.
     tokenizer.padding_side = "left"
     dtype = torch.bfloat16 if device == "cuda" else torch.float32
-    model = AutoModelForCausalLM.from_pretrained(BASE_MODEL, revision=BASE_REVISION, dtype=dtype)
+    model = AutoModelForCausalLM.from_pretrained(base, revision=MODELS[base], dtype=dtype)
     if adapter:
         model = PeftModel.from_pretrained(model, adapter)
     model.to(torch.device(device))
@@ -75,6 +78,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Score labelled texts with the base or the fine-tuned model.")
     parser.add_argument("--data", type=Path, required=True, help="JSONL with text and label fields")
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--model", choices=sorted(MODELS), required=True, help="base model")
     parser.add_argument("--adapter", help="directory of a LoRA adapter trained on the base model")
     parser.add_argument("--prompt", choices=sorted(PROMPTS), default=SELECTED)
     parser.add_argument("--batch-size", type=int, default=64)
@@ -86,7 +90,7 @@ def main() -> None:
     if args.limit:
         rows = rows[: args.limit]
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    tokenizer, model = load(args.adapter, device)
+    tokenizer, model = load(args.model, args.adapter, device)
     scored = score_texts(tokenizer, model, [r["text"] for r in rows], args.batch_size, args.prompt)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)

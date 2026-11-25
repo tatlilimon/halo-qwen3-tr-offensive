@@ -1,16 +1,17 @@
 """Run data preparation, Halo training and GPU scoring on Modal.
 
-Train; checkpoints are written to the Modal volume:
-    modal run modal_app.py::train
+Train with a config from configs/; checkpoints are written to the Modal volume
+under runs/<config>:
+    modal run modal_app.py::train --config sft-qwen3-1.7b-lora
 
-Score a split with the base model, or with a checkpoint from the volume. The
+Score a split with a base model, or with a checkpoint from the volume. The
 score file is written to results/ on the local machine:
-    modal run modal_app.py::score --split validation --name base_validation_en --prompt en
-    modal run modal_app.py::score --split test --name base_test
-    modal run modal_app.py::score --split test --name finetuned_test \
-        --adapter runs/sft-qwen3-0.6b-lora/checkpoint-<step>
+    modal run modal_app.py::score --split test --name qwen3-1.7b_zeroshot_test --model Qwen/Qwen3-1.7B
+    modal run modal_app.py::score --split test --name qwen3-1.7b_lora_test --model Qwen/Qwen3-1.7B \
+        --adapter runs/sft-qwen3-1.7b-lora/checkpoint-908
 """
 
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -26,7 +27,7 @@ image = (
     # The base image's entrypoint only prints a banner.
     .entrypoint([])
     .env({"HF_HOME": f"{VOLUME}/hf"})
-    .add_local_dir(HERE, PROJECT, ignore=[".venv", ".git", "data", "results", "**/__pycache__", ".pytest_cache"])
+    .add_local_dir(HERE, PROJECT, ignore=[".venv", ".git", "data", "results", "adapter", "**/__pycache__", ".pytest_cache"])
 )
 app = modal.App("halo-qwen3-tr-offensive", image=image)
 volume = modal.Volume.from_name("halo-qwen3-tr-offensive", create_if_missing=True)
@@ -38,22 +39,26 @@ def sh(*cmd: str, cwd: str) -> None:
 
 
 @app.function(gpu="H100", volumes={VOLUME: volume}, timeout=60 * 60)
-def train(run_name: str = "sft-qwen3-0.6b-lora", overrides: str = ""):
+def train(config: str, overrides: str = ""):
     """`overrides` is passed to Halo as is, for example "--max_steps=5 --save_strategy=no"."""
     sh("python", "prepare_data.py", "--out", "/data", cwd=PROJECT)
+    output_dir = f"{VOLUME}/runs/{config}"
+    # Checkpoints of an earlier run of the same config would otherwise stay next to the new ones.
+    shutil.rmtree(output_dir, ignore_errors=True)
     # Halo resolves its scripts from its own checkout, which the image keeps in /workspace.
     sh(
-        "halo", "launch", "sft", f"{PROJECT}/configs/sft-qwen3-0.6b-lora.yaml",
-        f"--output_dir={VOLUME}/runs/{run_name}", *overrides.split(),
+        "halo", "launch", "sft", f"{PROJECT}/configs/{config}.yaml",
+        f"--output_dir={output_dir}", *overrides.split(),
         cwd="/workspace",
     )  # fmt: skip
     volume.commit()
 
 
 @app.function(gpu="H100", volumes={VOLUME: volume}, timeout=30 * 60)
-def score_remote(split: str, adapter: str, prompt: str) -> str:
+def score_remote(split: str, model: str, adapter: str, prompt: str) -> str:
     sh("python", "prepare_data.py", "--out", "/data", cwd=PROJECT)
-    cmd = ["python", "score.py", "--data", f"/data/{split}.jsonl", "--out", "/tmp/scores.jsonl", "--batch-size", "256"]
+    cmd = ["python", "score.py", "--data", f"/data/{split}.jsonl", "--out", "/tmp/scores.jsonl", "--model", model]
+    cmd += ["--batch-size", "256"]
     if adapter:
         cmd += ["--adapter", f"{VOLUME}/{adapter}"]
     if prompt:
@@ -63,9 +68,9 @@ def score_remote(split: str, adapter: str, prompt: str) -> str:
 
 
 @app.local_entrypoint()
-def score(split: str = "test", name: str = "base_test", adapter: str = "", prompt: str = ""):
+def score(split: str, name: str, model: str, adapter: str = "", prompt: str = ""):
     """An empty `prompt` means the selected wording in prompts.py."""
     out = HERE / "results" / f"{name}.jsonl"
     out.parent.mkdir(exist_ok=True)
-    out.write_text(score_remote.remote(split, adapter, prompt), encoding="utf-8")
+    out.write_text(score_remote.remote(split, model, adapter, prompt), encoding="utf-8")
     print(f"wrote {out}")
