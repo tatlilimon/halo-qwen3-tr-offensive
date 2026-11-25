@@ -139,7 +139,7 @@ uv run modal run modal_app.py::score --split test --name qwen3-1.7b_zeroshot_tes
 uv run python report.py            # prints the tables, writes results/metrics.json
 ```
 
-Measured times: the first use of the Halo image on Modal took 6 minutes 18 seconds to import, once. A training command took 5 minutes 19 seconds (0.6B) and 5 minutes 46 seconds (1.7B) end to end, and a scoring command 40 to 60 seconds.
+Run from a fresh clone, `reproduce.sh` took 28 minutes and left every file in `results/` unchanged, byte for byte. The first use of the Halo image on Modal took another 6 minutes 18 seconds to import, once. A training command takes 5 to 6 minutes end to end and a scoring command 40 to 60 seconds.
 
 The trained adapters stay on the Modal volume. To copy one to `adapter/`:
 
