@@ -24,7 +24,7 @@ HERE = Path(__file__).parent
 
 image = (
     modal.Image.from_registry(HALO_IMAGE)
-    # The base image's entrypoint only prints a banner.
+    # Clearing the entrypoint only keeps the base image's banner out of the logs.
     .entrypoint([])
     .env({"HF_HOME": f"{VOLUME}/hf"})
     .add_local_dir(HERE, PROJECT, ignore=[".venv", ".git", "data", "results", "adapter", "**/__pycache__", ".pytest_cache"])
@@ -45,7 +45,7 @@ def train(config: str, overrides: str = ""):
     output_dir = f"{VOLUME}/runs/{config}"
     # Checkpoints of an earlier run of the same config would otherwise stay next to the new ones.
     shutil.rmtree(output_dir, ignore_errors=True)
-    # Halo resolves its scripts from its own checkout, which the image keeps in /workspace.
+    # A relative output_dir would land under /workspace; --output_dir puts it on the volume.
     sh(
         "halo", "launch", "sft", f"{PROJECT}/configs/{config}.yaml",
         f"--output_dir={output_dir}", *overrides.split(),
